@@ -1,0 +1,153 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/public/home.css' %}" />
+
+    <title>PassThePlate</title>
+  </head>
+
+  <body>
+    {% include "foodrescue/includes/navbar_public.html" %}
+
+    <main class="public-home-page">
+      <!-- HERO SECTION -->
+      <section class="hero-section">
+        <h1>Don’t Waste It. Taste It.</h1>
+        <p class="hero-subtitle">
+          Find rescued food near you for FREE!<br />
+          Let’s reduce waste, one meal at a time.
+        </p>
+
+    <a href="#distribution-events" class="hero-button"> 
+        Find Food Near Me 
+    </a>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="how-it-works-section">
+        <h2>How it works</h2>
+
+        <div class="steps-text">
+          <p>1. Browse distribution venues near you</p>
+          <p>2. Go to the venue during the listed distribution time.</p>
+          <p>3. Collect the rescued food!</p>
+        </div>
+
+        <p class="small-note">
+          *Food availability may vary and is offered on a first-come, first-served basis.
+        </p>
+      </section>
+
+      <!-- SAFETY FLOW SECTION -->
+      <section class="safety-flow-section">
+        <h2>How food gets to you safely</h2>
+
+        <div class="safety-grid">
+          <article class="info-card">
+            <h3>1. Establishments list eligible surplus food</h3>
+            <p>
+              Verified donors upload safe, edible surplus items with expiry and handling details.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3>2. Organisations arrange pickup</h3>
+            <p>
+              Approved organisations reserve listings and collect them based on suitability and timing.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3>3. Food is prepared for redistribution</h3>
+            <p>
+              Organisations sort collected items and assign them to community distribution venues.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3>4. Residents collect from public venues</h3>
+            <p>
+              You can check venue details online and visit collection points during the stated timing.
+            </p>
+          </article>
+        </div>
+
+        <p class="bottom-note">
+          For your safety: Only verified establishments and organisations can manage listings and pickups on the platform!
+        </p>
+      </section>
+
+      <section id="distribution-events" class="home-events-section">
+  <h2>Distribution Events</h2>
+  <p class="home-events-subtitle">
+    Click the View More button to view distribution events in more detail.
+  </p>
+
+  <div class="home-events-list-wrapper">
+    <div class="home-events-list">
+      {% for event in events %}
+        <a href="{% url 'event_detail' event.id %}" class="home-event-card">
+          <div class="home-event-left">
+            <h3>{{ event.name }}</h3>
+            <p>{{ event.get_area_display }}</p>
+          </div>
+
+          <div class="home-event-right">
+            <p>
+              {{ event.start_time|time:"g:i A" }}
+              {% if event.end_time %}
+                – {{ event.end_time|time:"g:i A" }}
+              {% endif %}
+            </p>
+            <span>{{ event.event_date|date:"d M Y" }}</span>
+          </div>
+        </a>
+      {% empty %}
+        <p class="empty-events-message">No distribution events available yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <a href="{% url 'public_distribution_events' %}" class="home-view-more-button">
+  View More
+</a>
+</section>
+
+<section class="home-register-section">
+  <h2>Want to contribute to your community?</h2>
+
+  <p>
+    Establishments can donate eligible surplus food, while organisations can collect
+    and distribute it through community venues.
+  </p>
+
+  <div class="home-register-cards">
+    <a href="#" class="home-register-card home-establishment-card">
+      Register as a<br />
+      Food<br />
+      Establishment
+    </a>
+
+    <a href="{% url 'register_organisation' %}" class="home-register-card home-organisation-card">
+      Register as a<br />
+      Charity<br />
+      Organisation
+    </a>
+  </div>
+</section>
+    </main>
+
+    {% include "foodrescue/includes/footer.html" %}
+  </body>
+</html>

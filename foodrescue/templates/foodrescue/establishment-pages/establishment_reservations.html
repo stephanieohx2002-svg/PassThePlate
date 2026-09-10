@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <title>Reservation Requests</title>
+  </head>
+  <body>
+    <h1>Pending Reservation Requests (establishment POV)</h1>
+
+    <a href="{% url 'browse_food_listings' %}">Back to Food Listings</a>
+
+    <br /><br />
+
+    {% for reservation in reservations %}
+    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px">
+      <h2>{{ reservation.food_listing.name }}</h2>
+
+      <p>
+        <strong>Establishment:</strong>
+        {{reservation.food_listing.establishment.business_name }}
+      </p>
+      <p><strong>Organisation:</strong> {{ reservation.organisation.organisation_name }}</p>
+      <p>
+        <strong>Requested Quantity:</strong>
+        {{reservation.requested_quantity }}
+      </p>
+      <p><strong>Pickup Date:</strong> {{ reservation.pickup_date }}</p>
+      <p><strong>Pickup Time:</strong> {{ reservation.pickup_time }}</p>
+      <p><strong>Message:</strong> {{ reservation.message }}</p>
+      <p><strong>Status:</strong> {{ reservation.get_status_display }}</p>
+
+      <form method="POST" action="{% url 'approve_reservation' reservation.id %}" style="display: inline">
+        {% csrf_token %}
+        <button type="submit">Approve</button>
+      </form>
+
+      <form method="POST" action="{% url 'reject_reservation' reservation.id %}" style="display: inline">
+        {% csrf_token %}
+        <button type="submit">Reject</button>
+      </form>
+    </div>
+    {% empty %}
+    <p>No pending reservation requests at the moment.</p>
+    {% endfor %}
+  </body>
+</html>

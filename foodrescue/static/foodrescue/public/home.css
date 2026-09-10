@@ -1,0 +1,368 @@
+body {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    background-color: #f4eee5;
+    color: #1f4f87;
+}
+
+.public-home-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem 2rem;
+    box-sizing: border-box;
+}
+
+/* HERO */
+.hero-section {
+    text-align: center;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+}
+
+.hero-section h1 {
+    margin: 0 0 1rem 0;
+    font-size: 4rem;
+    font-weight: 800;
+    color: #1f4f87;
+    line-height: 1.1;
+}
+
+.hero-subtitle {
+    margin: 0 0 2rem 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1f4f87;
+    line-height: 1.5;
+}
+
+.hero-button {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #ff7b52;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 0.9rem 2rem;
+    border-radius: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.18);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.hero-button:hover {
+    background-color: #f66c40;
+    transform: translateY(-1px);
+}
+
+/* SECTION HEADINGS */
+.how-it-works-section,
+.safety-flow-section {
+    text-align: center;
+    margin-bottom: 6rem;
+}
+
+.how-it-works-section h2,
+.safety-flow-section h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #1f4f87;
+}
+
+/* HOW IT WORKS */
+.steps-text p {
+    margin: 0.3rem 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #1f4f87;
+}
+
+.small-note {
+    margin-top: 1.2rem;
+    font-size: 0.8rem;
+    color: #7a7a7a;
+}
+
+/* SAFETY FLOW */
+.safety-grid {
+    max-width: 740px;
+    margin: 2.5rem auto 2rem auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+}
+
+.info-card {
+    background-color: #bfe8e3;
+    border-radius: 24px;
+    padding: 2rem 1.6rem;
+    min-height: 240px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.info-card h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1f4f87;
+    line-height: 1.3;
+}
+
+.info-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1f4f87;
+    line-height: 1.45;
+    max-width: 230px;
+}
+
+.bottom-note {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: #6b6b6b;
+    line-height: 1.4;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .hero-section h1 {
+        font-size: 3rem;
+    }
+
+    .how-it-works-section h2,
+    .safety-flow-section h2 {
+        font-size: 2rem;
+    }
+
+    .safety-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+
+    .info-card {
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 600px) {
+    .public-home-page {
+        padding: 2rem 1.2rem 4rem 1.2rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2.3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
+
+    .steps-text p {
+        font-size: 0.95rem;
+    }
+}
+
+/* HOME EVENTS SECTION */
+.home-events-section {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background-color: #bfe8e3;
+  padding: 4.5rem 2rem 3.5rem;
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 5rem;
+}
+
+.home-events-section h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #165184;
+  margin: 0 0 0.7rem;
+}
+
+.home-events-subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.home-events-list-wrapper {
+  max-width: 720px;
+  height: 260px;
+  margin: 0 auto;
+  overflow-y: scroll;
+  padding-right: 1rem;
+}
+
+.home-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.home-event-card {
+  background-color: #f4eee5;
+  border-radius: 999px;
+  min-height: 58px;
+  padding: 0.6rem 2rem;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  text-decoration: none;
+  color: inherit;
+  filter: drop-shadow(0 2px 0.1rem grey);
+}
+
+.home-event-card:hover {
+  transform: translateY(-2px);
+}
+
+.home-event-left {
+  text-align: left;
+}
+
+.home-event-left h3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #444;
+  margin: 0;
+}
+
+.home-event-left p {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #555;
+  margin: 0;
+}
+
+.home-event-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.home-event-right p {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #444;
+  margin: 0;
+}
+
+.home-event-right span {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #666;
+}
+
+.empty-events-message {
+  color: #165184;
+  font-weight: 600;
+}
+
+.home-events-list-wrapper::-webkit-scrollbar {
+  width: 14px;
+}
+
+.home-events-list-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.home-events-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 999px;
+}
+
+.home-view-more-button {
+  display: inline-block;
+  margin-top: 2rem;
+  background-color: #ff7252;
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 800;
+  padding: 0.7rem 1.8rem;
+  border-radius: 18px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+}
+
+.home-view-more-button:hover {
+  background-color: #ff6240;
+}
+
+/* HOME REGISTER SECTION */
+.home-register-section {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background-color: #f4eee5;
+  text-align: center;
+  padding: 3rem 2rem 4rem;
+  box-sizing: border-box;
+}
+
+.home-register-section h2 {
+  color: #165184;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.home-register-section p {
+  color: #165184;
+  font-size: 1rem;
+  margin: 0 0 2.5rem;
+}
+
+.home-register-cards {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+.home-register-card {
+  width: 240px;
+  height: 150px;
+  border-radius: 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.35;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
+}
+
+.home-establishment-card {
+  background-color: #2f842f;
+}
+
+.home-organisation-card {
+  background-color: #2b8b8b;
+}
+
+.home-register-card:hover {
+  transform: translateY(-3px);
+}
+
+html {
+  scroll-behavior: smooth;
+}

@@ -1,0 +1,103 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/organisation/reserve-food-listing.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+        <title>Request Pickup</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_organisation.html" %}
+        <main class="page-wrapper">
+            <h1 class="page-title">Pick Up Request Form</h1>
+            <section class="listing-id-section">
+                <h2>Listing ID: {{ food_listing.id }}</h2>
+            </section>
+            <div class="form-wrapper">
+                <form method="POST" class="pickup-form">
+                    {% csrf_token %} {{ form.non_field_errors }}
+                    <div class="section-title-wrapper">
+                        <h2 class="section-title">Pickup Date &amp; Time</h2>
+                        <h3>Please select your preferred pickup date and time</h3>
+                    </div>
+                    <section class="pickup-form-section">
+                        <div class="pickup-left">
+                            <div class="form-group">
+                                <label for="{{ form.pickup_time.id_for_label }}">Select Time</label>
+                                {{ form.pickup_time }} {{ form.pickup_time.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.message.id_for_label }}">Special remarks:</label>
+                                {{ form.message }} {{ form.message.errors }}
+                            </div>
+                        </div>
+                        <div class="pickup-right">
+                            <div class="form-group">
+                                <label for="{{ form.pickup_date.id_for_label }}">Select Date</label>
+                                {{ form.pickup_date }} {{ form.pickup_date.errors }}
+                            </div>
+                        </div>
+                    </section>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-button">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="section-title-wrapper">
+                <h2 class="section-title">Food Listing Details</h2>
+                <h3>Here are the details of the food listing.</h3>
+            </div>
+            <section class="listing-details-section">
+                <div class="listing-image-placeholder"></div>
+                <div class="listing-details-form">
+                    <div class="detail-group">
+                        <span class="detail-label">Name:</span>
+                        <span class="detail-value">{{ food_listing.name }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">{{ food_listing.get_category_display }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Allergens:</span>
+                        <span class="detail-value"> {% if food_listing.allergens %} {{ food_listing.allergens }} {% else %} None stated {% endif %}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Total weight:</span>
+                        <span class="detail-value">{{ food_listing.weight_kg }} kg</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Quantity:</span>
+                        <span class="detail-value">{{ food_listing.quantity }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Halal:</span>
+                        <span class="detail-value"> {% if food_listing.is_halal %} Yes {% else %} No {% endif %}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Pickup Location:</span>
+                        <span class="detail-value">{{ food_listing.pickup_location }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Pickup Location:</span>
+                        <span class="detail-value">{{ food_listing.establishment }}</span>
+                    </div>
+                    <div class="detail-group description-group">
+                        <span class="detail-label">Description:</span>
+                        <p class="detail-value description-text">{{ food_listing.description }}</p>
+                    </div>
+                </div>
+            </section>
+            <div class="back-link-section">
+                <a href="{% url 'browse_food_listings' %}">Back to Food Listings</a>
+            </div>
+        </main>
+        {% include "foodrescue/includes/footer.html" %}
+    </body>
+</html>

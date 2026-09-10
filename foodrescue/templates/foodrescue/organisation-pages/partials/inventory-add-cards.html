@@ -1,0 +1,65 @@
+<div class="inventory-grid">
+  {% for reservation in accepted_reservations %}
+    <article
+      class="inventory-card"
+      data-reservation-id="{{ reservation.id }}"
+      data-food-name="{{ reservation.food_listing.name }}"
+      data-category="{{ reservation.food_listing.get_category_display }}"
+      data-original-available="{{ reservation.remaining_quantity }}"
+      data-available="{{ reservation.remaining_quantity }}"
+    >
+      <p class="expiry-date">
+        Expires on: {{ reservation.food_listing.expiry_date|date:"d/m/Y" }}
+      </p>
+
+      {% if reservation.food_listing.image %}
+  <img
+    src="{{ reservation.food_listing.image.url }}"
+    class="inventory-card-image"
+    alt="{{ reservation.food_listing.name }}"
+  />
+{% else %}
+  <div class="inventory-image-placeholder"></div>
+{% endif %}
+
+      <h2 class="inventory-name">
+        {{ reservation.food_listing.name }}
+      </h2>
+
+      <p class="inventory-category">
+        Category: {{ reservation.food_listing.get_category_display }}
+      </p>
+
+      <p class="quantity-label">
+        Available Quantity:
+        <span class="available-quantity">
+          {{ reservation.remaining_quantity }}
+        </span>
+      </p>
+
+      <div class="quantity-control">
+        <button type="button" class="quantity-symbol increase-add-qty">+</button>
+
+        <div class="quantity-box add-quantity-box">
+          {% if reservation.remaining_quantity > 0 %}
+            1
+          {% else %}
+            0
+          {% endif %}
+        </div>
+
+        <button type="button" class="quantity-symbol decrease-add-qty">−</button>
+      </div>
+
+      <button
+        type="button"
+        class="add-item-button"
+        {% if reservation.remaining_quantity == 0 %}disabled{% endif %}
+      >
+        Add Item
+      </button>
+    </article>
+  {% empty %}
+    <p class="empty-message">No accepted inventory items yet.</p>
+  {% endfor %}
+</div>

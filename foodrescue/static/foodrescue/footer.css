@@ -1,0 +1,30 @@
+.site-footer {
+    width: 100%;
+    min-height: 170px;
+    background-color: #ff694f;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    text-align: center;
+}
+
+.footer-logo {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.08rem;
+    color: white;
+}
+
+.footer-copyright {
+    margin: 0;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.05rem;
+}

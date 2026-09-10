@@ -1,0 +1,106 @@
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+  <title>Charity Organisations</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+  <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}">
+  <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+  <link rel="stylesheet" href="{% static 'foodrescue/public/public-organisations.css' %}">
+</head>
+
+<body>
+  {% include "foodrescue/includes/navbar_public.html" %}
+
+  <main class="public-organisations-page">
+
+    <section class="organisations-header">
+      <h1>Charity Organisations</h1>
+      <p>Check out the organisations participating in our platform!</p>
+
+      <form method="GET" class="organisation-search-form">
+        <span class="search-icon">⌕</span>
+        <input
+          type="text"
+          name="q"
+          value="{{ search_query }}"
+          placeholder="Search by name"
+        >
+      </form>
+    </section>
+
+    <section class="organisations-panel">
+      <div class="organisations-scroll">
+
+        {% for organisation in organisations %}
+          <article class="organisation-card">
+
+            <div class="organisation-image-box">
+              {% if organisation.profile_image %}
+                <img
+                  src="{{ organisation.profile_image.url }}"
+                  alt="{{ organisation.organisation_name }}"
+                  class="organisation-profile-image"
+                >
+              {% else %}
+                <div class="organisation-profile-placeholder"></div>
+              {% endif %}
+            </div>
+
+            <div class="organisation-info">
+              <h2>{{ organisation.organisation_name }}</h2>
+
+              <h3>
+                {% if organisation.general_location %}
+                  {{ organisation.get_general_location_display }}
+                {% else %}
+                  Location not stated
+                {% endif %}
+              </h3>
+
+              <p class="organisation-description">
+                {% if organisation.description %}
+                  {{ organisation.description|truncatechars:300 }}
+                {% else %}
+                  No description provided yet.
+                {% endif %}
+              </p>
+
+              <div class="organisation-stats">
+                <p>
+                  <strong>Food Rescued:</strong>
+                  {{ organisation.food_rescued_kg|floatformat:0 }} kg
+                </p>
+
+                <p>
+                  <strong>Distribution Events:</strong>
+                  {{ organisation.distribution_events_count }}
+                </p>
+              </div>
+            </div>
+
+            <a href="{% url 'public_organisation_profile' organisation.id %}" class="view-profile-button">
+                View Profile
+            </a>
+
+          </article>
+
+        {% empty %}
+          <p class="empty-message">No verified organisations found.</p>
+        {% endfor %}
+
+      </div>
+    </section>
+
+  </main>
+
+  {% include "foodrescue/includes/footer.html" %}
+</body>
+</html>

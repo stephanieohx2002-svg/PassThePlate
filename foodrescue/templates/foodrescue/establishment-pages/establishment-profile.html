@@ -1,0 +1,188 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Establishment Profile</title>
+
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/establishment/establishment-profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'foodrescue/navbar-establishment.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  {% include "foodrescue/includes/navbar_establishment.html" %}
+
+  <main class="profile-page">
+
+    <section class="profile-header">
+      <h1>Your Profile</h1>
+      <p>All the information here is available to organisations.</p>
+    </section>
+
+    <form method="POST" enctype="multipart/form-data" class="profile-form">
+      {% csrf_token %}
+
+      <div class="profile-image-section">
+        {% if establishment.profile_image %}
+          <img
+            src="{{ establishment.profile_image.url }}"
+            alt="{{ establishment.business_name }}"
+            class="profile-image"
+          />
+        {% else %}
+          <div class="profile-image-placeholder"></div>
+        {% endif %}
+
+        <label for="profile-image-input" class="upload-button">
+          Upload photo
+        </label>
+
+        <input
+          type="file"
+          id="profile-image-input"
+          name="profile_image"
+          accept="image/*"
+          hidden
+        />
+      </div>
+
+      {% if establishment.is_verified %}
+        <div class="verified-badge">
+          <span class="tick">✓</span>
+          Verified Establishment
+        </div>
+      {% else %}
+        <div class="pending-badge">
+          Pending Verification
+        </div>
+      {% endif %}
+
+      <div class="form-area">
+
+        <label>Business name:</label>
+        <input
+          type="text"
+          name="business_name"
+          value="{{ establishment.business_name }}"
+          required
+        />
+
+        <label>Contact number:</label>
+        <input
+          type="text"
+          name="contact_number"
+          value="{{ establishment.contact_number }}"
+        />
+
+        <label>Address:</label>
+        <input
+          type="text"
+          name="address"
+          value="{{ establishment.address }}"
+        />
+
+        <label>Postal code:</label>
+        <input
+          type="text"
+          name="postal_code"
+          value="{{ establishment.postal_code }}"
+        />
+
+        <div class="two-column-row">
+          <div>
+            <label>Business type:</label>
+            <select name="business_type">
+              <option value="">Select business type</option>
+
+              <option
+                value="supermarket"
+                {% if establishment.business_type == "supermarket" %}selected{% endif %}
+              >
+                Supermarket
+              </option>
+
+              <option
+                value="bakery"
+                {% if establishment.business_type == "bakery" %}selected{% endif %}
+              >
+                Bakery
+              </option>
+
+              <option
+                value="wholesaler"
+                {% if establishment.business_type == "wholesaler" %}selected{% endif %}
+              >
+                Wholesaler
+              </option>
+
+              <option
+                value="manufacturer"
+                {% if establishment.business_type == "manufacturer" %}selected{% endif %}
+              >
+                Manufacturer
+              </option>
+
+              <option
+                value="other"
+                {% if establishment.business_type == "other" %}selected{% endif %}
+              >
+                Other
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label>Region:</label>
+            <select name="general_location">
+              <option value="">Select region</option>
+
+              <option value="north" {% if establishment.general_location == "north" %}selected{% endif %}>
+                North
+              </option>
+
+              <option value="east" {% if establishment.general_location == "east" %}selected{% endif %}>
+                East
+              </option>
+
+              <option value="south" {% if establishment.general_location == "south" %}selected{% endif %}>
+                South
+              </option>
+
+              <option value="west" {% if establishment.general_location == "west" %}selected{% endif %}>
+                West
+              </option>
+
+              <option value="central" {% if establishment.general_location == "central" %}selected{% endif %}>
+                Central
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <label>About:</label>
+        <textarea name="description">{{ establishment.description }}</textarea>
+
+        <button type="submit" class="save-button">
+          Save Changes
+        </button>
+      </div>
+    </form>
+
+    <form method="POST" action="{% url 'logout' %}" class="logout-form">
+      {% csrf_token %}
+      <button type="submit" class="logout-button">
+        Log Out
+      </button>
+    </form>
+
+  </main>
+
+  {% include "foodrescue/includes/footer.html" %}
+</body>
+</html>

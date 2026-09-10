@@ -1,0 +1,189 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/establishment/establishment-listings.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/navbar-establishment.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <title>Your Food Listings</title>
+  </head>
+  <body>
+    {% include "foodrescue/includes/navbar_establishment.html" %}
+    <main class="page-wrapper">
+    <div class="entire-page-box">
+      <!-- LEFT FILTER BOX -->
+      <aside class="filter-box">
+        <h3>Filter Category</h3>
+
+        <label>
+          <input type="checkbox" name="halal" value="true" {% if halal_only %}checked{% endif %} />
+          Halal only
+        </label>
+
+        <br /><br />
+
+        <a href="{% url 'establishment_food_listings' %}">
+          <button type="button">Clear Filters</button>
+        </a>
+
+        <a href="{% url 'establishment_food_listings' %}">
+          <button type="button">All</button>
+        </a>
+
+        {% for value, label in categories %}
+        <a href="{% url 'establishment_food_listings' %}?category={{ value }}">
+          <button type="button">{{ label }}</button>
+        </a>
+        {% endfor %}
+      </aside>
+
+      <!-- RIGHT PAGE CONTENT -->
+      <main class="page-content">
+        <h1>Your Food Listings</h1>
+        <h3>All the listings you created.</h3>
+
+        <form method="GET" class="listing-control-bar">
+  {% if selected_category %}
+    <input type="hidden" name="category" value="{{ selected_category }}">
+  {% endif %}
+
+  {% if halal_only %}
+    <input type="hidden" name="halal" value="true">
+  {% endif %}
+
+  <div class="sort-control">
+    <label for="sort">SORT BY</label>
+
+    <select id="sort" name="sort" onchange="this.form.submit()">
+      <option value="newest" {% if sort_by == "newest" %}selected{% endif %}>
+        Newest Listing
+      </option>
+
+      <option value="oldest" {% if sort_by == "oldest" %}selected{% endif %}>
+        Older Listing
+      </option>
+    </select>
+  </div>
+
+  <div class="search-control">
+    <button type="submit" class="search-icon-button">⌕</button>
+
+    <input
+      type="text"
+      name="q"
+      value="{{ search_query }}"
+      placeholder="Search Listing"
+      class="search-input"
+    >
+  </div>
+</form>
+
+        <!-- RIGHT CARD AREA -->
+        <div class="listings-scroll">
+          <div class="food-grid">
+            {% for listing in listings %}
+            
+            <div
+  class="food-card clickable-food-card"
+  data-url="{% url 'establishment_food_listing_detail' listing.id %}"
+>
+              <p class="expiry-date"><strong>Expiry Date:</strong> {{ listing.expiry_date }}</p>
+
+              {% if listing.image %}
+                <img
+                  src="{{ listing.image.url }}"
+                  class="food-card-image"
+                  alt="{{ listing.name }}"
+                />
+              {% else %}
+                <div class="food-image-placeholder"></div>
+              {% endif %}
+
+              <p class="listing-name">{{ listing.name }}</p>
+
+              <p class="listing-info">Category: {{ listing.get_category_display }}</p>
+              <p class="listing-info">Quantity: {{ listing.quantity }}</p>
+
+              <div class="listing-request-status">
+  {% if listing.approved_reservations %}
+    {% with accepted_reservation=listing.approved_reservations.0 %}
+      <p class="pickup-by-text">
+        Pickup by: {{ accepted_reservation.organisation.organisation_name }}
+      </p>
+    {% endwith %}
+
+  {% elif listing.pending_request_count > 0 %}
+    <p class="pending-request-text">
+      <span>{{ listing.pending_request_count }}</span>
+      Pending Requests
+    </p>
+  {% endif %}
+</div>
+<div class="listing-bottom-info">
+  {% if listing.status == "completed" %}
+    <p>Pickup date:</p>
+    <p>Pickup time:</p>
+
+    <div class="listing-status-pill completed-pill">
+      Completed
+    </div>
+
+  {% elif listing.approved_reservations %}
+    {% with accepted_reservation=listing.approved_reservations.0 %}
+      <p>Pickup date: {{ accepted_reservation.pickup_date|date:"d/m/Y" }}</p>
+      <p>Pickup time: {{ accepted_reservation.pickup_time|time:"H:i" }}</p>
+
+      <div class="listing-status-pill reserved-pill">
+        Reserved
+      </div>
+    {% endwith %}
+
+  {% elif listing.status == "available" %}
+    <p>Pickup date:</p>
+    <p>Pickup time:</p>
+
+    <div class="listing-status-pill available-pill">
+      Available
+    </div>
+
+  {% elif listing.status == "expired" %}
+    <p>Pickup date:</p>
+    <p>Pickup time:</p>
+
+    <div class="listing-status-pill expired-pill">
+      Expired
+    </div>
+  {% endif %}
+</div>
+
+              <div class="donor-row">
+      </div>
+            </div>
+            {% empty %}
+            <p>No food listings matched your search or filters.</p>
+            {% endfor %}
+          </div>
+        </div>
+        </div>
+      </main>
+    </div>
+    </main>
+    {% include "foodrescue/includes/footer.html" %}
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll(".clickable-food-card");
+
+    cards.forEach(function (card) {
+      card.addEventListener("click", function () {
+        window.location.href = card.dataset.url;
+      });
+    });
+  });
+</script>
+  </body>
+</html>

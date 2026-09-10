@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ establishment.business_name }} Profile</title>
+
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/public/public-establishment-profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  {% include "foodrescue/includes/navbar_public.html" %}
+
+  <main class="profile-page">
+
+    <section class="profile-header">
+      <h1>{{ establishment.business_name }}</h1>
+      <p>Food Establishment Profile</p>
+    </section>
+
+    <div class="profile-image-section">
+      {% if establishment.profile_image %}
+        <img
+          src="{{ establishment.profile_image.url }}"
+          alt="{{ establishment.business_name }}"
+          class="profile-image"
+        />
+      {% else %}
+        <div class="profile-image-placeholder"></div>
+      {% endif %}
+    </div>
+
+    {% if establishment.is_verified %}
+      <div class="verified-badge">
+        <span class="tick">✓</span>
+        Verified Establishment
+      </div>
+    {% endif %}
+
+    <section class="profile-info-area">
+
+      <div class="profile-info-group">
+        <h2>Business name:</h2>
+        <p>{{ establishment.business_name }}</p>
+      </div>
+
+      <div class="profile-info-group">
+        <h2>Contact number:</h2>
+        <p>
+          {% if establishment.contact_number %}
+            {{ establishment.contact_number }}
+          {% else %}
+            Not provided
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="profile-info-group">
+        <h2>Address:</h2>
+        <p>
+          {% if establishment.address %}
+            {{ establishment.address }}
+          {% else %}
+            Not provided
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="profile-info-group">
+        <h2>Postal code:</h2>
+        <p>
+          {% if establishment.postal_code %}
+            {{ establishment.postal_code }}
+          {% else %}
+            Not provided
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="two-column-row">
+        <div class="profile-info-group">
+          <h2>Business type:</h2>
+          <p>
+            {% if establishment.business_type %}
+              {{ establishment.get_business_type_display }}
+            {% else %}
+              Not provided
+            {% endif %}
+          </p>
+        </div>
+
+        <div class="profile-info-group">
+          <h2>Region:</h2>
+          <p>
+            {% if establishment.general_location %}
+              {{ establishment.get_general_location_display }}
+            {% else %}
+              Not provided
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      <div class="profile-info-group about-group">
+        <h2>About:</h2>
+        <p>
+          {% if establishment.description %}
+            {{ establishment.description }}
+          {% else %}
+            No description provided.
+          {% endif %}
+        </p>
+      </div>
+
+    </section>
+
+    <div class="back-link-section">
+      <a href="{% url 'public_establishments' %}">
+        Back to Establishments
+      </a>
+    </div>
+
+  </main>
+
+  {% include "foodrescue/includes/footer.html" %}
+</body>
+</html>

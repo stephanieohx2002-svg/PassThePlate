@@ -1,0 +1,142 @@
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 3.0rem;
+    color: #346523;
+    margin-top: 24.0rem;
+    text-align: center;
+    margin-bottom: 2.0rem;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 1.0rem;
+    color: #346523;
+    margin: 50px 0px 5px 0px;
+    text-align: center;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 1.7rem;
+    color: #484848;
+    margin: 0px;
+    text-align: center;
+}
+
+.success-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-top: 15.0rem;
+}
+
+.links {
+    display: inline-block;
+    text-align: center;
+    color: #248181;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    
+}
+
+.links:hover {
+    text-decoration: underline;
+}
+.page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 6vw;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* PAGE TITLE */
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #248181;
+    margin: 2rem 0 0.4rem 0;
+}
+
+.section-title-wrapper {
+    margin-bottom: 50px;
+}
+
+/* SUBMIT BUTTON */
+.submit-section {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button {
+    border: none;
+    border-radius: 12px;
+    background-color: #ffad62;
+    padding: 0.6rem 1.3rem;
+
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button:hover {
+    background-color: #ff9b3d;
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+
+    .listing-details-section,
+    .pickup-form-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .listing-image-placeholder,
+    .listing-details-form,
+    .pickup-left,
+    .pickup-right {
+        width: 100%;
+        max-width: 330px;
+    }
+}
+
+.form-wrapper input,
+.form-wrapper select,
+.form-wrapper textarea {
+    background-color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.8rem;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.success-page {
+    flex: 1;
+}

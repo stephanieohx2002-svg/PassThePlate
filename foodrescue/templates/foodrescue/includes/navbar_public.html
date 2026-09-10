@@ -1,0 +1,20 @@
+<nav class="top-nav organisation-nav">
+  <!-- LEFT NAV LINKS -->
+  <div class="nav-left">
+    <a href="{% url 'public_establishments' %}" class="nav-link">Establishments</a>
+    <a href="{% url 'public_organisations' %}" class="nav-link">Organisations</a>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet" />
+  </div>
+
+  <!-- CENTER LOGO -->
+  <div class="nav-logo">
+    <a href="{% url 'public_home' %}">PassThePlate</a>
+  </div>
+
+  <!-- RIGHT NAV LINKS -->
+  <div class="nav-right">
+    <a href="{% url 'login'%}" class="nav-link">Log In</a>
+
+    <a href="{% url 'public_distribution_events' %}" class="nav-cta"> Distribution<br />Venues </a>
+  </div>
+</nav>

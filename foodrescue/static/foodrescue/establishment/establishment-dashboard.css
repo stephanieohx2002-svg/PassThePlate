@@ -1,0 +1,656 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4eee5;
+}
+
+.page-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 10vw;
+    padding-bottom: 0px;
+}
+
+h1,
+h2,
+h3,
+p {.pickup-card {
+  width: 185px;
+  min-height: 330px;
+  background-color: white;
+  border-radius: 16px;
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-sizing: border-box;
+  filter: drop-shadow(0 2px 0.1rem grey);
+}
+
+.pickup-details {
+  width: 100%;
+  font-size: 0.52rem;
+  color: #111;
+  line-height: 1.35;
+  flex-grow: 1;
+}
+
+.completion-form {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.claimed-button {
+  border: none;
+  border-radius: 999px;
+  background-color: #ffad62;
+  padding: 0.3rem 0.8rem;
+
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+    margin: 0;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #346523;
+    margin-top: 3.0rem;
+    text-align: center;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 1.0rem;
+    color: #346523;
+    margin: 50px 0px 5px 0px;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: #484848;
+    margin: 0px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+/* LEFT CARD AREA */
+.listings-scroll {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+
+    height: 70vh;
+    overflow-y: scroll;
+    padding-right: 20px;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+/* LEFT GREEN AREA */
+.requests-panel {
+    flex: 1;
+    background-color: #c2d3b4;
+    border-radius: 24px;
+    padding: 15px;
+    height: 70vh;
+}
+
+/* SCROLLABLE AREA */
+.listings-scroll {
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 18px;
+    padding: 5px;
+}
+
+/* RESERVATION CARD LIST */
+
+.reservation-info .food-card-header {
+    font-size: 0.8rem;
+}
+
+.reservation-info .food-card-detail {
+    font-size: 0.5rem;
+    margin: 0px;
+}
+
+.food-name {
+    font-weight: 600;
+}
+
+.requests-sent {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* EACH WHITE CARD */
+.reservation-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background-color: white;
+    border-radius: 999px;
+    padding: 10px 35px;
+    min-height: 80px;
+    margin: 0px 10px 0px 0px;
+
+    filter: drop-shadow(0 0 0.1rem grey);
+}
+
+/* CIRCLE IMAGE PLACEHOLDER */
+.reservation-image {
+    width: 60px;
+    height: 60px;
+    background-color: black;
+    border: 5px solid #f4a34e;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* TEXT INFO */
+.reservation-info {
+    flex: 1;
+}
+
+.reservation-info h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.reservation-info p {
+    margin: 2px 0;
+    font-size: 12px;
+}
+
+/* RIGHT STATUS AREA INSIDE CARD */
+.reservation-status {
+    margin-left: auto;
+    width: 150px;
+    text-align: center;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reservation-status p {
+    margin: 8px 0 0;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.date-info {
+    text-align: right;
+}
+
+/* STATUS PILLS */
+.status-pill {
+    display: inline-block;
+    min-width: 100px;
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    align-self: flex-end;
+    margin: 0px 10px;
+}
+
+.status-pill.accepted {
+    background-color: #56d17c;
+}
+
+.status-pill.pending {
+    background-color: #f5a64f;
+}
+
+.status-pill.rejected {
+    background-color: #ff5d67;
+}
+
+/* RIGHT FILTER BOX */
+.status-filter {
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.status-filter h3 {
+    margin-top: 0;
+    font-size: 14px;
+}
+
+.status-filter a {
+    text-decoration: none;
+}
+
+.status-filter button {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 6px;
+
+    border: 1px solid #333;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    text-align: left;
+    font-weight: bold;
+}
+
+.status-filter button:hover,
+.status-filter .active-filter {
+    background-color: #f4a34e;
+}
+
+/* SCROLLBAR */
+.listings-scroll::-webkit-scrollbar {
+    width: 14px;
+}
+
+.listings-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.listings-scroll::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 10px;
+}
+
+/* SCHEDULED PICKUPS SECTION */
+.scheduled-pickups-section {
+    margin-top: 3rem;
+    width: 100%;
+}
+
+.scheduled-pickups-section h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #346523;
+    margin: 0;
+}
+
+.section-subtitle {
+    font-size: 0.7rem;
+    color: #484848;
+    margin: 0.2rem 0 1rem 0;
+}
+
+/* OUTER GREEN BOX */
+.pickup-panel {
+    background-color: #c2d3b4;
+    border-radius: 20px;
+    padding: 1rem 1rem 1.2rem 1rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* INNER SCROLL AREA */
+.pickup-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.7rem; /* space between cards and scrollbar */
+}
+
+/* HORIZONTAL CARD ROW */
+.pickup-card-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: max-content;
+}
+
+/* INDIVIDUAL PICKUP CARD */
+.pickup-card {
+    width: 185px;
+    min-height: 330px;
+    background-color: white;
+    border-radius: 16px;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    box-sizing: border-box;
+    filter: drop-shadow(0 2px 0.1rem grey);
+}
+
+/* IMAGE PLACEHOLDER */
+.pickup-image {
+    width: 65px;
+    height: 65px;
+    background-color: black;
+    border: 5px solid #f4a34e;
+    border-radius: 50%;
+    margin-bottom: 0.8rem;
+}
+
+/* CARD TEXT */
+.pickup-establishment {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-align: center;
+    color: #333;
+    margin: 0 0 0.8rem 0;
+}
+
+.pickup-details {
+    width: 100%;
+    font-size: 0.60rem;
+    color: #111;
+    line-height: 1.35;
+}
+
+.pickup-details p {
+    margin: 0.15rem 0;
+}
+
+/* BUTTON */
+.claimed-button {
+    margin-top: auto;
+    border: none;
+    border-radius: 999px;
+    background-color: #ffad62;
+    padding: 0.3rem 0.8rem;
+
+    font-size: 0.58rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+}
+.completion-form {
+  margin-top: auto;
+}
+
+.claimed-button:hover {
+    background-color: #ff9b3d;
+}
+
+.claimed-button.marked-completed {
+  background-color: #56d17c;
+  color: #1f1f1f;
+  cursor: not-allowed;
+}
+
+.claimed-button.marked-completed:hover {
+  background-color: #56d17c;
+}
+
+.claimed-button:disabled {
+  opacity: 1;
+}
+
+/* EMPTY MESSAGE */
+.empty-message {
+    font-size: 0.8rem;
+    color: #333;
+    padding: 1rem;
+}
+
+/* HORIZONTAL SCROLLBAR */
+.pickup-scroll-wrapper::-webkit-scrollbar {
+    height: 12px;
+}
+
+.pickup-scroll-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pickup-scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 999px;
+}
+
+/* STATISTICS SECTION */
+.statistics-section {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    background-color: #cae5d8;
+    padding: 4rem 0;
+    margin-top: 4rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.statistics-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1f1f1f;
+    margin: 0 0 2.5rem 0;
+}
+
+/* CARD ROW */
+.statistics-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.8rem;
+}
+
+/* EACH STAT CARD */
+.statistics-card {
+    width: 170px;
+    height: 220px;
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+/* CARD COLOURS */
+.completed-card {
+    background-color: #ffad62;
+}
+
+.food-card-stat {
+    background-color: #7ee684;
+}
+
+.co2-card {
+    background-color: #ffa3a8;
+}
+
+/* TEXT */
+.statistics-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1f1f1f;
+    margin: 0 0 1.2rem 0;
+}
+
+.statistics-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #1f1f1f;
+    margin: 0;
+}
+
+.statistics-link {
+    margin-top: 1.3rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .statistics-card-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .statistics-card {
+        width: 220px;
+    }
+}
+
+.reservation-card {
+  background-color: white;
+  border-radius: 28px;
+  padding: 14px 24px;
+  margin: 0 10px 0 0;
+  filter: drop-shadow(0 0 0.1rem grey);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.upper-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.lower-card {
+  width: 100%;
+  padding-left: 88px;
+  box-sizing: border-box;
+}
+
+.request-message {
+  font-size: 0.6rem;
+  color: #555;
+  line-height: 1.35;
+}
+
+.reservation-image {
+  width: 60px;
+  height: 60px;
+  background-color: black;
+  border: 5px solid #f4a34e;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.reservation-info {
+  flex: 1;
+}
+
+.reservation-info .food-card-header {
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.reservation-info .food-card-detail {
+  font-size: 0.5rem;
+  margin: 2px 0;
+}
+
+.food-name {
+  font-weight: 600;
+}
+
+.reservation-status {
+  margin-left: auto;
+  width: 100px;
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.request-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.accept-button,
+.reject-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.35rem 1rem;
+  min-width: 85px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+}
+
+.accept-button {
+  background-color: #56d17c;
+  color: #1f1f1f;
+}
+
+.reject-button {
+  background-color: #ff5d67;
+  color: #1f1f1f;
+}
+
+.accept-button:hover {
+  background-color: #46bd6b;
+}
+
+.reject-button:hover {
+  background-color: #e84b55;
+}
+
+.clickable-reservation-card:hover {
+  transform: translateY(-2px);
+}
+
+.request-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.accept-button,
+.reject-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.35rem 1rem;
+  min-width: 6.0rem;
+  min-height: 2.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  filter: drop-shadow(0 0.5px 0.05rem grey);
+}
+
+.accept-button {
+  background-color: #56d17c;
+  color: #1f1f1f;
+}
+
+.reject-button {
+  background-color: #ff5d67;
+  color: #1f1f1f;
+}

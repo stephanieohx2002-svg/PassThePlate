@@ -1,0 +1,37 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/organisation/reservation-success.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+        <title>Request Pickup</title>
+    </head>
+<body>
+    {% include "foodrescue/includes/navbar_organisation.html" %}
+
+    <main class="success-page">
+        <h1>Reservation Request Submitted Successfully!</h1>
+
+        <h3>Please wait for the establishment to accept your request.</h3>
+
+        <div class="success-links">
+            <a class="links" href="{% url 'organisation_dashboard' %}">
+                View My Reservations
+            </a>
+
+            <a class="links" href="{% url 'browse_food_listings' %}">
+                Continue Browsing Food Listings
+            </a>
+        </div>
+    </main>
+
+    {% include "foodrescue/includes/footer.html" %}
+</body>
+	
+</html>

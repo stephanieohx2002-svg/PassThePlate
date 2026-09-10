@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: #f5efe6;
+}
+
+.page-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    padding: 35px 35px 25px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.page-header {
+    margin-bottom: 40px;
+}
+
+.page-header h1 {
+    margin: 0;
+    color: #2d6b2f;
+    letter-spacing: 1px;
+}
+
+.page-header p {
+    margin: 4px 0 0;
+    color: #555;
+}
+
+.top-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,133 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar-establishment.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/establishment/create-food-listing.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+        <title>Create Food Listing</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_establishment.html" %}
+        <main class="page-wrapper">
+            <section class="page-header">
+                <h1>Upload New Listing</h1>
+                <h3>Your Food Listings &gt; Upload New Listing</h3>
+            </section>
+            <form method="POST" enctype="multipart/form-data" class="listing-form">
+                {% csrf_token %}
+
+        {{ form.non_field_errors }}
+                <section class="main-form-section">
+                    <!-- LEFT IMAGE PLACEHOLDER -->
+                    <div class="image-upload-section">
+                        <div class="image-placeholder">
+                            <img id="image-preview" class="image-preview" alt="Food preview">
+                        </div>
+                        <label for="id_image" class="upload-photo-button">
+                            Upload photo
+                        </label>
+                        <input
+                            type="file"
+                            id="id_image"
+                            name="image"
+                            accept="image/*"
+                            hidden
+                        >
+                        {{ form.image.errors }}
+                    </div>
+                    <!-- RIGHT FORM DETAILS -->
+                    <div class="details-section">
+                        <div class="form-group">
+                            <label for="{{ form.name.id_for_label }}">Name:</label>
+                            {{ form.name }}
+              {{ form.name.errors }}
+                        </div>
+                        <div class="form-group small-field">
+                            <label for="{{ form.category.id_for_label }}">Category:</label>
+                            {{ form.category }}
+              {{ form.category.errors }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.allergens.id_for_label }}">Allergens:</label>
+                            {{ form.allergens }}
+              {{ form.allergens.errors }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.weight_kg.id_for_label }}">Weight:</label>
+                            {{ form.weight_kg }}
+              {{ form.weight_kg.errors }}
+                        </div>
+                        <div class="form-group checkbox-row">
+                            <label for="{{ form.is_halal.id_for_label }}">Halal:</label>
+                            {{ form.is_halal }}
+              {{ form.is_halal.errors }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.description.id_for_label }}">Description:</label>
+                            {{ form.description }}
+              {{ form.description.errors }}
+                        </div>
+                    </div>
+                </section>
+                <section class="save-template-section">
+                    <label for="save-template">Save above as Template:</label>
+                    <input type="checkbox" id="save-template" name="save_template">
+                </section>
+                <hr class="form-divider">
+                <section class="bottom-form-section">
+                    <div class="form-group">
+                        <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
+                        {{ form.quantity }}
+            {{ form.quantity.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.expiry_date.id_for_label }}">Expiry date:</label>
+                        {{ form.expiry_date }}
+            {{ form.expiry_date.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.pickup_location.id_for_label }}">Pickup location:</label>
+                        {{ form.pickup_location }}
+            {{ form.pickup_location.errors }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.co2_saved_kg.id_for_label }}">CO2 saved(kg):</label>
+                        {{ form.co2_saved_kg }}
+            {{ form.co2_saved_kg.errors }}
+                    </div>
+                </section>
+                <div class="submit-section">
+                    <button type="submit" class="create-button">Create</button>
+                </div>
+            </form>
+        </main>
+        {% include "foodrescue/includes/footer.html" %}
+        <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const imageInput = document.getElementById("id_image");
+    const imagePreview = document.getElementById("image-preview");
+
+    imageInput.addEventListener("change", function () {
+      const file = imageInput.files[0];
+
+      if (!file) {
+        imagePreview.style.display = "none";
+        imagePreview.src = "";
+        return;
+      }
+
+      const imageUrl = URL.createObjectURL(file);
+
+      imagePreview.src = imageUrl;
+      imagePreview.style.display = "block";
+    });
+  });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,340 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    background-color: #f4eee5;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+.page-wrapper {
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 2rem 4vw;
+}
+
+/* MAIN LAYOUT */
+.entire-page-box {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* LEFT FILTER BOX */
+.filter-box {
+    width: 160px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 150px;
+}
+
+.filter-box h3 {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.filter-box label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.filter-box button {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #333;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.65rem;
+}
+
+.filter-box button:hover {
+    background-color: #cfe8e3;
+}
+
+/* RIGHT CONTENT */
+.page-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.page-content h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #346523;
+    margin: 2rem 0 0.6rem 0;
+}
+
+.page-content h3 {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #484848;
+    margin-bottom: 1.2rem;
+}
+
+/* SCROLL AREA */
+.listings-scroll {
+    width: 100%;
+    height: 78vh;
+    overflow-y: scroll;
+    padding-right: 1rem;
+    scrollbar-gutter: stable;
+}
+
+/* IMPORTANT: prevent cards from stretching tall */
+.food-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+/* CARD */
+.food-card {
+    flex: 0 0 calc((100% - 2rem) / 3);
+    max-width: calc((100% - 2rem) / 3);
+
+    min-height: 500px;
+    box-sizing: border-box;
+
+    background-color: #cfe8e3;
+    border-radius: 22px;
+    padding: 1.5rem;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    filter: drop-shadow(0 2px 0.1rem rgb(177, 168, 152));
+}
+
+/* Optional: make first card yellow like your reference */
+.food-card:first-child {
+    background-color: #fff0a8;
+}
+
+/* EXPIRY */
+.expiry-date {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 1.4rem;
+}
+
+/* IMAGE */
+.food-card-image,
+.food-image-placeholder {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background-color: black;
+    margin-bottom: 1rem;
+}
+
+/* NAME */
+.listing-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #222;
+    line-height: 1.2;
+    margin-bottom: 2.2rem;
+}
+
+/* LOCATION */
+.location {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #111;
+    line-height: 1.25;
+}
+
+.location-div {
+    margin-bottom: 1rem;
+}
+
+/* LISTING INFO */
+.listing-info {
+    font-size: 0.72rem;
+    color: #111;
+    line-height: 1.25;
+}
+
+/* PICKUP BUTTON */
+.pickup-button {
+    border: none;
+    border-radius: 8px;
+    background-color: #ff8338;
+    color: #4b230d;
+
+    padding: 0.45rem 1.4rem;
+    margin: 1.5rem 0 1rem 0;
+
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+.pickup-button:hover {
+    background-color: #ff9b3d;
+}
+
+/* DONOR SECTION */
+.donor-row {
+    margin-top: auto;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.donor-icon {
+    width: 55px;
+    height: 55px;
+    background-color: black;
+    border: 5px solid #ff8338;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.donor-name-box {
+    min-width: 120px;
+    min-height: 52px;
+
+    border: 5px solid #ff8338;
+    border-radius: 12px;
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.3rem 0.8rem;
+    box-sizing: border-box;
+}
+
+.donor-name-box p {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #9c3d16;
+    line-height: 1.2;
+}
+
+/* SCROLLBAR */
+.listings-scroll::-webkit-scrollbar {
+    width: 14px;
+}
+
+.listings-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.listings-scroll::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+    .food-card {
+        flex: 0 0 calc((100% - 1rem) / 2);
+        max-width: calc((100% - 1rem) / 2);
+    }
+}
+
+@media (max-width: 800px) {
+    .entire-page-box {
+        flex-direction: column;
+    }
+
+    .filter-box {
+        width: 100%;
+        max-width: 250px;
+        margin-top: 1rem;
+    }
+
+    .food-card {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+.listing-control-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+  margin: 2rem 0 1.5rem;
+  flex-wrap: wrap;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sort-control label {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #346523;
+}
+
+.sort-control select {
+  min-width: 210px;
+  border-radius: 12px;
+  background-color: #ff7252;
+  color: white;
+  padding: 0.45rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+  cursor: pointer;
+}
+
+.search-control {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.search-icon-button {
+  border: none;
+  background: transparent;
+  font-size: 2rem;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.search-input {
+  width: 250px;
+  border: 2px solid #111;
+  border-radius: 12px;
+  background-color: transparent;
+  padding: 0.35rem 1rem;
+  font-size: 1rem;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+}
+
+.search-input::placeholder {
+  color: #111;
+}

@@ -1,0 +1,481 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/organisation/create-event.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/organisation/organisation-inventory.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+        <title>Create Distribution Event</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_organisation.html" %}
+        <main class="event-page-wrapper">
+            <section class="event-header">
+                <h1>Organise a Distribution Event</h1>
+                <h3>Fill in the details</h3>
+            </section>
+            <form method="POST" enctype="multipart/form-data" class="event-form">
+                {% csrf_token %}
+                <!-- THUMBNAIL UPLOAD SECTION -->
+                <section class="thumbnail-section">
+                    <div class="thumbnail-title">Upload a thumbnail</div>
+                    <div class="thumbnail-placeholder">
+                <img id="thumbnail-preview" class="thumbnail-preview" alt="Event thumbnail preview">
+              </div>
+
+              <label for="event-thumbnail" class="upload-photo-button">
+                Upload photo
+              </label>
+
+              <input
+                type="file"
+                id="event-thumbnail"
+                name="event_thumbnail"
+                accept="image/*"
+                hidden
+              >
+                </section>
+                <!-- EVENT DETAILS SECTION -->
+                <section class="event-details-section">
+                    <h2>Fill in the details of your event</h2>
+                    <div class="form-group">
+                        <label for="event-name">Event name:</label>
+                        <input type="text" id="event-name" name="event_name" required>
+                    </div>
+                    <div class="form-group region-group">
+                        <label for="region">Region: North/East/South/West</label>
+                        <select id="region" name="region" required>
+                            <option value="">Select region</option>
+                            <option value="north">North</option>
+                            <option value="east">East</option>
+                            <option value="south">South</option>
+                            <option value="west">West</option>
+                            <option value="central">Central</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postal-code">Postal code:</label>
+                        <input type="text" id="postal-code" name="postal_code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                </section>
+                <!-- DATE AND TIME SECTION -->
+                <section class="date-time-section">
+                    <h2>Date &amp; Time</h2>
+                    <div class="date-time-layout">
+                        <!-- LEFT SIDE -->
+                        <div class="time-section">
+                            <div class="form-group">
+                                <label for="event-time" class="large-label">Start Time</label>
+                                <input type="time" id="event-time" name="event_time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-end-time" class="large-label">End Time</label>
+                                <input type="time" id="event-end-time" name="end_time">
+                            </div>
+                            <div class="form-group remarks-group">
+                                <label for="remarks">Special remarks:</label>
+                                <textarea id="remarks" name="remarks"></textarea>
+                            </div>
+                        </div>
+                        <!-- RIGHT CALENDAR DESIGN -->
+                        <div class="calendar-section">
+                            <div class="calendar-header">
+                                <button type="button" id="prev-month" class="calendar-arrow">&lt;</button>
+                                <h3 id="calendar-month-year"></h3>
+                                <button type="button" id="next-month" class="calendar-arrow">&gt;</button>
+                            </div>
+                            <div class="calendar-days">
+                                <span>Mo</span>
+                                <span>Tu</span>
+                                <span>We</span>
+                                <span>Th</span>
+                                <span>Fr</span>
+                                <span>Sa</span>
+                                <span>Su</span>
+                            </div>
+                            <div class="calendar-grid" id="calendar-grid"></div>
+                            <!-- The value Django receives -->
+                            <input type="hidden" id="event-date" name="event_date" required>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <main class="page-wrapper inventory-page">
+                <section class="inventory-header">
+                    <h1>Inventory</h1>
+                    <h3>These are all the items you have picked up.</h3>
+                </section>
+                <div class="inventory-layout">
+                    <!-- LEFT FILTER BOX -->
+                    <aside class="inventory-filter-box" data-filter-url="{% url 'filter_event_inventory' %}">
+                        <h3>FILTER CATEGORY</h3>
+                        <button type="button" class="filter-btn active-filter" data-category="">
+                            Clear Filters
+                        </button>
+                        {% for value, label in categories %}
+                        <button type="button" class="filter-btn" data-category="{{ value }}">
+                            {{ label }}
+                        </button>
+                        {% endfor %}
+                        <br>
+                        <button type="button" id="halal-filter-btn" data-halal="false">
+                            Halal
+                        </button>
+                    </aside>
+                    <!-- RIGHT INVENTORY CARD AREA -->
+                    <section class="inventory-scroll" id="inventory-results">
+                        {% include "foodrescue/organisation-pages/partials/inventory-add-cards.html" %}
+                    </section>
+                </div>
+            </main>
+            <section class="selected-event-section">
+                <h2>Selected for this Event</h2>
+                <div class="selected-event-panel">
+                    <div class="selected-items-scroll" id="selected-items-list">
+                        <p class="selected-empty-message">No items selected yet.</p>
+                    </div>
+                </div>
+                <input type="hidden" id="selected-event-items" name="selected_event_items">
+            </section>
+            <div class="submit-section">
+  <p id="event-form-error" class="event-form-error"></p>
+
+  <button type="submit" class="create-event-button">
+    Confirm &amp; Create
+  </button>
+</div>
+        {% include "foodrescue/includes/footer.html" %}
+        <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const eventForm = document.querySelector(".event-form");
+  const eventDateInput = document.getElementById("event-date");
+  const selectedEventInput = document.getElementById("selected-event-items");
+  const errorMessage = document.getElementById("event-form-error");
+
+  if (!eventForm) {
+    return;
+  }
+
+  eventForm.addEventListener("submit", function (event) {
+    if (!eventDateInput.value) {
+      event.preventDefault();
+      errorMessage.textContent = "Please select an event date.";
+      return;
+    }
+
+    if (!selectedEventInput.value || selectedEventInput.value === "[]") {
+      event.preventDefault();
+      errorMessage.textContent = "Please add at least one inventory item to the event.";
+      return;
+    }
+
+    errorMessage.textContent = "";
+  });
+});
+  document.addEventListener("DOMContentLoaded", function () {
+  const thumbnailInput = document.getElementById("event-thumbnail");
+  const thumbnailPreview = document.getElementById("thumbnail-preview");
+
+  if (thumbnailInput && thumbnailPreview) {
+    thumbnailInput.addEventListener("change", function () {
+      const file = thumbnailInput.files[0];
+
+      if (!file) {
+        thumbnailPreview.src = "";
+        thumbnailPreview.style.display = "none";
+        return;
+      }
+
+      thumbnailPreview.src = URL.createObjectURL(file);
+      thumbnailPreview.style.display = "block";
+    });
+  }
+});
+  document.addEventListener("DOMContentLoaded", function () {
+    const calendarMonthYear = document.getElementById("calendar-month-year");
+    const calendarGrid = document.getElementById("calendar-grid");
+    const eventDateInput = document.getElementById("event-date");
+
+    const prevMonthButton = document.getElementById("prev-month");
+    const nextMonthButton = document.getElementById("next-month");
+
+    let currentDate = new Date();
+    let selectedDate = "";
+
+    function formatDateForInput(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function renderCalendar() {
+  calendarGrid.innerHTML = "";
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  const monthName = currentDate.toLocaleString("default", {
+    month: "long",
+  });
+
+  calendarMonthYear.textContent = `${monthName} ${year}`;
+
+  const firstDayOfMonth = new Date(year, month, 1);
+  const lastDayOfMonth = new Date(year, month + 1, 0);
+
+  let startingDay = firstDayOfMonth.getDay();
+
+  if (startingDay === 0) {
+    startingDay = 7;
+  }
+
+  const daysInMonth = lastDayOfMonth.getDate();
+
+  for (let i = 1; i < startingDay; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.classList.add("empty-date");
+    calendarGrid.appendChild(emptyCell);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateCell = document.createElement("button");
+    dateCell.type = "button";
+    dateCell.classList.add("calendar-date");
+    dateCell.textContent = day;
+
+    const thisDate = new Date(year, month, day);
+    const formattedDate = formatDateForInput(thisDate);
+
+    if (selectedDate === formattedDate) {
+      dateCell.classList.add("selected-date");
+    }
+
+    dateCell.addEventListener("click", function () {
+      selectedDate = formattedDate;
+      eventDateInput.value = formattedDate;
+      renderCalendar();
+    });
+
+    calendarGrid.appendChild(dateCell);
+  }
+  const totalCells = calendarGrid.children.length;
+
+  for (let i = totalCells; i < 42; i++) {
+    const emptyCell = document.createElement("div");
+    emptyCell.classList.add("empty-date");
+    calendarGrid.appendChild(emptyCell);
+  }
+
+      
+    }
+
+    prevMonthButton.addEventListener("click", function () {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar();
+    });
+
+    nextMonthButton.addEventListener("click", function () {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+  });
+  // inventory
+  document.addEventListener("DOMContentLoaded", function () {
+    const inventoryResults = document.getElementById("inventory-results");
+    const selectedItemsList = document.getElementById("selected-items-list");
+    const selectedEventInput = document.getElementById("selected-event-items");
+
+    if (!inventoryResults || !selectedItemsList || !selectedEventInput) {
+      console.log("Missing required element for event inventory JS.");
+      return;
+    }
+
+    const selectedItems = {};
+
+    function updateHiddenInput() {
+      selectedEventInput.value = JSON.stringify(Object.values(selectedItems));
+      console.log("Selected items:", selectedEventInput.value);
+    }
+
+    function renderSelectedItems() {
+      selectedItemsList.innerHTML = "";
+
+      const items = Object.values(selectedItems);
+
+      if (items.length === 0) {
+        selectedItemsList.innerHTML = `
+          <p class="selected-empty-message">No items selected yet.</p>
+        `;
+        updateHiddenInput();
+        return;
+      }
+
+      items.forEach(function (item) {
+        const row = document.createElement("div");
+        row.classList.add("selected-event-row");
+        row.dataset.reservationId = item.reservation_id;
+
+        row.innerHTML = `
+          <div class="selected-event-info">
+            <p class="selected-event-name">${item.food_name}</p>
+            <p class="selected-event-category">Category: ${item.category}</p>
+          </div>
+
+          <div class="selected-event-quantity">
+            Quantity: ${item.quantity}
+          </div>
+
+          <button type="button" class="remove-selected-button">
+            Remove
+          </button>
+        `;
+
+        selectedItemsList.appendChild(row);
+      });
+
+      updateHiddenInput();
+    }
+
+    function syncInventoryCardsWithSelection() {
+      const cards = inventoryResults.querySelectorAll(".inventory-card");
+
+      cards.forEach(function (card) {
+        const reservationId = card.dataset.reservationId;
+        const originalAvailable = Number(card.dataset.originalAvailable || 0);
+
+        const selectedQuantity = selectedItems[reservationId]
+          ? selectedItems[reservationId].quantity
+          : 0;
+
+        const newAvailable = Math.max(originalAvailable - selectedQuantity, 0);
+
+        card.dataset.available = newAvailable;
+
+        const availableQuantity = card.querySelector(".available-quantity");
+        const addQuantityBox = card.querySelector(".add-quantity-box");
+        const addButton = card.querySelector(".add-item-button");
+
+        if (!availableQuantity || !addQuantityBox || !addButton) {
+          return;
+        }
+
+        availableQuantity.textContent = newAvailable;
+
+        if (newAvailable <= 0) {
+          addQuantityBox.textContent = 0;
+          addButton.disabled = true;
+          addButton.textContent = "Added";
+        } else {
+          addButton.disabled = false;
+          addButton.textContent = "Add Item";
+
+          const currentAddQty = Number(addQuantityBox.textContent);
+
+          if (currentAddQty < 1 || currentAddQty > newAvailable) {
+            addQuantityBox.textContent = 1;
+          }
+        }
+      });
+    }
+
+    inventoryResults.addEventListener("click", function (event) {
+      const card = event.target.closest(".inventory-card");
+
+      if (!card) {
+        return;
+      }
+
+      const addQuantityBox = card.querySelector(".add-quantity-box");
+      const availableQuantity = Number(card.dataset.available || 0);
+
+      if (!addQuantityBox) {
+        return;
+      }
+
+      if (event.target.classList.contains("increase-add-qty")) {
+        let currentQuantity = Number(addQuantityBox.textContent);
+
+        if (currentQuantity < availableQuantity) {
+          currentQuantity += 1;
+          addQuantityBox.textContent = currentQuantity;
+        }
+      }
+
+      if (event.target.classList.contains("decrease-add-qty")) {
+        let currentQuantity = Number(addQuantityBox.textContent);
+
+        if (currentQuantity > 1) {
+          currentQuantity -= 1;
+          addQuantityBox.textContent = currentQuantity;
+        }
+      }
+
+      if (event.target.classList.contains("add-item-button")) {
+        const reservationId = card.dataset.reservationId;
+        const foodName = card.dataset.foodName;
+        const category = card.dataset.category;
+
+        const quantityToAdd = Number(addQuantityBox.textContent);
+        const currentAvailable = Number(card.dataset.available || 0);
+
+        if (quantityToAdd <= 0 || currentAvailable <= 0) {
+          return;
+        }
+
+        const actualQuantityToAdd = Math.min(quantityToAdd, currentAvailable);
+
+        if (selectedItems[reservationId]) {
+          selectedItems[reservationId].quantity += actualQuantityToAdd;
+        } else {
+          selectedItems[reservationId] = {
+            reservation_id: reservationId,
+            food_name: foodName,
+            category: category,
+            quantity: actualQuantityToAdd
+          };
+        }
+
+        renderSelectedItems();
+        syncInventoryCardsWithSelection();
+      }
+    });
+
+    selectedItemsList.addEventListener("click", function (event) {
+      if (!event.target.classList.contains("remove-selected-button")) {
+        return;
+      }
+
+      const row = event.target.closest(".selected-event-row");
+      const reservationId = row.dataset.reservationId;
+
+      delete selectedItems[reservationId];
+
+      renderSelectedItems();
+      syncInventoryCardsWithSelection();
+    });
+
+    window.syncInventoryCardsWithSelection = syncInventoryCardsWithSelection;
+
+    syncInventoryCardsWithSelection();
+  });
+        </script>
+    </body>
+</html>

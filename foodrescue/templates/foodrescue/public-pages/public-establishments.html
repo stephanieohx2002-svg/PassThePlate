@@ -1,0 +1,112 @@
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+  <title>Food Establishments</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+  <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}">
+  <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+  <link rel="stylesheet" href="{% static 'foodrescue/public/public-establishments.css' %}">
+</head>
+
+<body>
+  {% include "foodrescue/includes/navbar_public.html" %}
+
+  <main class="public-establishments-page">
+
+    <section class="establishments-header">
+      <h1>Food Establishments</h1>
+      <p>Check out the verified establishments donating surplus food through PassThePlate!</p>
+
+      <form method="GET" class="establishment-search-form">
+        <span class="search-icon">⌕</span>
+        <input
+          type="text"
+          name="q"
+          value="{{ search_query }}"
+          placeholder="Search by name"
+        >
+      </form>
+    </section>
+
+    <section class="establishments-panel">
+      <div class="establishments-scroll">
+
+        {% for establishment in establishments %}
+          <article class="establishment-card">
+
+            <div class="establishment-image-box">
+              {% if establishment.profile_image %}
+                <img
+                  src="{{ establishment.profile_image.url }}"
+                  alt="{{ establishment.business_name }}"
+                  class="establishment-profile-image"
+                >
+              {% else %}
+                <div class="establishment-profile-placeholder"></div>
+              {% endif %}
+            </div>
+
+            <div class="establishment-info">
+              <h2>{{ establishment.business_name }}</h2>
+
+              <h3>
+                {% if establishment.general_location %}
+                  {{ establishment.get_general_location_display }}
+                {% else %}
+                  Location not stated
+                {% endif %}
+              </h3>
+
+              <p class="establishment-type">
+                {% if establishment.business_type %}
+                  {{ establishment.get_business_type_display }}
+                {% else %}
+                  Business type not stated
+                {% endif %}
+              </p>
+
+              <p class="establishment-description">
+                {% if establishment.description %}
+                  {{ establishment.description|truncatechars:300 }}
+                {% else %}
+                  No description provided yet.
+                {% endif %}
+              </p>
+
+              <div class="establishment-stats">
+                <p>
+                  <strong>Total Listings:</strong>
+                  {{ establishment.listings_count }}
+                </p>
+
+                <p>
+                  <strong>Completed Donations:</strong>
+                  {{ establishment.completed_donations_count }}
+                </p>
+              </div>
+            </div>
+
+            <a href="{% url 'public_establishment_profile' establishment.id %}" class="view-profile-button">View Profile</a>
+
+          </article>
+
+        {% empty %}
+          <p class="empty-message">No verified establishments found.</p>
+        {% endfor %}
+
+      </div>
+    </section>
+
+  </main>
+
+  {% include "foodrescue/includes/footer.html" %}
+</body>
+</html>

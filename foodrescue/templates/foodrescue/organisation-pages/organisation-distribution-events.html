@@ -1,0 +1,118 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar.css' %}?v=2">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/organisation/distribution-events.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+        <title>Distribution Events</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_organisation.html" %}
+        <main class="distribution-page-wrapper">
+            <section class="distribution-header">
+                <h1>Distribution Events</h1>
+                <h3 class="center-text">
+                    All the distribution events you have created, displayed chronologically.
+                </h3>
+            </section>
+            <section class="distribution-events-section">
+                <div class="distribution-heading-row">
+                    <div>
+                        <h2>Organised Events</h2>
+                        <p>These are the distribution events you have organised.</p>
+                    </div>
+                    <a href="{% url 'create_event' %}" class="create-event-plus">+</a>
+                </div>
+                <div class="distribution-panel">
+                    <div class="distribution-scroll-wrapper">
+                        <div class="distribution-card-row">
+                            {% for event in events %}
+                            <article class="distribution-card">
+                                <div class="distribution-image-box">
+                                    {% if event.thumbnail %}
+                                    <img src="{{ event.thumbnail.url }}" class="distribution-image" alt="{{ event.name }}">
+                                    {% else %}
+                                    <div class="distribution-image-placeholder"></div>
+                                    {% endif %}
+                                </div>
+                                <h3 class="distribution-card-title">
+                                    {{ event.name }}
+                                </h3>
+                                <div class="distribution-card-info">
+                                    <p>
+                                        <strong>Date:</strong>
+                                        {{ event.event_date|date:"d/m/Y" }}
+                                    </p>
+                                    <p>
+                                        <strong>Time:</strong>
+                                        {{ event.start_time|time:"H:i" }}
+                  {% if event.end_time %}
+                    ~{{ event.end_time|time:"H:i" }}
+                  {% endif %}
+                                    </p>
+                                    <p>
+                                        <strong>Area:</strong>
+                                        {{ event.get_area_display }}
+                                    </p>
+                                    <p>
+                                        <strong>Address:</strong>
+                                        {{ event.address }}
+                                    </p>
+                                    <p>
+                                        <strong>Postal Code:</strong>
+                                        {{ event.postal_code }}
+                                    </p>
+                                </div>
+                                <div class="distribution-description">
+                                    <p>
+                                        <strong>Description:</strong>
+                                    </p>
+                                    <p>
+                                        {% if event.description %}
+                    {{ event.description }}
+                  {% else %}
+                    No description provided.
+                  {% endif %}
+                                    </p>
+                                </div>
+                                <div class="distribution-items-section">
+                                    <p class="distribution-items-title">Items:</p>
+                                    <div class="distribution-items-scroll">
+                                        {% for item in event.event_items.all %}
+                                        <div class="distribution-item">
+                                            <p>
+                                                - {{ item.reservation.food_listing.name }}
+                                            </p>
+                                            <p>
+                                                Quantity: {{ item.quantity }}
+                                            </p>
+                                            <p>
+                                                Donated by:
+                        {{ item.reservation.food_listing.establishment.business_name }}
+                                            </p>
+                                        </div>
+                                        {% empty %}
+                                        <p class="empty-card-message">No items added.</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <a href="{% url 'event_detail' event.id %}" class="distribution-details-button">
+                                    Details
+                                </a>
+                            </article>
+                            {% empty %}
+                            <p class="empty-message">No distribution events created yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        {% include "foodrescue/includes/footer.html" %}
+    </body>

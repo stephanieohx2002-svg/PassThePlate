@@ -1,0 +1,150 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/organisation/organisation-inventory.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/public/event-detail.css' %}">
+        <title>Event Details</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_public.html" %}
+        <main class="event-detail-wrapper">
+            <section class="event-detail-header">
+                <h1>{{ event.name }}</h1>
+                <h3>Distribution Event Details</h3>
+            </section>
+            <section class="event-image-section">
+                <div class="event-detail-image-box">
+                    {% if event.thumbnail %}
+                    <img src="{{ event.thumbnail.url }}" class="event-detail-image" alt="{{ event.name }}">
+                    {% else %}
+                    <div class="event-detail-image-placeholder"></div>
+                    {% endif %}
+                </div>
+            </section>
+            <section class="event-meta-section">
+                <h2>Event Information</h2>
+                <h3>Basic information about this distribution event.</h3>
+                <div class="event-details-form">
+                    <div class="detail-group">
+                        <span class="detail-label">Event name:</span>
+                        <span class="detail-value">{{ event.name }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Organised by:</span>
+                        <span class="detail-value">{{ event.organisation.organisation_name }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Area:</span>
+                        <span class="detail-value">{{ event.get_area_display }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value">{{ event.address }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Postal code:</span>
+                        <span class="detail-value">{{ event.postal_code }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value">{{ event.event_date|date:"d/m/Y" }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Time:</span>
+                        <span class="detail-value">
+                            {{ event.start_time|time:"H:i" }}
+              {% if event.end_time %}
+                - {{ event.end_time|time:"H:i" }}
+              {% endif %}
+                        </span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value">{{ event.get_status_display }}</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Created on:</span>
+                        <span class="detail-value">{{ event.created_at|date:"d/m/Y" }}</span>
+                    </div>
+                    <div class="detail-group description-group">
+                        <span class="detail-label">Description:</span>
+                        <p class="detail-value description-text">
+                            {% if event.description %}
+                {{ event.description }}
+              {% else %}
+                No description provided.
+              {% endif %}
+                        </p>
+                    </div>
+                    <div class="detail-group description-group">
+                        <span class="detail-label">Special remarks:</span>
+                        <p class="detail-value description-text">
+                            {% if event.remarks %}
+                {{ event.remarks }}
+              {% else %}
+                No special remarks.
+              {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="event-inventory-section">
+                <section class="inventory-header">
+                    <h1>Items for this Event</h1>
+                    <h3>These are the food items included in this distribution event.</h3>
+                </section>
+                <div class="event-inventory-panel">
+                    <div class="event-inventory-scroll">
+                        <div class="inventory-grid">
+                            {% for item in event.event_items.all %}
+                            <article class="inventory-card">
+                                <p class="expiry-date">
+                                    Expires on: {{ item.reservation.food_listing.expiry_date|date:"d/m/Y" }}
+                                </p>
+                                {% if item.reservation.food_listing.image %}
+                                <img src="{{ item.reservation.food_listing.image.url }}" class="inventory-card-image" alt="{{ item.reservation.food_listing.name }}">
+                                {% else %}
+                                <div class="inventory-image-placeholder"></div>
+                                {% endif %}
+                                <h2 class="inventory-name">
+                                    {{ item.reservation.food_listing.name }}
+                                </h2>
+                                <p class="inventory-category">
+                                    Category: {{ item.reservation.food_listing.get_category_display }}
+                                </p>
+                                <p class="inventory-category">
+                                    Donated by: {{ item.reservation.food_listing.establishment.business_name }}
+                                </p>
+                                <p class="quantity-label">
+                                    Quantity for Event:
+                                </p>
+                                <div class="quantity-box event-quantity-box">
+                                    {{ item.quantity }}
+                                </div>
+                                <a href="{% url 'food_listing_detail' item.reservation.food_listing.id %}" class="details-button">
+                                    Details
+                                </a>
+                            </article>
+                            {% empty %}
+                            <p class="empty-message">No food items have been added to this event yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="back-link-section">
+                <a href="{% url 'organisation_distribution_events' %}">
+                    Back to Distribution Events
+                </a>
+            </div>
+        </main>
+        {% include "foodrescue/includes/footer.html" %}
+    </body>
+</html>

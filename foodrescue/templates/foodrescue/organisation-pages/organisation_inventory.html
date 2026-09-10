@@ -1,0 +1,174 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/organisation/organisation-inventory.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+        <title>Organisation Inventory</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_organisation.html" %}
+        <main class="page-wrapper inventory-page">
+            <section class="inventory-header">
+                <h1>Inventory</h1>
+                <h3>These are all the items you have picked up.</h3>
+            </section>
+            <div class="inventory-layout">
+                <!-- LEFT FILTER BOX -->
+                <aside class="inventory-filter-box" data-filter-url="{% url 'filter_inventory' %}">
+                    <h3>FILTER CATEGORY</h3>
+                    <button type="button" class="filter-btn active-filter" data-category="">
+                        Clear Filters
+                    </button>
+                    {% for value, label in categories %}
+                    <button type="button" class="filter-btn" data-category="{{ value }}">
+                        {{ label }}
+                    </button>
+                    {% endfor %}
+                    <br>
+                    <button type="button" id="halal-filter-btn" data-halal="false">
+                        Halal
+                    </button>
+                </aside>
+                <!-- RIGHT INVENTORY CARD AREA -->
+                <section class="inventory-scroll" id="inventory-results">
+                    {% include "foodrescue/organisation-pages/partials/inventory-cards.html" %}
+                </section>
+            </div>
+        </main>
+        {% include "foodrescue/includes/footer.html" %}
+        <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const filterBox = document.querySelector(".inventory-filter-box");
+    const inventoryResults = document.getElementById("inventory-results");
+
+    const categoryButtons = document.querySelectorAll(".filter-btn");
+    const halalButton = document.getElementById("halal-filter-btn");
+
+    let selectedCategory = "";
+    let halalOnly = false;
+
+    function updateInventory() {
+      const filterUrl = filterBox.dataset.filterUrl;
+      const url = `${filterUrl}?category=${selectedCategory}&halal=${halalOnly}`;
+
+      console.log("Fetching:", url);
+
+      fetch(url)
+        .then(function (response) {
+          console.log("Response status:", response.status);
+
+          if (!response.ok) {
+            return response.text().then(function (text) {
+              console.error("Server error:", text);
+              throw new Error("Server returned an error");
+            });
+          }
+
+          return response.json();
+        })
+        .then(function (data) {
+          inventoryResults.innerHTML = data.html;
+        })
+        .catch(function (error) {
+          console.error("Fetch error:", error);
+          alert("Unable to filter inventory. Check the console/terminal for the real error.");
+        });
+    }
+
+    categoryButtons.forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        selectedCategory = button.dataset.category;
+
+        categoryButtons.forEach(function (btn) {
+          btn.classList.remove("active-filter");
+        });
+
+        button.classList.add("active-filter");
+
+        updateInventory();
+      });
+    });
+
+    halalButton.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      halalOnly = !halalOnly;
+
+      if (halalOnly) {
+        halalButton.classList.add("active-filter");
+      } else {
+        halalButton.classList.remove("active-filter");
+      }
+
+      updateInventory();
+    });
+    inventoryResults.addEventListener("click", function (event) {
+  const increaseButton = event.target.closest(".increase-inventory-qty");
+  const decreaseButton = event.target.closest(".decrease-inventory-qty");
+
+  if (!increaseButton && !decreaseButton) {
+    return;
+  }
+
+  const card = event.target.closest(".inventory-card");
+  const quantityBox = card.querySelector(".inventory-quantity-box");
+  const updateUrl = card.dataset.updateUrl;
+
+  const action = increaseButton ? "increase" : "decrease";
+
+  fetch(updateUrl, {
+    method: "POST",
+    headers: {
+      "X-CSRFToken": getCookie("csrftoken"),
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `action=${action}`,
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      if (data.success) {
+        quantityBox.textContent = data.remaining_quantity;
+
+        if (data.remaining_quantity <= 0) {
+          card.remove();
+        }
+      }
+    })
+    .catch(function (error) {
+      console.error("Quantity update error:", error);
+      alert("Unable to update quantity.");
+    });
+});
+function getCookie(name) {
+  let cookieValue = null;
+
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+
+  return cookieValue;
+}
+  });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,257 @@
+/* PAGE WRAPPER */
+.inventory-page {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 2rem 4vw;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* PAGE HEADER */
+.inventory-header {
+    text-align: center;
+    margin: 3rem 0 5rem 0;
+}
+
+.inventory-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #248181;
+    margin: 0;
+}
+
+.inventory-header h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #6b6b6b;
+    line-height: 1.3;
+    margin: 0.3rem 0 0 0;
+}
+
+/* MAIN LAYOUT */
+.inventory-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* LEFT FILTER BOX */
+.inventory-filter-box {
+    width: 150px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.inventory-filter-box h3 {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #111;
+    margin: 0 0 0.4rem 0;
+}
+
+.inventory-filter-box a {
+    text-decoration: none;
+}
+
+.inventory-filter-box button {
+    width: 100%;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid #333;
+    background-color: #e5e5e5;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+.inventory-filter-box button:hover,
+.inventory-filter-box .active-filter {
+    background-color: #cfe8e3;
+}
+
+/* RIGHT SCROLL AREA */
+.inventory-scroll {
+    flex: 1;
+    min-width: 0;
+    height: 70vh;
+    overflow-y: scroll;
+    padding-right: 1.2rem;
+}
+
+/* 4-COLUMN GRID */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+/* INVENTORY CARD */
+.inventory-card {
+    background-color: #cfe8e3;
+    border-radius: 18px;
+    padding: 1rem;
+    min-height: 340px;
+    box-sizing: border-box;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    filter: drop-shadow(0 2px 0.1rem rgb(177, 168, 152));
+}
+
+/* CARD CONTENT */
+.expiry-date {
+    font-size: 0.6rem;
+    font-weight: 500;
+    margin: 0 0 0.8rem 0;
+}
+
+.inventory-image-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: black;
+    margin-bottom: 0.8rem;
+}
+
+.inventory-name {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #222;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+}
+
+.inventory-category {
+    font-size: 0.6rem;
+    margin: 0 0 0.9rem 0;
+}
+
+.quantity-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin: 0 0 0.6rem 0;
+}
+
+/* QUANTITY CONTROLS */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.quantity-symbol {
+    border: none;
+    background-color: transparent;
+    color: #ef6b4f;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.quantity-box {
+    width: 38px;
+    height: 34px;
+    border-radius: 8px;
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* DELETE BUTTON */
+.delete-button {
+    margin-top: auto;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff5d67;
+    color: #222;
+
+    padding: 0.45rem 1.3rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    cursor: pointer;
+
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+.delete-button:hover {
+    background-color: #ff4753;
+}
+
+/* EMPTY MESSAGE */
+.empty-message {
+    font-size: 0.85rem;
+    color: #333;
+}
+
+/* SCROLLBAR */
+.inventory-scroll::-webkit-scrollbar {
+    width: 14px;
+}
+
+.inventory-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.inventory-scroll::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 999px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+    .inventory-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .inventory-layout {
+        flex-direction: column;
+    }
+
+    .inventory-filter-box {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .inventory-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.inventory-card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background-color: black;
+    margin-bottom: 0.8rem;
+}
+
+.inventory-image-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: black;
+    margin-bottom: 0.8rem;
+}
+
+.inventory-card-link {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    display: block;
+}
+
+.inventory-card-link:hover .inventory-name {
+    text-decoration: underline;
+}

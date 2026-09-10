@@ -1,0 +1,257 @@
+body {
+    margin: 0;
+    background-color: #f4eee5;
+    font-family: "Montserrat", sans-serif;
+    color: #111;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+.register-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem 2rem;
+    box-sizing: border-box;
+}
+
+/* PAGE HEADER */
+.register-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.register-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #154C7E;
+    line-height: 1.2;
+}
+
+.register-header p {
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #777;
+    margin-top: 0.3rem;
+}
+
+/* FORM */
+.register-form {
+    width: 100%;
+}
+
+.form-section {
+    margin-bottom: 5rem;
+}
+
+.section-title-wrapper {
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.section-title-wrapper h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #154C7E;
+}
+
+.section-title-wrapper p {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 0.2rem;
+}
+
+/* FORM GROUPS */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.7rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 0.35rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: none;
+    background-color: #d8d8d8;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.9rem;
+    color: #111;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.form-group input,
+.form-group select {
+    height: 32px;
+    border-radius: 999px;
+    padding: 0 1rem;
+}
+
+.form-group textarea {
+    min-height: 210px;
+    border-radius: 14px;
+    padding: 1rem;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: 2px solid #154C7E;
+}
+
+/* PROFILE IMAGE */
+.profile-upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.profile-image-circle {
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background-color: black;
+    border: 8px solid #ffad62;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin-bottom: 0.8rem;
+}
+
+.profile-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+/* SMALL UPLOAD BUTTON */
+.small-upload-button {
+    display: inline-block;
+    border: none;
+    border-radius: 999px;
+    background-color: #ffad62;
+    color: #111;
+
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.small-upload-button:hover {
+    background-color: #ff9b3d;
+}
+
+/* TEAM TYPE + REGION */
+.inline-select-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.select-group label {
+    text-align: center;
+}
+
+.select-group select {
+    text-align: center;
+}
+
+/* CERTIFICATION */
+.certification-section {
+    text-align: center;
+}
+
+.certification-section .section-title-wrapper h2 {
+    color: #154C7E;
+}
+
+.file-name-display {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #111;
+    margin-top: 1rem;
+}
+
+/* SUBMIT */
+.submit-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 6rem;
+}
+
+.submit-application-button {
+    border: none;
+    border-radius: 16px;
+    background-color: #ffad62;
+    color: #111;
+
+    padding: 0.8rem 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+
+    cursor: pointer;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+}
+
+.submit-application-button:hover {
+    background-color: #ff9b3d;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .register-page {
+        padding: 2rem 1.5rem 4rem 1.5rem;
+    }
+
+    .register-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .register-header p {
+        font-size: 0.95rem;
+    }
+
+    .section-title-wrapper h2 {
+        font-size: 1.5rem;
+    }
+
+    .inline-select-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .profile-image-circle {
+        width: 180px;
+        height: 180px;
+    }
+
+    .submit-application-button {
+        font-size: 1.2rem;
+    }
+}
+.form-error {
+    text-align: center;
+    color: #c0392b;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}

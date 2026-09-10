@@ -1,0 +1,70 @@
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #f4eee5;
+    font-family: "Montserrat", sans-serif;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.submitted-page {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 5rem 2rem;
+    box-sizing: border-box;
+}
+
+.submitted-message {
+    text-align: center;
+    transform: translateY(-2rem);
+}
+
+.submitted-message h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #165184;
+    line-height: 1.15;
+}
+
+.submitted-message p {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #777;
+    margin-top: 0.4rem;
+}
+
+.back-login-button {
+    display: inline-block;
+    margin-top: 4rem;
+
+    text-decoration: none;
+    border: none;
+    border-radius: 16px;
+    background-color: #165184;
+    color: white;
+
+    padding: 0.8rem 2rem;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+}
+
+.back-login-button:hover {
+    background-color: #0f426d;
+}
+
+.site-footer {
+    margin-top: 0;
+}

@@ -1,0 +1,92 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/inventory-food-detail.css' %}" />
+
+    <title>Food Listing Details</title>
+  </head>
+
+  <body>
+    {% include "foodrescue/includes/navbar_public.html" %}
+
+    <main class="page-wrapper">
+      <div class="section-title-wrapper">
+        <h1 class="section-title">Food Listing Details</h1>
+        <h2>Listing ID: {{ food_listing.id }}</h2>
+      </div>
+
+      <section class="listing-details-section">
+        <div class="listing-image-box">
+          {% if food_listing.image %}
+            <img
+              src="{{ food_listing.image.url }}"
+              class="listing-detail-image"
+              alt="{{ food_listing.name }}"
+            />
+          {% else %}
+            <div class="listing-image-placeholder"></div>
+          {% endif %}
+        </div>
+
+        <div class="listing-details-form">
+          <div class="detail-group">
+            <span class="detail-label">Name:</span>
+            <span class="detail-value">{{ food_listing.name }}</span>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Donated by:</span>
+            <span class="detail-value">
+              {{ food_listing.establishment.business_name }}
+            </span>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Category:</span>
+            <span class="detail-value">{{ food_listing.get_category_display }}</span>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Allergens:</span>
+            <span class="detail-value">
+              {% if food_listing.allergens %}
+                {{ food_listing.allergens }}
+              {% else %}
+                None stated
+              {% endif %}
+            </span>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Total weight:</span>
+            <span class="detail-value">{{ food_listing.weight_kg }} kg</span>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Expiry date:</span>
+            <span class="detail-value">{{ food_listing.expiry_date }}</span>
+          </div>
+
+          <div class="detail-group">
+            <span class="detail-label">Halal:</span>
+            <span class="detail-value">
+              {% if food_listing.is_halal %}
+                Yes
+              {% else %}
+                No
+              {% endif %}
+            </span>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

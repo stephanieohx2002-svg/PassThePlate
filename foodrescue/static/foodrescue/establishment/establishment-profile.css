@@ -1,0 +1,171 @@
+body {
+  margin: 0;
+  background: #f4eee5;
+}
+
+.header-section{
+  margin-bottom: 0.5rem
+}
+.profile-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 3rem 5rem;
+}
+
+.profile-header {
+  text-align: center;
+
+}
+
+.profile-header h1 {
+  color: #248181;
+  font-size: 2.2rem;
+  margin-bottom: 0.2rem;
+  font-weight:700;
+}
+
+.profile-header p {
+  color: #8a8a8a;
+  font-size: 1.3rem;
+  margin-bottom: 3rem;
+}
+
+.profile-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-image,
+.profile-image-placeholder {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: black;
+  border: 9px solid #ffad5c;
+}
+
+.upload-button {
+  margin-top: 0.7rem;
+  background: #ffad5c;
+  border-radius: 22px;
+ padding: 0.5rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+}
+.upload-button:hover {
+    background-color: #ff9b3d;
+}
+.verified-badge,
+.pending-badge {
+  width: fit-content;
+  margin: 1rem auto 3rem;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  font-size: 1.3rem;
+}
+
+.verified-badge {
+  background: #57cc5f;
+  color: black;
+}
+
+.pending-badge {
+  background: #ffd36b;
+  color: black;
+}
+
+.tick {
+  font-size: 2rem;
+  margin-right: 0.8rem;
+  color: white;
+}
+
+.form-area {
+  text-align: left;
+}
+
+.form-area label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.form-area input,
+.form-area select,
+.form-area textarea {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  background: #d9d9d9;
+  padding: 0.85rem 1.2rem;
+  margin-bottom: 1.4rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-area textarea {
+  min-height: 260px;
+  border-radius: 20px;
+  resize: vertical;
+}
+
+.two-column-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.save-button {
+  display: block;
+  margin: 2rem auto 0;
+  background: #165184;
+  color: white;
+  border: none;
+  border-radius: 22px;
+
+  padding: 1rem 3.5rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+}
+
+.save-button:hover {
+  background: #0f3d66;
+}
+
+.save-button:hover {
+  background: #0f3d66;
+}
+
+.logout-form {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.logout-button {
+  background: #b94444;
+  color: white;
+  border: none;
+  border-radius: 22px;
+
+  padding: 1rem 3.5rem;
+    font-size: 1.55rem;
+    font-weight: 800;
+    font-family: "Montserrat", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+}
+
+.logout-button:hover {
+  background: #963535;
+}

@@ -1,0 +1,261 @@
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #f4eee5;
+    font-family: "Montserrat", sans-serif;
+    color: #111;
+
+    display: flex;
+    flex-direction: column;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+/* MAIN LOGIN AREA */
+.login-page {
+    flex: 1;
+    background-color: #f4eee5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 4rem 2rem 5rem 2rem;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 850px;
+    text-align: center;
+    margin-bottom: 5.0rem;
+    margin-top: 10.0rem;
+}
+
+/* HEADER */
+.login-header {
+    margin-bottom: 5rem;
+}
+
+.login-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #165184;
+    line-height: 1.1;
+}
+
+.login-header h2 {
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: #165184;
+    margin-top: 0.3rem;
+}
+
+/* FORM */
+.login-form {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2.2rem;
+}
+
+.form-row label {
+    text-align: left;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #111;
+}
+
+.form-row input {
+    width: 100%;
+    height: 42px;
+
+    border: none;
+    border-radius: 999px;
+    background-color: #d8d8d8;
+
+    padding: 0 1.2rem;
+    box-sizing: border-box;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    color: #111;
+    outline: none;
+}
+
+.form-row input:focus {
+    outline: 2px solid #165184;
+}
+
+/* ERROR MESSAGE */
+.login-error {
+    color: #c0392b;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* LOGIN BUTTON */
+.login-button-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.login-button {
+    border: none;
+    border-radius: 22px;
+    background-color: #165184;
+    color: white;
+
+    padding: 1rem 3.5rem;
+
+    font-size: 1.55rem;
+    font-weight: 800;
+    font-family: "Montserrat", sans-serif;
+
+    cursor: pointer;
+    box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+}
+
+.login-button:hover {
+    background-color: #0f426d;
+}
+
+/* REGISTER LINK */
+.register-link-section {
+    margin-top: 5rem;
+}
+
+.register-link {
+    font-size: 1.55rem;
+    font-weight: 500;
+    color: #165184;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* REMOVE EXTRA FOOTER GAP */
+.site-footer {
+    margin-top: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 750px) {
+    .login-page {
+        padding: 3rem 2rem 4rem 2rem;
+        align-items: flex-start;
+    }
+
+    .login-header {
+        margin-bottom: 4rem;
+    }
+
+    .login-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .login-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+        margin-bottom: 1.6rem;
+    }
+
+    .form-row label {
+        text-align: left;
+    }
+
+    .login-button-section {
+        margin-top: 3.5rem;
+    }
+
+    .login-button {
+        font-size: 1.2rem;
+        padding: 0.8rem 2.5rem;
+    }
+
+    .register-link-section {
+        margin-top: 4rem;
+    }
+
+    .register-link {
+        font-size: 1.1rem;
+    }
+}
+
+.register-choice-section {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.register-choice-section h1 {
+  color: #165184;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+}
+
+.register-choice-section p {
+  color: #165184;
+  font-size: 1.0rem;
+  margin-bottom: 3rem;
+}
+
+.register-choice-cards {
+  display: flex;
+  justify-content: center;
+  gap: 4.5rem;
+  flex-wrap: wrap;
+}
+
+.register-choice-card {
+  width: 170px;
+  height: 100px;
+  border-radius: 22px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.25);
+}
+
+.establishment-card {
+  background: #2f842f;
+}
+
+.organisation-card {
+  background: #2b8b8b;
+}
+
+.register-choice-card:hover {
+  transform: translateY(-3px);
+}

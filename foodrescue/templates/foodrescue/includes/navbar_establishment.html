@@ -1,0 +1,25 @@
+<nav class="top-nav establishment-nav">
+    <!-- LEFT NAV LINKS -->
+    <div class="nav-left">
+        <a href="{% url 'establishment_dashboard' %}" class="nav-link">Dashboard</a>
+        <a href="{% url 'establishment_food_listings' %}" class="nav-link">Listings</a>
+    </div>
+    <!-- CENTER LOGO -->
+    <div class="nav-logo">
+        <a href="{% url 'establishment_dashboard' %}">PassThePlate
+            </br>
+            <span class="nav-subtitle">Establishment</span>
+        </a>
+    </div>
+    <!-- RIGHT NAV LINKS -->
+    <div class="nav-right">
+        {% if user.is_authenticated %}
+        <a href="{% url 'establishment_profile' %}" class="nav-link">My Profile</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="nav-link">Log In</a>
+        {% endif %}
+        <a href="{% url 'create_food_listing' %}" class="nav-cta"> Upload
+            <br>New Listing!
+        </a>
+    </div>
+</nav>

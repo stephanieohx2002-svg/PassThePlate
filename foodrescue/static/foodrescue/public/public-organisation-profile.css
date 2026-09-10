@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  background: #f4eee5;
+  font-family: "Fredoka", "Montserrat", sans-serif;
+}
+
+.profile-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 3rem 5rem;
+}
+
+.profile-header {
+  text-align: center;
+}
+
+.profile-header h1 {
+  color: #248181;
+  font-size: 3.2rem;
+  margin-bottom: 0.2rem;
+  font-weight: 700;
+}
+
+.profile-header p {
+  color: #8a8a8a;
+  font-size: 1.3rem;
+  margin-bottom: 3rem;
+}
+
+.profile-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-image,
+.profile-image-placeholder {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: black;
+  border: 9px solid #ffad5c;
+}
+
+.verified-badge {
+  width: fit-content;
+  margin: 1rem auto 3rem;
+  padding: 0.7rem 2rem;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  background: #57cc5f;
+  color: black;
+}
+
+.tick {
+  font-size: 2rem;
+  margin-right: 0.8rem;
+  color: white;
+}
+
+.profile-info-area {
+  text-align: left;
+}
+
+.profile-info-group {
+  margin-bottom: 1.6rem;
+}
+
+.profile-info-group h2 {
+  margin: 0 0 0.3rem 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #248181;
+}
+
+.profile-info-group p {
+  margin: 0;
+  font-size: 1.05rem;
+  font-family: "Montserrat", sans-serif;
+  color: #333;
+  line-height: 1.5;
+}
+
+.about-group p {
+  line-height: 1.5;
+}
+
+.two-column-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.back-link-section {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.back-link-section a {
+  display: inline-block;
+  background: #165184;
+  color: white;
+  text-decoration: none;
+  border-radius: 22px;
+  padding: 1rem 3.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.25);
+}
+
+.back-link-section a:hover {
+  background: #0f3d66;
+}
+
+@media (max-width: 750px) {
+  .two-column-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .profile-page {
+    padding: 2rem 1.5rem 5rem;
+  }
+}

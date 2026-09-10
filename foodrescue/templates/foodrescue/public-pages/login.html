@@ -1,0 +1,82 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/public/login.css' %}">
+        <title>Log In</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_public.html" %}
+        <main class="login-page">
+            <section class="login-card">
+                <div class="login-header">
+                    <h1>Welcome back!</h1>
+                    <h2>Log in as an establishment or organisation</h2>
+                </div>
+                <form method="POST" class="login-form">
+                    {% csrf_token %}
+
+          {% if error_message %}
+                    <p class="login-error">{{ error_message }}</p>
+                    {% endif %}
+                    <div class="form-row">
+                        <label for="email">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="username"
+                            maxlength="254"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+                    <div class="form-row">
+                        <label for="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+                    <div class="login-button-section">
+                        <button type="submit" class="login-button">
+                            Log In
+                        </button>
+                    </div>
+                </form>
+            </section>
+            <section class="register-choice-section">
+                <h2>Don't have an account? Register here!</h2>
+                <p>
+                    Establishments can donate eligible surplus food, while organisations can collect
+    and distribute it through community venues.
+                </p>
+                <div class="register-choice-cards">
+                    <a href="{% url 'register_establishment' %}" class="register-choice-card establishment-card">
+                        Register as a
+                        <br>
+                        Food
+                        <br>
+                        Establishment
+                    </a>
+                    <a href="{% url 'register_organisation' %}" class="register-choice-card organisation-card">
+                        Register as a
+                        <br>
+                        Charity
+                        <br>
+                        Organisation
+                    </a>
+                </div>
+            </section>
+        </main>
+        {% include "foodrescue/includes/footer.html" %}
+    </body>
+</html>

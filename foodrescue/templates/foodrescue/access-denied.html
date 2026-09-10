@@ -1,0 +1,14 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Access Denied</title>
+</head>
+<body>
+  <h1>You cannot access this page.</h1>
+  <p>This page is only available for organisation accounts.</p>
+
+  <a href="{% url 'logout' %}">Log out and switch account</a>
+</body>
+</html>

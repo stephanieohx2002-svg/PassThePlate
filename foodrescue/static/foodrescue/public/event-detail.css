@@ -1,0 +1,214 @@
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+.event-detail-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 6vw;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* HEADER */
+.event-detail-header {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.event-detail-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #248181;
+    margin: 0;
+}
+
+.event-detail-header h3 {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #484848;
+    margin-top: 0.3rem;
+}
+
+/* IMAGE TOP CENTER */
+.event-image-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4rem;
+}
+
+.event-detail-image-box {
+    width: 430px;
+    height: 320px;
+    background-color: black;
+    border: 6px solid #ffad62;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.event-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-detail-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+/* META DETAILS */
+.event-meta-section {
+    margin-bottom: 4rem;
+}
+
+.event-meta-section h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #248181;
+    margin-bottom: 0.2rem;
+}
+
+.event-meta-section h3 {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #484848;
+    margin-bottom: 2.5rem;
+}
+
+.event-details-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* DETAIL ROWS */
+.detail-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.detail-label {
+    font-weight: 700;
+    color: #333;
+    flex-shrink: 0;
+}
+
+.detail-value {
+    color: #333;
+}
+
+/* DESCRIPTION */
+.description-group {
+    display: block;
+    margin-top: 1.3rem;
+}
+
+.description-group .detail-label {
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.description-text {
+    margin: 0;
+    line-height: 1.5;
+    max-width: 100%;
+}
+
+/* BACK LINK */
+.back-link-section {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.back-link-section a {
+    font-size: 0.8rem;
+    color: #248181;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.back-link-section a:hover {
+    text-decoration: underline;
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+    .event-detail-image-box {
+        width: 100%;
+        max-width: 430px;
+        height: 280px;
+    }
+
+    .event-details-form {
+        width: 100%;
+    }
+}
+
+/* EVENT INVENTORY SECTION */
+.event-inventory-section {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.event-inventory-section .inventory-header,
+.event-inventory-panel {
+    max-width: 1350px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Green box */
+.event-inventory-panel {
+    background-color: #c2d3b4;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+/* Scroll area */
+.event-inventory-scroll {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
+/* Make cards less skinny */
+.event-inventory-section .inventory-grid {
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+/* Quantity box spacing */
+.event-quantity-box {
+    margin-bottom: 2rem;
+}
+
+/* Details button */
+.details-button {
+    margin-top: auto;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffad62;
+    color: #222;
+
+    padding: 0.45rem 1.3rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    cursor: pointer;
+
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+.details-button:hover {
+    background-color: #ff9b3d;
+}

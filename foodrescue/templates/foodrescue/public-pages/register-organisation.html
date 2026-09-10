@@ -1,0 +1,213 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/public/register-organisation.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}">
+        <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+        <title>Register as an Organisation</title>
+    </head>
+    <body>
+        {% include "foodrescue/includes/navbar_public.html" %}
+        <main class="register-page">
+            <section class="register-header">
+                <h1>Register as an Organisation</h1>
+                <p>It will take about 2-5 business days for us to review your application.</p>
+            </section>
+            <form method="POST" enctype="multipart/form-data" class="register-form">
+                {% csrf_token %}
+
+  {% if error_message %}
+                <p class="form-error">{{ error_message }}</p>
+                {% endif %}
+                <section class="form-section credentials-section">
+                    <div class="section-title-wrapper">
+                        <h2>Login Credentials</h2>
+                        <p>This is only visible to you.</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="password-confirm">Re-type password:</label>
+                        <input
+                            type="password"
+                            id="password-confirm"
+                            name="password_confirm"
+                            required
+                        >
+                    </div>
+                </section>
+                <section class="form-section details-section">
+                    <div class="section-title-wrapper">
+                        <h2>Fill in your details</h2>
+                        <p>This will be public information.</p>
+                    </div>
+                    <div class="profile-upload-section">
+                        <div class="profile-image-circle">
+                            <img id="profile-preview" class="profile-preview" alt="Profile preview">
+                        </div>
+                        <label for="profile-image" class="small-upload-button">
+                            Upload photo
+                        </label>
+                        <input
+                            type="file"
+                            id="profile-image"
+                            name="profile_image"
+                            accept="image/*"
+                            hidden
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="organisation-name">Organisation name:</label>
+                        <input
+                            type="text"
+                            id="organisation-name"
+                            name="organisation_name"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-number">Contact number:</label>
+                        <input
+                            type="text"
+                            id="contact-number"
+                            name="contact_number"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="postal-code">Postal code:</label>
+                        <input
+                            type="text"
+                            id="postal-code"
+                            name="postal_code"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="team-size">Team size:</label>
+                        <input
+                            type="number"
+                            id="team-size"
+                            name="team_size"
+                            min="1"
+                            required
+                        >
+                    </div>
+                    <div class="inline-select-row">
+                        <div class="form-group select-group">
+                            <label for="organisation-type">Organisation type:</label>
+                            <select id="organisation-type" name="organisation_type" required>
+                                <option value="">Select organisation type</option>
+                                <option value="certified_charity">Certified Charity Organisation</option>
+                                <option value="volunteer_group">Volunteer Group</option>
+                            </select>
+                        </div>
+                        <div class="form-group select-group">
+                            <label for="general-location">Region:</label>
+                            <select id="general-location" name="general_location" required>
+                                <option value="">Select region</option>
+                                <option value="north">North</option>
+                                <option value="east">East</option>
+                                <option value="south">South</option>
+                                <option value="west">West</option>
+                                <option value="central">Central</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="about">About:</label>
+                        <textarea id="about" name="description" required></textarea>
+                    </div>
+                </section>
+                <section class="form-section certification-section">
+                    <div class="section-title-wrapper">
+                        <h2>Certification upload</h2>
+                        <p>Only .pdf is allowed</p>
+                    </div>
+                    <label for="certification-file" class="small-upload-button">
+                        Upload file
+                    </label>
+                    <input
+                        type="file"
+                        id="certification-file"
+                        name="certification_file"
+                        accept="application/pdf"
+                        hidden
+                    >
+                    <p id="certification-file-name" class="file-name-display">
+                        certification_file.pdf
+                    </p>
+                </section>
+                <div class="submit-section">
+                    <button type="submit" class="submit-application-button">
+                        Submit your application
+                    </button>
+                </div>
+            </form>
+        </main>
+        <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const profileInput = document.getElementById("profile-image");
+        const profilePreview = document.getElementById("profile-preview");
+
+        const certificationInput = document.getElementById("certification-file");
+        const certificationFileName = document.getElementById("certification-file-name");
+
+        profileInput.addEventListener("change", function () {
+          const file = profileInput.files[0];
+
+          if (!file) {
+            profilePreview.src = "";
+            profilePreview.style.display = "none";
+            return;
+          }
+
+          profilePreview.src = URL.createObjectURL(file);
+          profilePreview.style.display = "block";
+        });
+
+        certificationInput.addEventListener("change", function () {
+          const file = certificationInput.files[0];
+
+          if (!file) {
+            certificationFileName.textContent = "certification_file.pdf";
+            return;
+          }
+
+          certificationFileName.textContent = file.name;
+        });
+      });
+        </script>
+        {% include "foodrescue/includes/footer.html" %}
+    </body>
+</html>

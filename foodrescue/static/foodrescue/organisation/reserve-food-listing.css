@@ -1,0 +1,318 @@
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #346523;
+    margin-top: 3.0rem;
+    text-align: center;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 1.0rem;
+    color: #346523;
+    margin: 50px 0px 5px 0px;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: #484848;
+    margin: 0px;
+}
+
+.page-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 6vw;
+    font-family: "Montserrat", sans-serif;
+}
+
+/* PAGE TITLE */
+.page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #248181;
+    margin: 2rem 0 0.4rem 0;
+}
+
+.section-title-wrapper {
+    margin-bottom: 50px;
+}
+
+/* LISTING ID */
+.listing-id-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.listing-id-section h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #444;
+    margin: 0;
+}
+
+/* FOOD LISTING DETAILS SECTION */
+.listing-details-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.form-wrapper {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    background-color: #CAE5E0;
+    padding: 2rem 0;
+    margin-bottom: 3.0rem;
+}
+
+.form-wrapper .pickup-form {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 6vw;
+    box-sizing: border-box;
+}
+
+/* IMAGE PLACEHOLDER */
+.listing-image-placeholder {
+    width: 330px;
+    height: 300px;
+    background-color: black;
+    flex-shrink: 0;
+}
+
+/* RIGHT DETAILS AREA */
+.listing-details-form {
+    width: 360px;
+}
+
+/* EACH DETAIL ROW */
+.detail-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+/* LABEL */
+.detail-label {
+    font-weight: 700;
+    color: #333;
+    flex-shrink: 0;
+}
+
+/* VALUE */
+.detail-value {
+    color: #333;
+}
+
+/* DESCRIPTION SHOULD START ON NEW LINE */
+.description-group {
+    display: block;
+    margin-top: 1rem;
+}
+
+.description-group .detail-label {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.description-text {
+    margin: 0;
+    line-height: 1.5;
+    max-width: 100%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+    .listing-details-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .listing-image-placeholder,
+    .listing-details-form {
+        width: 100%;
+        max-width: 360px;
+    }
+}
+
+/* PICKUP FORM */
+.pickup-form {
+    margin-top: 2rem;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #248181;
+    margin: 0
+}
+
+/* DATE AND TIME SECTION */
+.pickup-form-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4rem;
+}
+
+.pickup-left,
+.pickup-right {
+    width: 300px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+.form-group label {
+    font-size: 0.7rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+/* FORM FIELDS */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background-color: #dedede;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.75rem;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    border-radius: 3px;
+    padding: 0.55rem 0.7rem;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    border-radius: 3px;
+    padding: 0.7rem;
+    resize: vertical;
+}
+
+/* DATE BOX */
+.pickup-right input[type="date"] {
+    min-height: 45px;
+    background-color: #6fa8a8;
+    color: white;
+    border-radius: 8px;
+    padding: 0.8rem;
+}
+
+.date-note {
+    background-color: #6fa8a8;
+    color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+/* HIDE ORGANISATION FIELD IF YOU STILL NEED IT IN THE FORM */
+.hidden-field {
+    display: none;
+}
+
+/* SUBMIT BUTTON */
+.submit-section {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button {
+    border: none;
+    border-radius: 12px;
+    background-color: #ffad62;
+    padding: 0.6rem 1.3rem;
+
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button:hover {
+    background-color: #ff9b3d;
+}
+
+/* BACK LINK */
+.back-link-section {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.back-link-section a {
+    font-size: 0.75rem;
+    color: #248181;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link-section a:hover {
+    text-decoration: underline;
+}
+
+/* ERROR TEXT */
+.errorlist {
+    margin: 0.3rem 0 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.65rem;
+    color: #c0392b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+
+    .listing-details-section,
+    .pickup-form-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .listing-image-placeholder,
+    .listing-details-form,
+    .pickup-left,
+    .pickup-right {
+        width: 100%;
+        max-width: 330px;
+    }
+}
+
+.form-wrapper input,
+.form-wrapper select,
+.form-wrapper textarea {
+    background-color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.8rem;
+    box-sizing: border-box;
+}

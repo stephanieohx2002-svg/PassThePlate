@@ -1,0 +1,160 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Organisation Profile</title>
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/organisation/organisation-profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'foodrescue/navbar.css' %}?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  {% include "foodrescue/includes/navbar_organisation.html" %}
+
+  <main class="profile-page">
+      <section class="profile-header">
+        <h1>Your Profile</h1>
+        <p>All the information here is available to the public.</p>
+      <form method="POST" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+
+        <div class="profile-image-section">
+          {% if organisation.profile_image %}
+            <img
+              src="{{ organisation.profile_image.url }}"
+              alt="{{ organisation.organisation_name }}"
+              class="profile-image"
+            />
+          {% else %}
+            <div class="profile-image-placeholder"></div>
+          {% endif %}
+
+          <label for="profile-image-input" class="upload-button">
+            Upload photo
+          </label>
+
+          <input
+            type="file"
+            id="profile-image-input"
+            name="profile_image"
+            accept="image/*"
+            hidden
+          />
+        </div>
+
+        {% if organisation.is_verified %}
+          <div class="verified-badge">
+            <span class="tick">✓</span>
+            Verified Organisation
+          </div>
+        {% else %}
+          <div class="pending-badge">
+            Pending Verification
+          </div>
+        {% endif %}
+
+        <div class="form-area">
+
+        <label>Contact number:</label>
+          <input
+            type="text"
+            name="contact_number"
+            value="{{ organisation.contact_number }}"
+          />
+
+          <label>Address:</label>
+          <input
+            type="text"
+            name="address"
+            value="{{ organisation.address }}"
+          />
+
+          <label>Postal code:</label>
+          <input
+            type="text"
+            name="postal_code"
+            value="{{ organisation.postal_code }}"
+          />
+
+          <label>Team size:</label>
+          <input
+            type="number"
+            name="team_size"
+            value="{{ organisation.team_size|default_if_none:'' }}"
+          />
+
+          <div class="two-column-row">
+            <div>
+              <label>Organisation type:</label>
+              <select name="organisation_type">
+                <option value="">Select organisation type</option>
+
+                <option
+                  value="certified_charity"
+                  {% if organisation.organisation_type == "certified_charity" %}selected{% endif %}
+                >
+                  Certified Charity Organisation
+                </option>
+
+                <option
+                  value="volunteer_group"
+                  {% if organisation.organisation_type == "volunteer_group" %}selected{% endif %}
+                >
+                  Volunteer Group
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label>Region:</label>
+              <select name="general_location">
+                <option value="">Select region</option>
+
+                <option value="north" {% if organisation.general_location == "north" %}selected{% endif %}>
+                  North
+                </option>
+
+                <option value="east" {% if organisation.general_location == "east" %}selected{% endif %}>
+                  East
+                </option>
+
+                <option value="south" {% if organisation.general_location == "south" %}selected{% endif %}>
+                  South
+                </option>
+
+                <option value="west" {% if organisation.general_location == "west" %}selected{% endif %}>
+                  West
+                </option>
+
+                <option value="central" {% if organisation.general_location == "central" %}selected{% endif %}>
+                  Central
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <label>About:</label>
+          <textarea name="description">{{ organisation.description }}</textarea>
+
+          <button type="submit" class="save-button">
+            Save Changes
+          </button>
+        </div>
+      </form>
+      <form method="POST" action="{% url 'logout' %}" class="logout-form">
+  {% csrf_token %}
+  <button type="submit" class="logout-button">
+    Log Out
+  </button>
+</form>
+    </section>
+  </main>
+
+  {% include "foodrescue/includes/footer.html" %}
+</body>
+</html>
