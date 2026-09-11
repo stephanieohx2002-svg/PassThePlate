@@ -817,12 +817,30 @@ def establishment_dashboard(request):
         status=Reservation.Status.APPROVED
     ).order_by("pickup_date", "pickup_time")
 
+    completed_pickups = Reservation.objects.filter(
+        food_listing__establishment=establishment,
+        status=Reservation.Status.COLLECTED
+    ).count()
+
+    food_listings_count = FoodListing.objects.filter(
+        establishment=establishment
+    ).count()
+
+    total_food_donated = Reservation.objects.filter(
+        food_listing__establishment=establishment,
+        status=Reservation.Status.COLLECTED
+    ).aggregate(
+        total=Sum("food_listing__weight_kg")
+    )["total"] or 0
+
     return render(request, "foodrescue/establishment-pages/establishment_dashboard.html", {
         "establishment": establishment,
         "reservations": pending_reservations,
         "accepted_pickups": accepted_pickups,
+        "completed_pickups": completed_pickups,
+        "food_listings_count": food_listings_count,
+        "total_food_donated": total_food_donated,
     })
-
 # Both organisation and establishment must mark the reservation as completed
 # for the reservation to be completed
 @organisation_required
@@ -1072,4 +1090,22 @@ def public_distribution_events(request):
         "events": events,
         "selected_region": selected_region,
         "regions": DistributionEvent.Area.choices,
+    })
+    
+@establishment_required
+def establishment_completed_pickups(request):
+    establishment = request.user.establishment_profile
+
+    completed_pickups = Reservation.objects.select_related(
+        "food_listing",
+        "food_listing__establishment",
+        "organisation"
+    ).filter(
+        food_listing__establishment=establishment,
+        status=Reservation.Status.COLLECTED
+    ).order_by("-completed_at", "-pickup_date", "-pickup_time")
+
+    return render(request, "foodrescue/establishment-pages/establishment_completed_pickups.html", {
+        "establishment": establishment,
+        "completed_pickups": completed_pickups,
     })

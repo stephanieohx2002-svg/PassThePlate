@@ -54,7 +54,15 @@
                 <h3>Here are the details of the food listing.</h3>
             </div>
             <section class="listing-details-section">
+                {% if food_listing.image %}
+                <img 
+                    src="{{ food_listing.image.url }}" 
+                    alt="{{ food_listing.name }}" 
+                    class="listing-image-placeholder"
+                >
+                {% else %}
                 <div class="listing-image-placeholder"></div>
+                {% endif %}
                 <div class="listing-details-form">
                     <div class="detail-group">
                         <span class="detail-label">Name:</span>

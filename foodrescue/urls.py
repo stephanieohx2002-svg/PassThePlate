@@ -107,6 +107,11 @@ path("organisations/<int:organisation_id>/", views.public_organisation_profile, 
 path("establishments/", views.public_establishments, name="public_establishments"),
 path("establishments/<int:establishment_id>/", views.public_establishment_profile, name="public_establishment_profile"),
 path("public_distribution_events/", views.public_distribution_events, name="public_distribution_events"),
+path(
+    "establishment/completed-pickups/",
+    views.establishment_completed_pickups,
+    name="establishment_completed_pickups"
+),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

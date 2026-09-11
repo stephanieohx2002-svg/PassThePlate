@@ -22,6 +22,15 @@
             <form method="POST" enctype="multipart/form-data" class="listing-form">
                 {% csrf_token %}
 
+                {{ form.non_field_errors }}
+
+                {% if form.errors %}
+                <div class="form-error-box">
+                    <p>Please fix the errors below:</p>
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+
         {{ form.non_field_errors }}
                 <section class="main-form-section">
                     <!-- LEFT IMAGE PLACEHOLDER -->
@@ -59,7 +68,7 @@
               {{ form.allergens.errors }}
                         </div>
                         <div class="form-group">
-                            <label for="{{ form.weight_kg.id_for_label }}">Weight:</label>
+                            <label for="{{ form.weight_kg.id_for_label }}">Weight(kg):</label>
                             {{ form.weight_kg }}
               {{ form.weight_kg.errors }}
                         </div>
@@ -74,10 +83,6 @@
               {{ form.description.errors }}
                         </div>
                     </div>
-                </section>
-                <section class="save-template-section">
-                    <label for="save-template">Save above as Template:</label>
-                    <input type="checkbox" id="save-template" name="save_template">
                 </section>
                 <hr class="form-divider">
                 <section class="bottom-form-section">
@@ -95,11 +100,6 @@
                         <label for="{{ form.pickup_location.id_for_label }}">Pickup location:</label>
                         {{ form.pickup_location }}
             {{ form.pickup_location.errors }}
-                    </div>
-                    <div class="form-group">
-                        <label for="{{ form.co2_saved_kg.id_for_label }}">CO2 saved(kg):</label>
-                        {{ form.co2_saved_kg }}
-            {{ form.co2_saved_kg.errors }}
                     </div>
                 </section>
                 <div class="submit-section">

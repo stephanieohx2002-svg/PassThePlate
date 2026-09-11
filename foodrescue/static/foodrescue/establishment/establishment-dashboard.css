@@ -15,7 +15,10 @@ body {
 h1,
 h2,
 h3,
-p {.pickup-card {
+p {
+    margin: 0;
+}
+.pickup-card {
   width: 185px;
   min-height: 330px;
   background-color: white;
@@ -36,6 +39,7 @@ p {.pickup-card {
   color: #111;
   line-height: 1.35;
   flex-grow: 1;
+  margin-bottom: 0.1rem;
 }
 
 .completion-form {
@@ -55,8 +59,6 @@ p {.pickup-card {
   font-weight: 600;
   color: #333;
   cursor: pointer;
-}
-    margin: 0;
 }
 
 h1 {
@@ -653,4 +655,103 @@ h3 {
 .reject-button {
   background-color: #ff5d67;
   color: #1f1f1f;
+}
+
+.completed-card {
+    background-color: #ffad62;
+}
+
+.food-card-stat {
+    background-color: #7ee684;
+}
+
+.donated-card {
+    background-color: #ffa3a8;
+}
+
+.pickup-visual-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pickup-image {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: black;
+  border: 5px solid #f4a34e;
+}
+
+.pickup-food-image {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+  display: block;
+}
+
+.pickup-food-placeholder {
+  background-color: #d9d9d9;
+}
+
+.item-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.back-link-section {
+    text-align: center;
+    margin: 2.5rem 0 3rem 0;
+}
+
+.back-link-section a {
+    display: inline-block;
+    background-color: #165184;
+    color: white;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+}
+
+.back-link-section a:hover {
+    background-color: #0f3d66;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-wrapper.completed-history-page {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 10vw 3rem;
+    box-sizing: border-box;
+}
+
+.completed-history-page .scheduled-pickups-section {
+    width: 100%;
+}
+
+.completed-history-page .pickup-panel {
+    width: 100%;
+    box-sizing: border-box;
 }

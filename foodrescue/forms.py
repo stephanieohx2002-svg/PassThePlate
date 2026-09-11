@@ -15,7 +15,6 @@ class FoodListingForm(forms.ModelForm):
             "expiry_date",
             "is_halal",
             "pickup_location",
-            "co2_saved_kg",
             "image",
         ]
 

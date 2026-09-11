@@ -115,13 +115,21 @@
                 <button type="button" class="pickup-button">Pick Up</button>
               </a>
 
-              <div class="donor-row">
-  <div class="donor-icon"></div>
+              <div class="donor-row"> 
+                {% if listing.establishment.profile_image %}
+                  <img 
+                    src="{{ listing.establishment.profile_image.url }}" 
+                    alt="{{ listing.establishment.business_name }}" 
+                    class="donor-icon"
+                  >
+                {% else %}
+                  <div class="donor-icon"></div>
+                {% endif %}
 
-  <div class="donor-name-box">
-    <p>{{ listing.establishment.business_name }}</p>
-  </div>
-</div>
+                <div class="donor-name-box"> 
+                  <p>{{ listing.establishment.business_name }}</p> 
+                </div>
+              </div>
             </div>
             {% empty %}
             <p>No food listings matched your search or filters.</p>

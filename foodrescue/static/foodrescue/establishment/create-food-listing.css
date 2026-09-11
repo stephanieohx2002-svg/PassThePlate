@@ -259,3 +259,12 @@ h3 {
 .upload-photo-button:hover {
     background-color: #ff9b3d;
 }
+
+.form-error-box {
+  background: #ffd6d6;
+  color: #8a1f1f;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
