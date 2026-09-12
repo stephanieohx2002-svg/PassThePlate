@@ -88,9 +88,9 @@
           <div class="food-grid">
             {% for listing in listings %}
             
-            <div
-  class="food-card clickable-food-card"
-  data-url="{% url 'establishment_food_listing_detail' listing.id %}"
+            <div 
+  class="food-card clickable-food-card {% if listing.is_near_expiry %}near-expiry-card{% endif %}" 
+  data-url="{% url 'establishment_food_listing_detail' listing.id %}" 
 >
               <p class="expiry-date"><strong>Expiry Date:</strong> {{ listing.expiry_date }}</p>
 

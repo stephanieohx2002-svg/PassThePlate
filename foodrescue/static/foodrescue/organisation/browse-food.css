@@ -121,11 +121,6 @@ p {
     filter: drop-shadow(0 2px 0.1rem rgb(177, 168, 152));
 }
 
-/* Optional: make first card yellow like your reference */
-.food-card:first-child {
-    background-color: #fff0a8;
-}
-
 /* EXPIRY */
 .expiry-date {
     font-size: 0.75rem;
@@ -337,4 +332,9 @@ p {
 
 .search-input::placeholder {
   color: #111;
+}
+
+.food-card.near-expiry-card,
+.inventory-card.near-expiry-card {
+    background-color: #fff3a3;
 }

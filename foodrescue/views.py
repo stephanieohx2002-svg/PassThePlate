@@ -306,7 +306,7 @@ def get_accepted_inventory(organisation, selected_category="", halal_only=False)
         "organisation"
     ).filter(
         organisation=organisation,
-        status=Reservation.Status.APPROVED
+        status=Reservation.Status.COLLECTED
     ).order_by("food_listing__expiry_date")
 
     if selected_category:
@@ -365,7 +365,7 @@ def create_event(request):
                 Reservation,
                 id=reservation_id,
                 organisation=organisation,
-                status=Reservation.Status.APPROVED
+                status=Reservation.Status.COLLECTED
             )
 
             base_quantity = reservation.food_listing.quantity
@@ -720,7 +720,7 @@ def register_establishment(request):
         certification_file = request.FILES.get("certification_file")
 
         if password != password_confirm:
-            return render(request, "foodrescue/public/register-establishment.html", {
+            return render(request, "foodrescue/public-pages/register-establishment.html", {
                 "error_message": "Passwords do not match."
             })
 
@@ -942,6 +942,12 @@ def establishment_food_listing_detail(request, listing_id):
 @establishment_required
 def establishment_food_listings(request):
     establishment = request.user.establishment_profile
+
+    FoodListing.objects.filter(
+        establishment=establishment,
+        expiry_date__lt=timezone.localdate(),
+        status=FoodListing.Status.AVAILABLE
+    ).update(status=FoodListing.Status.EXPIRED)
 
     selected_category = request.GET.get("category", "")
     halal_only = request.GET.get("halal") == "true"

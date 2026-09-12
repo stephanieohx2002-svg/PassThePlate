@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.utils import timezone
 
 class Establishment(models.Model):
     class Region(models.TextChoices):
@@ -202,14 +203,16 @@ class FoodListing(models.Model):
     is_halal = models.BooleanField(default=False)
     pickup_location = models.TextField()
 
-    co2_saved_kg = models.DecimalField(
-        max_digits=8,
-        decimal_places=2,
-        default=0.00
-    )
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def days_until_expiry(self):
+        return (self.expiry_date - timezone.localdate()).days
+
+    @property
+    def is_near_expiry(self):
+        return 0 <= self.days_until_expiry <= 30
 
     def __str__(self):
         return self.name

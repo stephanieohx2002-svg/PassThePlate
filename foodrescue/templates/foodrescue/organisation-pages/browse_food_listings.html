@@ -9,135 +9,119 @@
     <link rel="stylesheet" href="{% static 'foodrescue/organisation/browse-food.css' %}" />
     <link rel="stylesheet" href="{% static 'foodrescue/navbar.css' %}" />
     <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}" />
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet" />
     <title>Browse Food Listings</title>
   </head>
   <body>
     {% include "foodrescue/includes/navbar_organisation.html" %}
     <main class="page-wrapper">
-    <div class="entire-page-box">
-      <!-- LEFT FILTER BOX -->
-      <aside class="filter-box">
-        <h3>Filter Category</h3>
+      <div class="entire-page-box">
+        <!-- LEFT FILTER BOX -->
+        <aside class="filter-box">
+          <h3>Filter Category</h3>
 
-        <label>
-          <input type="checkbox" name="halal" value="true" {% if halal_only %}checked{% endif %} />
-          Halal only
-        </label>
+          <label>
+            <input type="checkbox" name="halal" value="true" {% if halal_only %}checked{% endif %} />
+            Halal only
+          </label>
 
-        <br /><br />
+          <br /><br />
 
-        <a href="{% url 'browse_food_listings' %}">
-          <button type="button">Clear Filters</button>
-        </a>
+          <a href="{% url 'browse_food_listings' %}">
+            <button type="button">Clear Filters</button>
+          </a>
 
-        <a href="{% url 'browse_food_listings' %}">
-          <button type="button">All</button>
-        </a>
+          <a href="{% url 'browse_food_listings' %}">
+            <button type="button">All</button>
+          </a>
 
-        {% for value, label in categories %}
-        <a href="{% url 'browse_food_listings' %}?category={{ value }}">
-          <button type="button">{{ label }}</button>
-        </a>
-        {% endfor %}
-      </aside>
+          {% for value, label in categories %}
+          <a href="{% url 'browse_food_listings' %}?category={{ value }}">
+            <button type="button">{{ label }}</button>
+          </a>
+          {% endfor %}
+        </aside>
 
-      <!-- RIGHT PAGE CONTENT -->
-      <main class="page-content">
-        <h1>Browse Food Listings</h1>
-        <h3>Look at available food listings near you.</h3>
+        <!-- RIGHT PAGE CONTENT -->
+        <main class="page-content">
+          <h1>Browse Food Listings</h1>
+          <h3>Look at available food listings near you.</h3>
 
-        <form method="GET" class="listing-control-bar">
-  {% if selected_category %}
-    <input type="hidden" name="category" value="{{ selected_category }}">
-  {% endif %}
+          <form method="GET" class="listing-control-bar">
+            {% if selected_category %}
+            <input type="hidden" name="category" value="{{ selected_category }}" />
+            {% endif %} {% if halal_only %}
+            <input type="hidden" name="halal" value="true" />
+            {% endif %}
 
-  {% if halal_only %}
-    <input type="hidden" name="halal" value="true">
-  {% endif %}
+            <div class="sort-control">
+              <label for="sort">SORT BY</label>
 
-  <div class="sort-control">
-    <label for="sort">SORT BY</label>
+<select id="sort" name="sort" onchange="this.form.submit()">
+  <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>
+    Newest Listing
+  </option>
 
-    <select id="sort" name="sort" onchange="this.form.submit()">
-      <option value="newest" {% if sort_by == "newest" %}selected{% endif %}>
-        Newest Listing
-      </option>
+  <option value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>
+    Older Listing
+  </option>
+</select>
+            </div>
 
-      <option value="oldest" {% if sort_by == "oldest" %}selected{% endif %}>
-        Older Listing
-      </option>
-    </select>
-  </div>
+            <div class="search-control">
+              <button type="submit" class="search-icon-button">⌕</button>
 
-  <div class="search-control">
-    <button type="submit" class="search-icon-button">⌕</button>
+              <input type="text" name="q" value="{{ search_query }}" placeholder="Search Listing" class="search-input" />
+            </div>
+          </form>
 
-    <input
-      type="text"
-      name="q"
-      value="{{ search_query }}"
-      placeholder="Search Listing"
-      class="search-input"
-    >
-  </div>
-</form>
+          <!-- RIGHT CARD AREA -->
+          <div class="listings-scroll">
+            <div class="food-grid">
+              {% for listing in listings %}
+              <div class="food-card {% if listing.is_near_expiry %}near-expiry-card{% endif %}">
+                <p class="expiry-date"><strong>Expiry Date:</strong> {{ listing.expiry_date }}</p>
 
-        <!-- RIGHT CARD AREA -->
-        <div class="listings-scroll">
-          <div class="food-grid">
-            {% for listing in listings %}
-            <div class="food-card">
-              <p class="expiry-date"><strong>Expiry Date:</strong> {{ listing.expiry_date }}</p>
-
-              {% if listing.image %}
-                <img
-                  src="{{ listing.image.url }}"
-                  class="food-card-image"
-                  alt="{{ listing.name }}"
-                />
-              {% else %}
-                <div class="food-image-placeholder"></div>
-              {% endif %}
-
-              <p class="listing-name">{{ listing.name }}</p>
-
-              <p class="location">{{ listing.establishment.get_general_location_display }}</p>
-
-              <div class="location-div">
-                <p class="location">Pickup Location: {{ listing.pickup_location }}</p>
-              </div>
-
-              <p class="listing-info">Category: {{ listing.get_category_display }}</p>
-              <p class="listing-info">Quantity: {{ listing.quantity }}</p>
-
-              <a href="{% url 'reserve_food_listing' listing.id %}">
-                <button type="button" class="pickup-button">Pick Up</button>
-              </a>
-
-              <div class="donor-row"> 
-                {% if listing.establishment.profile_image %}
-                  <img 
-                    src="{{ listing.establishment.profile_image.url }}" 
-                    alt="{{ listing.establishment.business_name }}" 
-                    class="donor-icon"
-                  >
+                {% if listing.image %}
+                <img src="{{ listing.image.url }}" class="food-card-image" alt="{{ listing.name }}" />
                 {% else %}
-                  <div class="donor-icon"></div>
+                <div class="food-image-placeholder"></div>
                 {% endif %}
 
-                <div class="donor-name-box"> 
-                  <p>{{ listing.establishment.business_name }}</p> 
+                <p class="listing-name">{{ listing.name }}</p>
+
+                <p class="location">{{ listing.establishment.get_general_location_display }}</p>
+
+                <div class="location-div">
+                  <p class="location">Pickup Location: {{ listing.pickup_location }}</p>
+                </div>
+
+                <p class="listing-info">Category: {{ listing.get_category_display }}</p>
+                <p class="listing-info">Quantity: {{ listing.quantity }}</p>
+
+                <a href="{% url 'reserve_food_listing' listing.id %}">
+                  <button type="button" class="pickup-button">Pick Up</button>
+                </a>
+
+                <div class="donor-row">
+                  {% if listing.establishment.profile_image %}
+                  <img src="{{ listing.establishment.profile_image.url }}" alt="{{ listing.establishment.business_name }}" class="donor-icon" />
+                  {% else %}
+                  <div class="donor-icon"></div>
+                  {% endif %}
+
+                  <div class="donor-name-box">
+                    <p>{{ listing.establishment.business_name }}</p>
+                  </div>
                 </div>
               </div>
+              {% empty %}
+              <p>No food listings matched your search or filters.</p>
+              {% endfor %}
             </div>
-            {% empty %}
-            <p>No food listings matched your search or filters.</p>
-            {% endfor %}
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
     </main>
     {% include "foodrescue/includes/footer.html" %}
   </body>

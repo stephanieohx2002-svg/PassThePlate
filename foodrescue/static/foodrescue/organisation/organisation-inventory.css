@@ -255,3 +255,8 @@
 .inventory-card-link:hover .inventory-name {
     text-decoration: underline;
 }
+
+.food-card.near-expiry-card,
+.inventory-card.near-expiry-card {
+    background-color: #fff3a3;
+}

@@ -1,43 +1,33 @@
 <div class="inventory-grid">
   {% for reservation in accepted_reservations %}
-    <article class="inventory-card" data-update-url="{% url 'update_inventory_quantity' reservation.id %}">
-      <p class="expiry-date">
-        Expires on: {{ reservation.food_listing.expiry_date|date:"d/m/Y" }}
-      </p>
+  <article class="inventory-card {% if reservation.food_listing.is_near_expiry %}near-expiry-card{% endif %}" data-update-url="{% url 'update_inventory_quantity' reservation.id %}">
+    <p class="expiry-date">Expires on: {{ reservation.food_listing.expiry_date|date:"d/m/Y" }}</p>
 
-      <a href="{% url 'inventory_food_detail' reservation.id %}" class="inventory-card-link">
-        {% if reservation.food_listing.image %}
-          <img src="{{ reservation.food_listing.image.url }}" class="inventory-card-image" alt="{{ reservation.food_listing.name }}">
-        {% else %}
-          <div class="inventory-image-placeholder"></div>
-        {% endif %}
+    <a href="{% url 'inventory_food_detail' reservation.id %}" class="inventory-card-link">
+      {% if reservation.food_listing.image %}
+      <img src="{{ reservation.food_listing.image.url }}" class="inventory-card-image" alt="{{ reservation.food_listing.name }}" />
+      {% else %}
+      <div class="inventory-image-placeholder"></div>
+      {% endif %}
 
-        <h2 class="inventory-name">
-          {{ reservation.food_listing.name }}
-        </h2>
-      </a>
+      <h2 class="inventory-name">{{ reservation.food_listing.name }}</h2>
+    </a>
 
-      <p class="inventory-category">
-        Category: {{ reservation.food_listing.get_category_display }}
-      </p>
+    <p class="inventory-category">Category: {{ reservation.food_listing.get_category_display }}</p>
 
-      <p class="quantity-label">Remaining Quantity:</p>
+    <p class="quantity-label">Remaining Quantity:</p>
 
-      <div class="quantity-control">
-        <button type="button" class="quantity-symbol decrease-inventory-qty">−</button>
+    <div class="quantity-control">
+      <button type="button" class="quantity-symbol decrease-inventory-qty">−</button>
 
-        <div class="quantity-box inventory-quantity-box">
-          {{ reservation.remaining_quantity }}
-        </div>
+      <div class="quantity-box inventory-quantity-box">{{ reservation.remaining_quantity }}</div>
 
-        <button type="button" class="quantity-symbol increase-inventory-qty">+</button>
-      </div>
+      <button type="button" class="quantity-symbol increase-inventory-qty">+</button>
+    </div>
 
-      <button type="button" class="delete-button">
-        Remove Item
-      </button>
-    </article>
+    <button type="button" class="delete-button">Remove Item</button>
+  </article>
   {% empty %}
-    <p class="empty-message">No accepted inventory items yet.</p>
+  <p class="empty-message">No accepted inventory items yet.</p>
   {% endfor %}
 </div>

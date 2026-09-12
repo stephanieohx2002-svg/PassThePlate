@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'foodrescue/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/navbar-public.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/public/registration-submitted.css' %}" />
+    <link rel="stylesheet" href="{% static 'foodrescue/footer.css' %}" />
+
+    <title>404</title>
+  </head>
+
+  <body>
+    {% include "foodrescue/includes/navbar_public.html" %}
+
+    <main class="submitted-page">
+      <section class="submitted-message">
+        <h1>Oops! Something went wrong.</h1>
+        <p>We could not complete your request. Please retry.</p>
+      </section>
+    </main>
+
+    {% include "foodrescue/includes/footer.html" %}
+  </body>
+</html>
