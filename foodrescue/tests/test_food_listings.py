@@ -9,8 +9,21 @@ from foodrescue.models import Establishment, Organisation, FoodListing
 
 
 class FoodListingTests(TestCase):
+    """
+    Unit tests for the food listing workflow.
 
+    These tests check whether verified establishments can create food
+    listings, whether near-expiry listings are detected correctly, and
+    whether organisation users only see available food listings when browsing.
+    """
     def setUp(self):
+        """
+        Creates reusable verified establishment and organisation accounts
+        for the food listing tests.
+
+        Test data is created in Django's temporary test database, so it does
+        not affect the main development database.
+        """
         self.establishment_user = User.objects.create_user(
             username="establishment_test@gmail.com",
             email="establishment_test@gmail.com",
@@ -49,6 +62,13 @@ class FoodListingTests(TestCase):
         )
 
     def test_verified_establishment_can_create_food_listing(self):
+        """
+        Test that a verified establishment can create a food listing
+        through the create food listing view.
+
+        The test also checks that the created listing is linked to the
+        authenticated establishment and starts with AVAILABLE status.
+        """
         self.client.login(
             username="establishment_test@gmail.com",
             password="testpassword123"
@@ -65,14 +85,22 @@ class FoodListingTests(TestCase):
             "pickup_location": "123 Test Street",
             "description": "Sealed canned food suitable for redistribution."
         })
-
+        # A successful form submission should redirect the user.
         self.assertEqual(response.status_code, 302)
 
         listing = FoodListing.objects.get(name="Canned Baked Beans")
+
+        # The listing should belong to the establishment that created it.
         self.assertEqual(listing.establishment, self.establishment)
+
+        # New food listings should be available by default.
         self.assertEqual(listing.status, FoodListing.Status.AVAILABLE)
 
     def test_near_expiry_listing_returns_true(self):
+        """
+        Test that the is_near_expiry property returns True when a food
+        listing expires within 30 days.
+        """
         listing = FoodListing.objects.create(
             establishment=self.establishment,
             name="Near Expiry Biscuits",
@@ -89,6 +117,13 @@ class FoodListingTests(TestCase):
         self.assertTrue(listing.is_near_expiry)
 
     def test_browse_page_only_shows_available_listings(self):
+        """
+        Test that the organisation browse page only displays AVAILABLE
+        food listings.
+
+        Reserved food listings should not appear because they are no longer
+        available for organisations to request.
+        """
         available_listing = FoodListing.objects.create(
             establishment=self.establishment,
             name="Available Rice",
@@ -122,5 +157,8 @@ class FoodListingTests(TestCase):
 
         response = self.client.get(reverse("browse_food_listings"))
 
+        # Available listings should be visible to organisations.
         self.assertContains(response, available_listing.name)
+
+        # Reserved listings should not be shown on the browse page.
         self.assertNotContains(response, reserved_listing.name)

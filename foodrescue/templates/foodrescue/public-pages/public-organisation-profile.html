@@ -19,12 +19,12 @@
   {% include "foodrescue/includes/navbar_public.html" %}
 
   <main class="profile-page">
-
+    <!-- Organisation profile title -->
     <section class="profile-header">
       <h1>{{ organisation.organisation_name }}</h1>
       <p>Organisation Profile</p>
     </section>
-
+    <!-- Organisation profile image, with placeholder if no image was uploaded -->
     <div class="profile-image-section">
       {% if organisation.profile_image %}
         <img
@@ -36,14 +36,14 @@
         <div class="profile-image-placeholder"></div>
       {% endif %}
     </div>
-
+    <!-- Verification badge shown only for verified organisations -->
     {% if organisation.is_verified %}
       <div class="verified-badge">
         <span class="tick">✓</span>
         Verified Organisation
       </div>
     {% endif %}
-
+    <!-- Public organisation information for transparency -->
     <section class="profile-info-area">
 
       <div class="profile-info-group">
@@ -126,7 +126,7 @@
       </div>
 
     </section>
-
+    <!-- Link back to the public organisation list -->
     <div class="back-link-section">
       <a href="{% url 'public_organisations' %}">
         Back to Organisations

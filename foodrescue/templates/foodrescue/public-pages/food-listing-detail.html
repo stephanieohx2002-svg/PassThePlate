@@ -17,12 +17,14 @@
     {% include "foodrescue/includes/navbar_public.html" %}
 
     <main class="page-wrapper">
+      <!-- Page title and selected listing ID -->
       <div class="section-title-wrapper">
         <h1 class="section-title">Food Listing Details</h1>
         <h2>Listing ID: {{ food_listing.id }}</h2>
       </div>
-
+      <!-- Public details of the selected food listing -->
       <section class="listing-details-section">
+        <!-- Food listing image, with placeholder if no image was uploaded -->
         <div class="listing-image-box">
           {% if food_listing.image %}
             <img
@@ -34,7 +36,7 @@
             <div class="listing-image-placeholder"></div>
           {% endif %}
         </div>
-
+        <!-- Food information retrieved from the FoodListing model -->
         <div class="listing-details-form">
           <div class="detail-group">
             <span class="detail-label">Name:</span>

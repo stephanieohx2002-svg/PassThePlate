@@ -14,16 +14,19 @@
     <body>
         {% include "foodrescue/includes/navbar_public.html" %}
         <main class="register-page">
+            <!-- Registration heading and review notice -->
             <section class="register-header">
                 <h1>Register as an Organisation</h1>
                 <p>It will take about 2-5 business days for us to review your application.</p>
             </section>
+            <!-- Organisation registration form with file upload support -->
             <form method="POST" enctype="multipart/form-data" class="register-form">
                 {% csrf_token %}
-
-  {% if error_message %}
+                <!-- Display form validation error messages -->
+                {% if error_message %}
                 <p class="form-error">{{ error_message }}</p>
                 {% endif %}
+                <!-- Login credentials section used to create the Django User account -->
                 <section class="form-section credentials-section">
                     <div class="section-title-wrapper">
                         <h2>Login Credentials</h2>
@@ -57,6 +60,7 @@
                         >
                     </div>
                 </section>
+                <!-- Public organisation details used to create the Organisation profile -->
                 <section class="form-section details-section">
                     <div class="section-title-wrapper">
                         <h2>Fill in your details</h2>
@@ -149,6 +153,7 @@
                         <textarea id="about" name="description" required></textarea>
                     </div>
                 </section>
+                <!-- Certification upload used for admin verification -->
                 <section class="form-section certification-section">
                     <div class="section-title-wrapper">
                         <h2>Certification upload</h2>
@@ -175,27 +180,29 @@
                 </div>
             </form>
         </main>
+        <!-- JavaScript for image preview and uploaded file name display -->
         <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const profileInput = document.getElementById("profile-image");
-        const profilePreview = document.getElementById("profile-preview");
+        document.addEventListener("DOMContentLoaded", function () {
+            const profileInput = document.getElementById("profile-image");
+            const profilePreview = document.getElementById("profile-preview");
 
-        const certificationInput = document.getElementById("certification-file");
-        const certificationFileName = document.getElementById("certification-file-name");
+            const certificationInput = document.getElementById("certification-file");
+            const certificationFileName = document.getElementById("certification-file-name");
 
-        profileInput.addEventListener("change", function () {
-          const file = profileInput.files[0];
+            // Show a preview when the user uploads a profile image.
+            profileInput.addEventListener("change", function () {
+            const file = profileInput.files[0];
 
-          if (!file) {
-            profilePreview.src = "";
-            profilePreview.style.display = "none";
-            return;
-          }
+            if (!file) {
+                profilePreview.src = "";
+                profilePreview.style.display = "none";
+                return;
+            }
 
-          profilePreview.src = URL.createObjectURL(file);
-          profilePreview.style.display = "block";
-        });
-
+            profilePreview.src = URL.createObjectURL(file);
+            profilePreview.style.display = "block";
+            });
+        // Display the selected certification file name after upload.
         certificationInput.addEventListener("change", function () {
           const file = certificationInput.files[0];
 

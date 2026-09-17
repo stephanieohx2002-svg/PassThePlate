@@ -20,7 +20,7 @@
   {% include "foodrescue/includes/navbar_public.html" %}
 
   <main class="public-organisations-page">
-
+    <!-- Page heading and search form for public users -->
     <section class="organisations-header">
       <h1>Charity Organisations</h1>
       <p>Check out the organisations participating in our platform!</p>
@@ -31,17 +31,17 @@
           type="text"
           name="q"
           value="{{ search_query }}"
-          placeholder="Search by name"
+          placeholder="Search by name or region"
         >
       </form>
     </section>
-
+    <!-- List of verified organisations returned from the view -->
     <section class="organisations-panel">
       <div class="organisations-scroll">
 
         {% for organisation in organisations %}
           <article class="organisation-card">
-
+            <!-- Organisation profile image, with placeholder if no image was uploaded -->
             <div class="organisation-image-box">
               {% if organisation.profile_image %}
                 <img
@@ -53,7 +53,7 @@
                 <div class="organisation-profile-placeholder"></div>
               {% endif %}
             </div>
-
+             <!-- Basic organisation information and public contribution statistics -->
             <div class="organisation-info">
               <h2>{{ organisation.organisation_name }}</h2>
 
@@ -85,13 +85,13 @@
                 </p>
               </div>
             </div>
-
+            <!-- Link to the selected organisation's public profile -->
             <a href="{% url 'public_organisation_profile' organisation.id %}" class="view-profile-button">
                 View Profile
             </a>
 
           </article>
-
+        <!-- Message shown when no verified organisations match the search -->
         {% empty %}
           <p class="empty-message">No verified organisations found.</p>
         {% endfor %}

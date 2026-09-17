@@ -20,14 +20,14 @@
         {% include "foodrescue/includes/navbar_public.html" %}
 
         <main class="distribution-page-wrapper">
-
+            <!-- Page heading for public distribution events -->
             <section class="distribution-header">
                 <h1>Upcoming Distribution Events</h1>
                 <h3 class="center-text">
                     Check out the upcoming food distribution events near you!
                 </h3>
             </section>
-
+             <!-- Region filter form for public users -->
             <form method="GET" class="region-filter-form">
                 <label for="region">FILTER BY:</label>
 
@@ -41,7 +41,7 @@
                     {% endfor %}
                 </select>
             </form>
-
+            <!-- List of published distribution events -->
             <section class="distribution-events-section">
                 <div class="distribution-panel">
                     <div class="distribution-scroll-wrapper">

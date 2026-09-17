@@ -35,13 +35,13 @@
         >
       </form>
     </section>
-
+     <!-- List of verified establishments returned from the view -->
     <section class="establishments-panel">
       <div class="establishments-scroll">
 
         {% for establishment in establishments %}
           <article class="establishment-card">
-
+             <!-- Establishment profile image, with placeholder if no image was uploaded -->
             <div class="establishment-image-box">
               {% if establishment.profile_image %}
                 <img
@@ -53,7 +53,7 @@
                 <div class="establishment-profile-placeholder"></div>
               {% endif %}
             </div>
-
+            <!-- Basic establishment information and public contribution statistics -->
             <div class="establishment-info">
               <h2>{{ establishment.business_name }}</h2>
 
@@ -93,12 +93,13 @@
                 </p>
               </div>
             </div>
-
+            <!-- Link to the selected establishment's public profile -->
             <a href="{% url 'public_establishment_profile' establishment.id %}" class="view-profile-button">View Profile</a>
 
           </article>
 
         {% empty %}
+        <!-- Message shown when no verified establishments match the search -->
           <p class="empty-message">No verified establishments found.</p>
         {% endfor %}
 

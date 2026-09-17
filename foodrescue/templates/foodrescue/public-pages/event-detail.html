@@ -19,6 +19,7 @@
                 <h1>{{ event.name }}</h1>
                 <h3>Distribution Event Details</h3>
             </section>
+            <!-- Event thumbnail image, with placeholder if no image was uploaded -->
             <section class="event-image-section">
                 <div class="event-detail-image-box">
                     {% if event.thumbnail %}
@@ -28,6 +29,7 @@
                     {% endif %}
                 </div>
             </section>
+             <!-- Main event information retrieved from the DistributionEvent model -->
             <section class="event-meta-section">
                 <h2>Event Information</h2>
                 <h3>Basic information about this distribution event.</h3>
@@ -95,6 +97,7 @@
                     </div>
                 </div>
             </section>
+            <!-- Food items allocated to this distribution event -->
             <section class="event-inventory-section">
                 <section class="inventory-header">
                     <h1>Items for this Event</h1>
@@ -139,8 +142,9 @@
                     </div>
                 </div>
             </section>
+            <!-- Link back to the distribution events list -->
             <div class="back-link-section">
-                <a href="{% url 'organisation_distribution_events' %}">
+                <a href="{% url 'public_distribution_events' %}">
                     Back to Distribution Events
                 </a>
             </div>

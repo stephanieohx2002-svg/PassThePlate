@@ -8,7 +8,7 @@ from .models import (
     DistributionEventItem,
 )
 
-
+# Register core workflow models so administrators can inspect records in Django Admin.
 admin.site.register(FoodListing)
 admin.site.register(Reservation)
 admin.site.register(DistributionEvent)
@@ -17,6 +17,12 @@ admin.site.register(DistributionEventItem)
 
 @admin.register(Organisation)
 class OrganisationAdmin(admin.ModelAdmin):
+    """
+    Determines how Organisation records are displayed in Django Admin.
+
+    Administrators can review organisation details, filter applications,
+    search for specific organisations, and update verification fields.
+    """
     list_display = (
         "organisation_name",
         "user",
@@ -48,6 +54,12 @@ class OrganisationAdmin(admin.ModelAdmin):
 
 @admin.register(Establishment)
 class EstablishmentAdmin(admin.ModelAdmin):
+    """
+    Determines how Establishment records are displayed in Django Admin.
+
+    Administrators can review establishment details, search for specific
+    establishments, and update the is_verified field after checking submissions.
+    """
     list_display = (
         "business_name",
         "user",

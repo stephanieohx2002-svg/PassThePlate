@@ -3,6 +3,10 @@ from .models import FoodListing, Reservation
 
 
 class FoodListingForm(forms.ModelForm):
+    """
+    Form used by establishments to create surplus food listings.
+
+    """
     class Meta:
         model = FoodListing
         fields = [
@@ -25,6 +29,10 @@ class FoodListingForm(forms.ModelForm):
 
 
 class ReservationForm(forms.ModelForm):
+    """
+    Form used by organisations to submit pickup reservation requests.
+
+    """
     class Meta:
         model = Reservation
         fields = [

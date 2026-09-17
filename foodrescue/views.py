@@ -30,6 +30,14 @@ from .decorators import organisation_required, establishment_required
 
 @organisation_required
 def browse_food_listings(request):
+    """
+    Display available food listings to verified organisation users.
+
+    The view supports category, halal, search, and sorting filters.
+
+    Only listings with AVAILABLE status are shown so that reserved,
+    completed, or expired listings cannot be requested.
+    """
 
     selected_category = request.GET.get("category", "")
     halal_only = request.GET.get("halal") == "true"
@@ -69,6 +77,14 @@ def browse_food_listings(request):
 
 @organisation_required
 def reserve_food_listing(request, listing_id):
+    """
+    Allow a verified organisation to submit a reservation request
+    for an available food listing.
+
+    The reservation is linked to the current organisation and the
+    selected food listing, then created with PENDING status so that
+    the establishment can approve or reject it later.
+    """
 
     organisation = request.user.organisation_profile
 
@@ -99,10 +115,20 @@ def reserve_food_listing(request, listing_id):
     })
 
 def reservation_success(request):
+    """
+    Display a confirmation page after an organisation successfully
+    submits a reservation request.
+    """
     return render(request, "foodrescue/organisation-pages/reservation_success.html")
 
 @establishment_required
 def establishment_reservations(request):
+    """
+    Display pending reservation requests for the authenticated establishment.
+
+    Only reservations linked to food listings owned by the current
+    establishment are shown.
+    """
 
     establishment = request.user.establishment_profile
 
@@ -135,6 +161,13 @@ def establishment_reservations(request):
 @require_POST
 @transaction.atomic
 def approve_reservation(request, reservation_id):
+    """
+    Allow an establishment to approve a pending reservation request.
+
+    The selected reservation is marked as APPROVED, the related food listing
+    is marked as RESERVED, and other pending reservations for the same listing
+    are rejected within one database transaction.
+    """
     establishment = request.user.establishment_profile
 
     reservation = get_object_or_404(
@@ -169,6 +202,12 @@ def approve_reservation(request, reservation_id):
 @establishment_required
 @require_POST
 def reject_reservation(request, reservation_id):
+    """
+    Allow an establishment to reject a pending reservation request.
+
+    The reservation is only retrieved if it belongs to a food listing owned
+    by the authenticated establishment.
+    """
 
     establishment = request.user.establishment_profile
 
@@ -190,6 +229,12 @@ def reject_reservation(request, reservation_id):
 
 @establishment_required
 def create_food_listing(request):
+    """
+    Allow a verified establishment to create a new food listing.
+
+    The submitted form is validated before saving. The listing is linked to
+    the authenticated establishment and created with AVAILABLE status.
+    """
 
     establishment = request.user.establishment_profile
 
@@ -211,6 +256,15 @@ def create_food_listing(request):
     })
 @organisation_required
 def organisation_dashboard(request):
+    """
+    Display the organisation dashboard.
+
+    The dashboard shows the organisation's reservations, accepted
+    pickups, completed pickup count, total food rescued, and pending
+    request count. 
+    
+    Reservations can also be filtered by status.
+    """
     organisation = request.user.organisation_profile
 
     selected_status = request.GET.get("status", "")
@@ -264,6 +318,13 @@ def organisation_dashboard(request):
     
 @organisation_required
 def organisation_inventory(request):
+    """
+    Display collected food items in the organisation inventory.
+
+    Only reservations with COLLECTED status are shown. Category and
+    halal filters can be applied to help the organisation manage
+    available inventory.
+    """
 
     organisation = request.user.organisation_profile
 
@@ -284,6 +345,14 @@ def organisation_inventory(request):
     })
 
 def attach_remaining_quantities(reservations):
+    """
+    Calculate and attach the remaining quantity for each collected
+    reservation.
+
+    The remaining quantity is calculated by subtracting the quantity
+    already allocated to distribution events from the original food
+    listing quantity.
+    """
     for reservation in reservations:
         base_quantity = reservation.food_listing.quantity
 
@@ -331,6 +400,16 @@ def get_accepted_inventory(organisation, selected_category="", halal_only=False)
 
 @organisation_required
 def create_event(request):
+    """
+    Allow a verified organisation to create a distribution event.
+
+    Selected collected inventory items are linked to the event through
+    DistributionEventItem records. 
+    
+    The view also checks remaining
+    quantities to prevent organisations from allocating more food than
+    what is available.
+    """
 
     organisation = request.user.organisation_profile
 
@@ -409,7 +488,12 @@ def create_event(request):
     
 @organisation_required
 def filter_inventory(request):
+    """
+    Return filtered organisation inventory cards as JSON.
 
+    This view is used by AJAX so the inventory page can update category
+    and halal filter results without reloading the full page.
+    """
     organisation = request.user.organisation_profile
 
     selected_category = request.GET.get("category", "")
@@ -435,6 +519,12 @@ def filter_inventory(request):
 
 @organisation_required
 def filter_event_inventory(request):
+    """
+    Return filtered inventory cards for the create event page as JSON.
+
+    This allows organisations to filter collected inventory before
+    selecting items to allocate to a distribution event.
+    """
 
     organisation = request.user.organisation_profile
 
@@ -482,6 +572,12 @@ def inventory_food_detail(request, reservation_id):
     
 @organisation_required
 def organisation_distribution_events(request):
+    """
+    Display distribution events created by the authenticated organisation.
+
+    Related event items, food listings, and establishment records are
+    prefetched so that event details can show the source of redistributed food.
+    """
     
     organisation = request.user.organisation_profile
 
@@ -499,6 +595,12 @@ def organisation_distribution_events(request):
     })
 
 def event_detail(request, event_id):
+    """
+    Display details for a public distribution event.
+
+    Related food listings and establishment information are prefetched so
+    public users can understand the source of food distributed at the event.
+    """
     event = get_object_or_404(
         DistributionEvent.objects.select_related(
             "organisation"
@@ -514,6 +616,9 @@ def event_detail(request, event_id):
     })
     
 def food_listing_detail(request, listing_id):
+    """
+    Display public details for a selected food listing.
+    """
     food_listing = get_object_or_404(
         FoodListing.objects.select_related("establishment"),
         id=listing_id
@@ -571,6 +676,15 @@ def update_inventory_quantity(request, reservation_id):
     })
     
 def login_view(request):
+    """
+    Authenticate users and redirect them based on their role.
+
+    Verified organisations are redirected to the organisation dashboard,
+    verified establishments are redirected to the establishment dashboard,
+    and other users are redirected to the public distribution events page.
+
+    Unverified users are shown an error message.
+    """
     if request.method == "POST":
         username = request.POST.get("username", "").strip().lower()
         password = request.POST.get("password", "")
@@ -626,8 +740,14 @@ def login_view(request):
 
 @transaction.atomic
 def register_organisation(request):
+    """
+    Register a new organisation account.
+
+    A Django User and Organisation profile are created together. New
+    organisation accounts are created with is_verified=False so that an
+    administrator must approve them before they can access protected features.
+    """
     if request.method == "POST":
-        print(request.POST)  # temporary debug line
 
         email = request.POST.get("email", "").strip().lower()
         password = request.POST.get("password", "")
@@ -700,9 +820,19 @@ def register_organisation(request):
     return render(request, "foodrescue/public-pages/register-organisation.html")
 
 def registration_submitted(request):
+    """
+    Display a confirmation page after a user submits a registration form.
+    """
     return render(request, "foodrescue/public-pages/registration-submitted.html")
 
 def register_establishment(request):
+    """
+    Register a new establishment account.
+
+    A Django User and Establishment profile are created. New establishment
+    accounts are created with is_verified=False so that an administrator must
+    verify them before they can create food listings.
+    """
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("password")
@@ -780,10 +910,19 @@ def organisation_profile(request):
     })
     
 def logout_view(request):
+    """
+    Log out the current user and redirect them to the login page.
+    """
     logout(request)
     return redirect("login")
 
 def public_home(request):
+    """
+    Display the public homepage.
+
+    The page shows recently published distribution events so public users
+    can browse available food distribution opportunities without logging in.
+    """
     events = DistributionEvent.objects.select_related(
         "organisation"
     ).filter(
@@ -797,6 +936,12 @@ def public_home(request):
 
 @establishment_required
 def establishment_dashboard(request):
+    """
+    Display the establishment dashboard.
+
+    The dashboard shows pending reservations, accepted pickups, completed
+    pickups, total food listings, and total food donated by the establishment.
+    """
     establishment = request.user.establishment_profile
 
     pending_reservations = Reservation.objects.select_related(
@@ -846,6 +991,13 @@ def establishment_dashboard(request):
 @organisation_required
 @require_POST
 def organisation_mark_pickup_completed(request, reservation_id):
+    """
+    Allow an organisation to confirm that an approved pickup has been completed.
+
+    The reservation is only marked as COLLECTED after both the organisation
+    and establishment have confirmed pickup completion. Once collected, the
+    related food listing is marked as COMPLETED.
+    """
 
     organisation = request.user.organisation_profile
 
@@ -872,7 +1024,12 @@ def organisation_mark_pickup_completed(request, reservation_id):
 @establishment_required
 @require_POST
 def establishment_mark_pickup_completed(request, reservation_id):
+    """
+    Allow an establishment to confirm that an approved pickup has been completed.
 
+    The reservation is only marked as COLLECTED after both establishment
+    and organisation have confirmed pickup completion.
+    """
     establishment = request.user.establishment_profile
 
     reservation = get_object_or_404(
@@ -897,6 +1054,9 @@ def establishment_mark_pickup_completed(request, reservation_id):
 
 @establishment_required
 def establishment_profile(request):
+    """
+    Display the authenticated establishment's profile page.
+    """
     establishment = request.user.establishment_profile
 
     return render(request, "foodrescue/establishment-pages/establishment-profile.html", {
@@ -905,6 +1065,12 @@ def establishment_profile(request):
     
 @establishment_required
 def establishment_food_listing_detail(request, listing_id):
+    """
+    Display details of a food listing owned by the authenticated establishment.
+
+    The view also shows pending reservation requests and any approved or
+    collected pickup reservation linked to the listing.
+    """
 
     establishment = request.user.establishment_profile
 
@@ -941,6 +1107,13 @@ def establishment_food_listing_detail(request, listing_id):
     
 @establishment_required
 def establishment_food_listings(request):
+    """
+    Display food listings created by the authenticated establishment.
+
+    Expired available listings are updated to EXPIRED. The view also supports
+    category, halal, search, and sorting filters, and annotates listings with
+    their pending request count.
+    """
     establishment = request.user.establishment_profile
 
     FoodListing.objects.filter(
@@ -1001,6 +1174,12 @@ def establishment_food_listings(request):
     })
     
 def public_organisations(request):
+    """
+    Display verified organisations to public users.
+
+    Public users can search organisations by name or region. Summary
+    statistics are calculated for each organisation.
+    """
     search_query = request.GET.get("q", "").strip()
 
     organisations = Organisation.objects.filter(
@@ -1032,6 +1211,9 @@ def public_organisations(request):
     })
     
 def public_organisation_profile(request, organisation_id):
+    """
+    Display the public profile of a verified organisation.
+    """
     organisation = get_object_or_404(
         Organisation,
         id=organisation_id,
@@ -1043,6 +1225,12 @@ def public_organisation_profile(request, organisation_id):
     })
     
 def public_establishments(request):
+    """
+    Display verified establishments to public users.
+
+    Public users can search establishments by business name, region, or
+    business type. Summary statistics are calculated for each establishment.
+    """
     search_query = request.GET.get("q", "").strip()
 
     establishments = Establishment.objects.filter(
@@ -1072,6 +1260,9 @@ def public_establishments(request):
     })
     
 def public_establishment_profile(request, establishment_id):
+    """
+    Display the public profile of a verified establishment.
+    """
     establishment = get_object_or_404(
         Establishment,
         id=establishment_id,
@@ -1083,6 +1274,11 @@ def public_establishment_profile(request, establishment_id):
     })
     
 def public_distribution_events(request):
+    """
+    Display published distribution events to public users.
+
+    Users can filter events by region without needing to create an account.
+    """
     selected_region = request.GET.get("region", "")
 
     events = DistributionEvent.objects.filter(
@@ -1100,6 +1296,12 @@ def public_distribution_events(request):
     
 @establishment_required
 def establishment_completed_pickups(request):
+    """
+    Display completed pickup records for the authenticated establishment.
+
+    Only COLLECTED reservations linked to the establishment's food listings
+    are shown.
+    """
     establishment = request.user.establishment_profile
 
     completed_pickups = Reservation.objects.select_related(

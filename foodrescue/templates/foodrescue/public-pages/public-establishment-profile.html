@@ -16,15 +16,16 @@
 </head>
 
 <body>
+  <!-- Public navigation bar shared across public-facing pages -->
   {% include "foodrescue/includes/navbar_public.html" %}
 
   <main class="profile-page">
-
+    <!-- Establishment profile title -->
     <section class="profile-header">
       <h1>{{ establishment.business_name }}</h1>
       <p>Food Establishment Profile</p>
     </section>
-
+     <!-- Establishment profile image, with placeholder if no image was uploaded -->
     <div class="profile-image-section">
       {% if establishment.profile_image %}
         <img
@@ -36,14 +37,14 @@
         <div class="profile-image-placeholder"></div>
       {% endif %}
     </div>
-
+    <!-- Verification badge shown only for verified establishments -->
     {% if establishment.is_verified %}
       <div class="verified-badge">
         <span class="tick">✓</span>
         Verified Establishment
       </div>
     {% endif %}
-
+    <!-- Public establishment information for transparency -->
     <section class="profile-info-area">
 
       <div class="profile-info-group">
@@ -120,7 +121,7 @@
       </div>
 
     </section>
-
+    <!-- Link back to the public establishment list -->
     <div class="back-link-section">
       <a href="{% url 'public_establishments' %}">
         Back to Establishments
