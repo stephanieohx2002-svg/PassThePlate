@@ -12,13 +12,17 @@
         <title>Food Listing Details</title>
     </head>
     <body>
+        <!-- Establishment navigation bar for logged-in establishment users -->
         {% include "foodrescue/includes/navbar_establishment.html" %}
         <main class="page-wrapper">
+            <!-- Page heading and selected food listing ID -->
             <div class="section-title-wrapper">
                 <h1 class="section-title">Food Listing Details</h1>
                 <h2>Listing ID: {{ food_listing.id }}</h2>
             </div>
+            <!-- Detailed information for the selected food listing -->
             <section class="listing-details-section">
+                <!-- Food listing image, with placeholder if no image was uploaded -->
                 <div class="listing-image-box">
                     {% if food_listing.image %}
                     <img src="{{ food_listing.image.url }}" class="listing-detail-image" alt="{{ food_listing.name }}">
@@ -26,6 +30,7 @@
                     <div class="listing-image-placeholder"></div>
                     {% endif %}
                 </div>
+                <!-- Food listing information retrieved from the FoodListing model -->
                 <div class="listing-details-form">
                     <div class="detail-group">
                         <span class="detail-label">Name:</span>
@@ -39,20 +44,20 @@
                         <span class="detail-label">Storage type:</span>
                         <span class="detail-value">
                             {% if food_listing.storage_type %}
-      {{ food_listing.get_storage_type_display }}
-    {% else %}
-      Not stated
-    {% endif %}
+                                {{ food_listing.get_storage_type_display }}
+                            {% else %}
+                                Not stated
+                            {% endif %}
                         </span>
                     </div>
                     <div class="detail-group">
                         <span class="detail-label">Allergens:</span>
                         <span class="detail-value">
                             {% if food_listing.allergens %}
-                {{ food_listing.allergens }}
-              {% else %}
-                None stated
-              {% endif %}
+                                {{ food_listing.allergens }}
+                            {% else %}
+                                None stated
+                            {% endif %}
                         </span>
                     </div>
                     <div class="detail-group">
@@ -67,22 +72,23 @@
                         <span class="detail-label">Halal:</span>
                         <span class="detail-value">
                             {% if food_listing.is_halal %}
-                Yes
-              {% else %}
-                No
-              {% endif %}
+                            Yes
+                            {% else %}
+                                No
+                            {% endif %}
                         </span>
                     </div>
                     <div class="detail-group description-group">
                         <span class="detail-label">Description:</span>
                         <span class="detail-value">
                             {% if food_listing.description %}
-      {{ food_listing.description }}
-    {% else %}
-      No description provided.
-    {% endif %}
+                            {{ food_listing.description }}
+                            {% else %}
+                            No description provided.
+                            {% endif %}
                         </span>
                     </div>
+                    <!-- Pickup date, pickup time, and current listing status -->
                     <div class="listing-bottom-info">
                         {% if pickup_reservation %}
                         <p>Pickup date: {{ pickup_reservation.pickup_date|date:"d/m/Y" }}</p>
@@ -92,7 +98,7 @@
                         <p>Pickup time:</p>
                         {% endif %}
 
-  {% if food_listing.status == "completed" %}
+                        {% if food_listing.status == "completed" %}
                         <div class="listing-status-pill completed-pill">
                             Completed
                         </div>
@@ -112,9 +118,11 @@
                     </div>
                 </div>
             </section>
+            <!-- Pending pickup requests for this food listing -->
             <section class="listing-reservations-section">
                 <br>
                 {% if food_listing.status == "available" and reservations %}
+                
                 <section class="listing-reservations-section">
                     <h2>Pending Pickup Requests</h2>
                     <h3>These are reservation requests for this specific food listing.</h3>
@@ -122,14 +130,17 @@
                         <section class="requests-panel">
                             <div class="listings-scroll">
                                 <div class="requests-sent">
+                                    <!-- Loop through pending reservation requests for this listing -->
                                     {% for reservation in reservations %}
                                     <article class="reservation-card">
                                         <div class="upper-card">
+                                            <!-- Organisation profile image, with placeholder if no image was uploaded -->
                                             {% if reservation.organisation.profile_image %}
                                             <img src="{{ reservation.organisation.profile_image.url }}" alt="{{ reservation.organisation.organisation_name }}" class="reservation-image">
                                             {% else %}
                                             <div class="reservation-image"></div>
                                             {% endif %}
+                                            <!-- Reservation request details submitted by the organisation -->
                                             <div class="reservation-info">
                                                 <h2 class="food-card-header">
                                                     {{ reservation.organisation.organisation_name }}
@@ -150,6 +161,7 @@
                                                     Sent on: {{ reservation.created_at|date:"d/m/Y" }}
                                                 </p>
                                             </div>
+                                            <!-- Accept or reject the reservation request -->
                                             <div class="reservation-status">
                                                 <div class="request-action-buttons">
                                                     <form method="POST" action="{% url 'approve_reservation' reservation.id %}" onsubmit="return confirm('Are you sure you want to accept this reservation request?');">
@@ -167,6 +179,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Optional message submitted by the organisation -->
                                         <div class="lower-card">
                                             <p class="food-card-detail request-message">
                                                 <strong>Message:</strong>
@@ -174,6 +187,7 @@
                                             </p>
                                         </div>
                                     </article>
+                                    <!-- Message shown when there are no pending reservation requests -->
                                     {% empty %}
                                     <p class="empty-message">
                                         No pending reservation requests for this listing yet.

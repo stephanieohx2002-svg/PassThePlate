@@ -13,47 +13,52 @@
         <title>My Reservations</title>
     </head>
     <body>
+        <!-- Establishment navigation bar for logged-in establishment users -->
         {% include "foodrescue/includes/navbar_establishment.html" %}
         <h1>Dashboard</h1>
+        <!-- Establishment dashboard heading -->
         <h3 class="center-text">Quick overview of your activities.</h3>
         <main class="page-wrapper">
+            <!-- Accepted pickups scheduled for the establishment -->
             <section class="scheduled-pickups-section">
                 <h2>Pickups Scheduled</h2>
                 <p class="section-subtitle">The pickup requests you accepted are organised here chronologically.</p>
                 <div class="pickup-panel">
                     <div class="pickup-scroll-wrapper">
                         <div class="pickup-card-row">
+                            <!-- Loop through accepted pickup reservations -->
                             {% for reservation in accepted_pickups %}
                             <article class="pickup-card">
-<div class="pickup-visual-column">
+                                <!-- Organisation and food images, with placeholders if no image was uploaded -->
+                                <div class="pickup-visual-column">
 
-  {% if reservation.organisation.profile_image %}
-    <img
-      src="{{ reservation.organisation.profile_image.url }}"
-      alt="{{ reservation.organisation.organisation_name }}"
-      class="pickup-image"
-    />
-  {% else %}
-    <div class="pickup-image"></div>
-  {% endif %}
+                                {% if reservation.organisation.profile_image %}
+                                    <img
+                                    src="{{ reservation.organisation.profile_image.url }}"
+                                    alt="{{ reservation.organisation.organisation_name }}"
+                                    class="pickup-image"
+                                    />
+                                {% else %}
+                                    <div class="pickup-image"></div>
+                                {% endif %}
 
-  <h3 class="pickup-establishment">
-    {{ reservation.organisation.organisation_name }}
-  </h3>
+                                <h3 class="pickup-establishment">
+                                    {{ reservation.organisation.organisation_name }}
+                                </h3>
 
-  {% if reservation.food_listing.image %}
-    <img
-      src="{{ reservation.food_listing.image.url }}"
-      alt="{{ reservation.food_listing.name }}"
-      class="pickup-food-image"
-    />
-  {% else %}
-    <div class="pickup-food-image pickup-food-placeholder"></div>
-  {% endif %}
+                                {% if reservation.food_listing.image %}
+                                    <img
+                                    src="{{ reservation.food_listing.image.url }}"
+                                    alt="{{ reservation.food_listing.name }}"
+                                    class="pickup-food-image"
+                                    />
+                                {% else %}
+                                    <div class="pickup-food-image pickup-food-placeholder"></div>
+                                {% endif %}
 
-</div>
-
-<div class="pickup-details">
+                                </div>
+                                <!-- Pickup details for the accepted reservation -->
+                                <div class="pickup-details">
                                     <p>
                                         <strong>Item:</strong>
                                     </p>
@@ -80,6 +85,7 @@
                                         {{ reservation.food_listing.pickup_location }}
                                     </p>
                                 </div>
+                                <!-- Button for establishment to confirm pickup completion -->
                                 <form
                                     method="POST"
                                     action="{% url 'establishment_mark_pickup_completed' reservation.id %}"
@@ -88,7 +94,7 @@
                                 >
                                     {% csrf_token %}
 
-{% if reservation.establishment_marked_completed %}
+                                    {% if reservation.establishment_marked_completed %}
                                     <button type="submit" class="claimed-button marked-completed" disabled>
                                         Marked by you
                                     </button>
@@ -100,12 +106,14 @@
                                 </form>
                             </article>
                             {% empty %}
+                            <!-- Message shown when there are no accepted pickups -->
                             <p class="empty-message">No accepted pickups yet.</p>
                             {% endfor %}
                         </div>
                     </div>
                 </div>
             </section>
+            <!-- Pending pickup requests waiting for establishment approval -->
             <h2>Pending Pickup Requests</h2>
             <h3>These are reservation requests from organisations waiting for your approval.</h3>
             <h3>Click on a card to view the food listing details.</h3>
@@ -115,14 +123,17 @@
                 <section class="requests-panel">
                     <div class="listings-scroll">
                         <div class="requests-sent">
+                             <!-- Loop through pending reservation requests received by the establishment -->
                             {% for reservation in reservations %}
                             <article class="reservation-card clickable-reservation-card" data-url="{% url 'food_listing_detail' reservation.food_listing.id %}">
+                                <!-- Organisation profile image, with placeholder if no image was uploaded -->
                                 <div class="upper-card">
                                     {% if reservation.organisation.profile_image %}
                                     <img src="{{ reservation.organisation.profile_image.url }}" alt="{{ reservation.organisation.organisation_name }}" class="reservation-image">
                                     {% else %}
                                     <div class="reservation-image"></div>
                                     {% endif %}
+                                    <!-- Reservation request details submitted by the organisation -->
                                     <div class="reservation-info">
                                         <h2 class="food-card-header">
                                             {{ reservation.organisation.organisation_name }}
@@ -143,6 +154,7 @@
                                             Sent on: {{ reservation.created_at|date:"d/m/Y" }}
                                         </p>
                                     </div>
+                                    <!-- Accept or reject the reservation request -->
                                     <div class="reservation-status">
                                         <div class="request-action-buttons">
                                             <form method="POST" action="{% url 'approve_reservation' reservation.id %}" onsubmit="return confirm('Are you sure you want to accept this reservation request?');">
@@ -156,6 +168,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                 <!-- Optional message submitted by the organisation -->
                                 <div class="lower-card">
                                     <p class="food-card-detail request-message">
                                         <strong>Message:</strong>
@@ -169,47 +182,48 @@
                         </div>
                     </div>
                 </section>
-                
             </div>
-<section class="statistics-section">
-  <h2 class="statistics-title">Donation Activity Overview</h2>
+                <!-- Establishment donation activity statistics -->
+                <section class="statistics-section">
+                <h2 class="statistics-title">Donation Activity Overview</h2>
 
-  <div class="statistics-card-wrapper">
-    <div class="statistics-card completed-card">
-  <h3 class="statistics-number">{{ completed_pickups }}</h3>
-  <p class="statistics-label">Completed<br>Pickups</p>
+                <div class="statistics-card-wrapper">
+                    <div class="statistics-card completed-card">
+                <h3 class="statistics-number">{{ completed_pickups }}</h3>
+                <p class="statistics-label">Completed<br>Pickups</p>
 
-  <a href="{% url 'establishment_completed_pickups' %}" class="statistics-link">
-    View History
-  </a>
-</div>
+                <a href="{% url 'establishment_completed_pickups' %}" class="statistics-link">
+                    View History
+                </a>
+                </div>
 
-    <div class="statistics-card food-card-stat">
-      <h3 class="statistics-number">{{ food_listings_count }}</h3>
-      <p class="statistics-label">Food<br>Listings Created</p>
-    </div>
+                    <div class="statistics-card food-card-stat">
+                    <h3 class="statistics-number">{{ food_listings_count }}</h3>
+                    <p class="statistics-label">Food<br>Listings Created</p>
+                    </div>
 
-    <div class="statistics-card donated-card">
-      <h3 class="statistics-number">{{ total_food_donated|floatformat:0 }}</h3>
-      <p class="statistics-label">kg of Food<br>Donated</p>
-    </div>
-  </div>
-</section>
+                    <div class="statistics-card donated-card">
+                    <h3 class="statistics-number">{{ total_food_donated|floatformat:0 }}</h3>
+                    <p class="statistics-label">kg of Food<br>Donated</p>
+                    </div>
+                </div>
+                </section>
         </main>
         {% include "foodrescue/includes/footer.html" %}
         <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const cards = document.querySelectorAll(".clickable-reservation-card");
+            // Make reservation cards clickable, but allow the accept and reject buttons to work normally.
+            document.addEventListener("DOMContentLoaded", function () {
+                const cards = document.querySelectorAll(".clickable-reservation-card");
 
-    cards.forEach(function (card) {
-      card.addEventListener("click", function (event) {
-        if (event.target.closest("form") || event.target.closest("button")) {
-          return;
-        }
+                cards.forEach(function (card) {
+                card.addEventListener("click", function (event) {
+                    if (event.target.closest("form") || event.target.closest("button")) {
+                    return;
+                    }
 
-        window.location.href = card.dataset.url;
-      });
-    });
-  });
+                    window.location.href = card.dataset.url;
+                });
+                });
+            });
         </script>
-    </body>
+</body>

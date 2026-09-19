@@ -13,10 +13,12 @@
     <title>Your Food Listings</title>
   </head>
   <body>
+    <!-- Establishment navigation bar for logged-in establishment users -->
     {% include "foodrescue/includes/navbar_establishment.html" %}
+    <!-- Main layout with filter sidebar and listing content -->
     <main class="page-wrapper">
     <div class="entire-page-box">
-      <!-- LEFT FILTER BOX -->
+      <!-- Left sidebar filters for category and halal options -->
       <aside class="filter-box">
         <h3>Filter Category</h3>
 
@@ -42,7 +44,7 @@
         {% endfor %}
       </aside>
 
-      <!-- RIGHT PAGE CONTENT -->
+      <!-- Main listing area with sorting and search controls -->
       <main class="page-content">
         <h1>Your Food Listings</h1>
         <h3>All the listings you created.</h3>
@@ -83,17 +85,17 @@
   </div>
 </form>
 
-        <!-- RIGHT CARD AREA -->
+        <!-- Food listing cards created by the current establishment -->
         <div class="listings-scroll">
           <div class="food-grid">
             {% for listing in listings %}
-            
+            <!-- Apply near-expiry styling when the listing expires within 30 days -->
             <div 
-  class="food-card clickable-food-card {% if listing.is_near_expiry %}near-expiry-card{% endif %}" 
-  data-url="{% url 'establishment_food_listing_detail' listing.id %}" 
->
+                class="food-card clickable-food-card {% if listing.is_near_expiry %}near-expiry-card{% endif %}" 
+                data-url="{% url 'establishment_food_listing_detail' listing.id %}" 
+              >
               <p class="expiry-date"><strong>Expiry Date:</strong> {{ listing.expiry_date }}</p>
-
+              <!-- Food listing image, with placeholder if no image was uploaded -->
               {% if listing.image %}
                 <img
                   src="{{ listing.image.url }}"
@@ -108,62 +110,64 @@
 
               <p class="listing-info">Category: {{ listing.get_category_display }}</p>
               <p class="listing-info">Quantity: {{ listing.quantity }}</p>
-
+              <!-- Reservation request status for this listing -->
               <div class="listing-request-status">
-  {% if listing.approved_reservations %}
-    {% with accepted_reservation=listing.approved_reservations.0 %}
-      <p class="pickup-by-text">
-        Pickup by: {{ accepted_reservation.organisation.organisation_name }}
-      </p>
-    {% endwith %}
+                {% if listing.approved_reservations %}
+                  {% with accepted_reservation=listing.approved_reservations.0 %}
+                    <p class="pickup-by-text">
+                      Pickup by: {{ accepted_reservation.organisation.organisation_name }}
+                    </p>
+                  {% endwith %}
 
-  {% elif listing.pending_request_count > 0 %}
-    <p class="pending-request-text">
-      <span>{{ listing.pending_request_count }}</span>
-      Pending Requests
-    </p>
-  {% endif %}
-</div>
-<div class="listing-bottom-info">
-  {% if listing.status == "completed" %}
-    <p>Pickup date:</p>
-    <p>Pickup time:</p>
+                {% elif listing.pending_request_count > 0 %}
+                  <p class="pending-request-text">
+                    <span>{{ listing.pending_request_count }}</span>
+                    Pending Requests
+                  </p>
+                {% endif %}
+              </div>
+              <!-- Listing pickup details and current listing status -->
+              <div class="listing-bottom-info">
+                {% if listing.status == "completed" %}
+                  <p>Pickup date:</p>
+                  <p>Pickup time:</p>
 
-    <div class="listing-status-pill completed-pill">
-      Completed
-    </div>
+                  <div class="listing-status-pill completed-pill">
+                    Completed
+                  </div>
 
-  {% elif listing.approved_reservations %}
-    {% with accepted_reservation=listing.approved_reservations.0 %}
-      <p>Pickup date: {{ accepted_reservation.pickup_date|date:"d/m/Y" }}</p>
-      <p>Pickup time: {{ accepted_reservation.pickup_time|time:"H:i" }}</p>
+                {% elif listing.approved_reservations %}
+                  {% with accepted_reservation=listing.approved_reservations.0 %}
+                    <p>Pickup date: {{ accepted_reservation.pickup_date|date:"d/m/Y" }}</p>
+                    <p>Pickup time: {{ accepted_reservation.pickup_time|time:"H:i" }}</p>
 
-      <div class="listing-status-pill reserved-pill">
-        Reserved
-      </div>
-    {% endwith %}
+                    <div class="listing-status-pill reserved-pill">
+                      Reserved
+                    </div>
+                  {% endwith %}
 
-  {% elif listing.status == "available" %}
-    <p>Pickup date:</p>
-    <p>Pickup time:</p>
+                {% elif listing.status == "available" %}
+                  <p>Pickup date:</p>
+                  <p>Pickup time:</p>
 
-    <div class="listing-status-pill available-pill">
-      Available
-    </div>
+                  <div class="listing-status-pill available-pill">
+                    Available
+                  </div>
 
-  {% elif listing.status == "expired" %}
-    <p>Pickup date:</p>
-    <p>Pickup time:</p>
+                {% elif listing.status == "expired" %}
+                  <p>Pickup date:</p>
+                  <p>Pickup time:</p>
 
-    <div class="listing-status-pill expired-pill">
-      Expired
-    </div>
-  {% endif %}
-</div>
+                  <div class="listing-status-pill expired-pill">
+                    Expired
+                  </div>
+                {% endif %}
+              </div>
 
               <div class="donor-row">
       </div>
             </div>
+            <!-- Message shown when no listings match the selected filters or search -->
             {% empty %}
             <p>No food listings matched your search or filters.</p>
             {% endfor %}
@@ -175,6 +179,7 @@
     </main>
     {% include "foodrescue/includes/footer.html" %}
     <script>
+  // Make each food listing card clickable and redirect to its detail page.
   document.addEventListener("DOMContentLoaded", function () {
     const cards = document.querySelectorAll(".clickable-food-card");
 

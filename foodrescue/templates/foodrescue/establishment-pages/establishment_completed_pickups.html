@@ -16,12 +16,14 @@
   </head>
 
   <body>
+    <!-- Establishment navigation bar for logged-in establishment users -->
     {% include "foodrescue/includes/navbar_establishment.html" %}
 
     <main class="page-wrapper completed-history-page">
+      <!-- Completed pickups history page heading -->
       <h1>Completed Pickups History</h1>
       <h3 class="center-text">These are the pickup requests that have been completed.</h3>
-
+      <!-- Completed pickup requests shown in reverse chronological order -->
       <section class="scheduled-pickups-section">
         <h2>Completed Pickups</h2>
         <p class="section-subtitle">
@@ -31,10 +33,10 @@
         <div class="pickup-panel">
           <div class="pickup-scroll-wrapper">
             <div class="pickup-card-row">
-
+              <!-- Loop through completed pickup reservations -->
               {% for reservation in completed_pickups %}
                 <article class="pickup-card">
-
+                  <!-- Organisation and food images, with placeholders if no image was uploaded -->
                   <div class="pickup-visual-column">
 
                     {% if reservation.organisation.profile_image %}
@@ -62,7 +64,7 @@
                     {% endif %}
 
                   </div>
-
+                  <!-- Completed pickup details -->
                   <div class="pickup-details">
                     <p class="item-name">{{ reservation.food_listing.name }}</p>
 
@@ -83,6 +85,7 @@
                 </article>
 
               {% empty %}
+                <!-- Message shown when there are no completed pickups -->
                 <p class="empty-message">No completed pickups yet.</p>
               {% endfor %}
 
@@ -90,7 +93,7 @@
           </div>
         </div>
       </section>
-
+      <!-- Link back to the establishment dashboard -->
       <div class="back-link-section">
         <a href="{% url 'establishment_dashboard' %}">Back to Dashboard</a>
       </div>

@@ -15,14 +15,16 @@
 
 <body>
   {% include "foodrescue/includes/navbar_organisation.html" %}
-
+  <!-- Organisation profile page where users can update public profile information -->
   <main class="profile-page">
+      <!-- Profile heading and note that this information is public -->
       <section class="profile-header">
         <h1>Your Profile</h1>
         <p>All the information here is available to the public.</p>
+      <!-- Profile update form with image upload support -->
       <form method="POST" enctype="multipart/form-data" class="profile-form">
         {% csrf_token %}
-
+        <!-- Organisation profile image, with placeholder if no image was uploaded -->
         <div class="profile-image-section">
           {% if organisation.profile_image %}
             <img
@@ -46,7 +48,7 @@
             hidden
           />
         </div>
-
+        <!-- Verification status badge shown based on admin approval -->
         {% if organisation.is_verified %}
           <div class="verified-badge">
             <span class="tick">✓</span>
@@ -57,7 +59,7 @@
             Pending Verification
           </div>
         {% endif %}
-
+        <!-- Editable organisation contact and public profile details --> 
         <div class="form-area">
 
         <label>Contact number:</label>
@@ -87,7 +89,7 @@
             name="team_size"
             value="{{ organisation.team_size|default_if_none:'' }}"
           />
-
+          <!-- Dropdowns for organisation type and region -->
           <div class="two-column-row">
             <div>
               <label>Organisation type:</label>
@@ -140,12 +142,13 @@
 
           <label>About:</label>
           <textarea name="description">{{ organisation.description }}</textarea>
-
+          <!-- Save updated organisation profile details -->
           <button type="submit" class="save-button">
             Save Changes
           </button>
         </div>
       </form>
+      <!-- Logout form for the current organisation user -->
       <form method="POST" action="{% url 'logout' %}" class="logout-form">
   {% csrf_token %}
   <button type="submit" class="logout-button">

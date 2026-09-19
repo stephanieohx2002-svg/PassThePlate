@@ -13,10 +13,11 @@
     <title>Browse Food Listings</title>
   </head>
   <body>
+    <!-- Organisation navigation bar for logged-in organisation users -->
     {% include "foodrescue/includes/navbar_organisation.html" %}
     <main class="page-wrapper">
       <div class="entire-page-box">
-        <!-- LEFT FILTER BOX -->
+        <!-- Main browse listings layout with filter sidebar and listing content -->
         <aside class="filter-box">
           <h3>Filter Category</h3>
 
@@ -42,12 +43,13 @@
           {% endfor %}
         </aside>
 
-        <!-- RIGHT PAGE CONTENT -->
+        <!-- Main listing area with sorting and search controls -->
         <main class="page-content">
           <h1>Browse Food Listings</h1>
           <h3>Look at available food listings near you.</h3>
 
-          <form method="GET" class="listing-control-bar">
+          <!-- Preserve selected filters when sorting or searching -->
+          <form method="GET" class="listing-control-bar"
             {% if selected_category %}
             <input type="hidden" name="category" value="{{ selected_category }}" />
             {% endif %} {% if halal_only %}
@@ -75,13 +77,14 @@
             </div>
           </form>
 
-          <!-- RIGHT CARD AREA -->
+          <!-- Food listing cards showing only available listings passed from the view -->
           <div class="listings-scroll">
             <div class="food-grid">
               {% for listing in listings %}
+              <!-- Apply near-expiry styling when the listing expires within 30 days -->
               <div class="food-card {% if listing.is_near_expiry %}near-expiry-card{% endif %}">
                 <p class="expiry-date"><strong>Expiry Date:</strong> {{ listing.expiry_date }}</p>
-
+                <!-- Food listing image, with placeholder if no image was uploaded -->
                 {% if listing.image %}
                 <img src="{{ listing.image.url }}" class="food-card-image" alt="{{ listing.name }}" />
                 {% else %}
@@ -98,11 +101,11 @@
 
                 <p class="listing-info">Category: {{ listing.get_category_display }}</p>
                 <p class="listing-info">Quantity: {{ listing.quantity }}</p>
-
+                <!-- Link to reservation form for the selected listing -->
                 <a href="{% url 'reserve_food_listing' listing.id %}">
                   <button type="button" class="pickup-button">Pick Up</button>
                 </a>
-
+                <!-- Donor establishment information shown for transparency -->
                 <div class="donor-row">
                   {% if listing.establishment.profile_image %}
                   <img src="{{ listing.establishment.profile_image.url }}" alt="{{ listing.establishment.business_name }}" class="donor-icon" />
@@ -116,6 +119,7 @@
                 </div>
               </div>
               {% empty %}
+              <!-- Message shown when no listings match the selected filters or search -->
               <p>No food listings matched your search or filters.</p>
               {% endfor %}
             </div>

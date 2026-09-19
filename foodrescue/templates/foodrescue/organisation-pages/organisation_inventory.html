@@ -14,13 +14,16 @@
     </head>
     <body>
         {% include "foodrescue/includes/navbar_organisation.html" %}
+        <!-- Organisation inventory page showing collected food items -->
         <main class="page-wrapper inventory-page">
+            <!-- Inventory page heading -->
             <section class="inventory-header">
                 <h1>Inventory</h1>
                 <h3>These are all the items you have picked up.</h3>
             </section>
+            <!-- Inventory layout with filter sidebar and inventory results -->
             <div class="inventory-layout">
-                <!-- LEFT FILTER BOX -->
+                <!-- Left sidebar filters for category and halal options -->
                 <aside class="inventory-filter-box" data-filter-url="{% url 'filter_inventory' %}">
                     <h3>FILTER CATEGORY</h3>
                     <button type="button" class="filter-btn active-filter" data-category="">
@@ -36,7 +39,7 @@
                         Halal
                     </button>
                 </aside>
-                <!-- RIGHT INVENTORY CARD AREA -->
+                <!-- Inventory card area loaded from a reusable partial template -->
                 <section class="inventory-scroll" id="inventory-results">
                     {% include "foodrescue/organisation-pages/partials/inventory-cards.html" %}
                 </section>
@@ -53,7 +56,7 @@
 
     let selectedCategory = "";
     let halalOnly = false;
-
+    // Filter inventory items using the selected category and halal option.
     function updateInventory() {
       const filterUrl = filterBox.dataset.filterUrl;
       const url = `${filterUrl}?category=${selectedCategory}&halal=${halalOnly}`;
@@ -81,7 +84,7 @@
           alert("Unable to filter inventory. Check the console/terminal for the real error.");
         });
     }
-
+    // Handle category filter button clicks.
     categoryButtons.forEach(function (button) {
       button.addEventListener("click", function (event) {
         event.preventDefault();
@@ -97,78 +100,80 @@
         updateInventory();
       });
     });
+        // Toggle the halal filter on or off.
+        halalButton.addEventListener("click", function (event) {
+          event.preventDefault();
 
-    halalButton.addEventListener("click", function (event) {
-      event.preventDefault();
+          halalOnly = !halalOnly;
 
-      halalOnly = !halalOnly;
+          if (halalOnly) {
+            halalButton.classList.add("active-filter");
+          } else {
+            halalButton.classList.remove("active-filter");
+          }
 
-      if (halalOnly) {
-        halalButton.classList.add("active-filter");
-      } else {
-        halalButton.classList.remove("active-filter");
+          updateInventory();
+        });
+        // Handle inventory quantity increase and decrease buttons.
+        inventoryResults.addEventListener("click", function (event) {
+      const increaseButton = event.target.closest(".increase-inventory-qty");
+      const decreaseButton = event.target.closest(".decrease-inventory-qty");
+
+      if (!increaseButton && !decreaseButton) {
+        return;
       }
 
-      updateInventory();
+      const card = event.target.closest(".inventory-card");
+      const quantityBox = card.querySelector(".inventory-quantity-box");
+      const updateUrl = card.dataset.updateUrl;
+
+      const action = increaseButton ? "increase" : "decrease";
+
+      fetch(updateUrl, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `action=${action}`,
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          if (data.success) {
+            quantityBox.textContent = data.remaining_quantity;
+
+            if (data.remaining_quantity <= 0) {
+              card.remove();
+            }
+          }
+        })
+        .catch(function (error) {
+          console.error("Quantity update error:", error);
+          alert("Unable to update quantity.");
+        });
     });
-    inventoryResults.addEventListener("click", function (event) {
-  const increaseButton = event.target.closest(".increase-inventory-qty");
-  const decreaseButton = event.target.closest(".decrease-inventory-qty");
+        // Get the CSRF token required for POST requests in Django.
+        function getCookie(name) {
+          let cookieValue = null;
 
-  if (!increaseButton && !decreaseButton) {
-    return;
-  }
+          if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
 
-  const card = event.target.closest(".inventory-card");
-  const quantityBox = card.querySelector(".inventory-quantity-box");
-  const updateUrl = card.dataset.updateUrl;
+            for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
 
-  const action = increaseButton ? "increase" : "decrease";
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+              }
+            }
+          }
 
-  fetch(updateUrl, {
-    method: "POST",
-    headers: {
-      "X-CSRFToken": getCookie("csrftoken"),
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `action=${action}`,
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      if (data.success) {
-        quantityBox.textContent = data.remaining_quantity;
-
-        if (data.remaining_quantity <= 0) {
-          card.remove();
+          return cookieValue;
         }
-      }
-    })
-    .catch(function (error) {
-      console.error("Quantity update error:", error);
-      alert("Unable to update quantity.");
-    });
-});
-function getCookie(name) {
-  let cookieValue = null;
-
-  if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";");
-
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-
-      if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-
-  return cookieValue;
-}
-  });
+          });
         </script>
     </body>
 </html>

@@ -16,9 +16,11 @@
         {% include "foodrescue/includes/navbar_organisation.html" %}
         <main class="page-wrapper">
             <h1 class="page-title">Pick Up Request Form</h1>
+            <!-- Selected food listing ID -->
             <section class="listing-id-section">
                 <h2>Listing ID: {{ food_listing.id }}</h2>
             </section>
+            <!-- Pickup request form for the selected food listing -->
             <div class="form-wrapper">
                 <form method="POST" class="pickup-form">
                     {% csrf_token %} {{ form.non_field_errors }}
@@ -26,6 +28,7 @@
                         <h2 class="section-title">Pickup Date &amp; Time</h2>
                         <h3>Please select your preferred pickup date and time</h3>
                     </div>
+                    <!-- Pickup date, time, and remarks form fields -->
                     <section class="pickup-form-section">
                         <div class="pickup-left">
                             <div class="form-group">
@@ -44,16 +47,19 @@
                             </div>
                         </div>
                     </section>
+                    <!-- Submit reservation request -->
                     <div class="submit-section">
                         <button type="submit" class="submit-button">Submit</button>
                     </div>
                 </form>
             </div>
+            <!-- Food listing details shown before the organisation submits a request -->
             <div class="section-title-wrapper">
                 <h2 class="section-title">Food Listing Details</h2>
                 <h3>Here are the details of the food listing.</h3>
             </div>
             <section class="listing-details-section">
+            <!-- Food listing image, with placeholder if no image was uploaded -->
                 {% if food_listing.image %}
                 <img 
                     src="{{ food_listing.image.url }}" 
@@ -63,6 +69,7 @@
                 {% else %}
                 <div class="listing-image-placeholder"></div>
                 {% endif %}
+                <!-- Food listing information retrieved from the FoodListing model -->
                 <div class="listing-details-form">
                     <div class="detail-group">
                         <span class="detail-label">Name:</span>
@@ -93,8 +100,8 @@
                         <span class="detail-value">{{ food_listing.pickup_location }}</span>
                     </div>
                     <div class="detail-group">
-                        <span class="detail-label">Pickup Location:</span>
-                        <span class="detail-value">{{ food_listing.establishment }}</span>
+                        <span class="detail-label">Donated by:</span>
+                        <span class="detail-value">{{ food_listing.establishment.business_name }}</span>
                     </div>
                     <div class="detail-group description-group">
                         <span class="detail-label">Description:</span>
@@ -102,6 +109,7 @@
                     </div>
                 </div>
             </section>
+            <!-- Link back to the browse food listings page -->
             <div class="back-link-section">
                 <a href="{% url 'browse_food_listings' %}">Back to Food Listings</a>
             </div>

@@ -6,14 +6,16 @@
     <title>Reservation Requests</title>
   </head>
   <body>
+    <!-- Page heading for pending reservation requests -->
     <h1>Pending Reservation Requests (establishment POV)</h1>
-
+    <!-- Link back to the food listings page -->
     <a href="{% url 'browse_food_listings' %}">Back to Food Listings</a>
 
     <br /><br />
-
+    <!-- Loop through pending reservation requests -->
     {% for reservation in reservations %}
     <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 15px">
+      <!-- Reservation request details -->
       <h2>{{ reservation.food_listing.name }}</h2>
 
       <p>
@@ -29,18 +31,19 @@
       <p><strong>Pickup Time:</strong> {{ reservation.pickup_time }}</p>
       <p><strong>Message:</strong> {{ reservation.message }}</p>
       <p><strong>Status:</strong> {{ reservation.get_status_display }}</p>
-
+      <!-- Approve reservation request -->
       <form method="POST" action="{% url 'approve_reservation' reservation.id %}" style="display: inline">
         {% csrf_token %}
         <button type="submit">Approve</button>
       </form>
-
+      <!-- Reject reservation request -->
       <form method="POST" action="{% url 'reject_reservation' reservation.id %}" style="display: inline">
         {% csrf_token %}
         <button type="submit">Reject</button>
       </form>
     </div>
     {% empty %}
+    <!-- Message shown when there are no pending reservation requests -->
     <p>No pending reservation requests at the moment.</p>
     {% endfor %}
   </body>

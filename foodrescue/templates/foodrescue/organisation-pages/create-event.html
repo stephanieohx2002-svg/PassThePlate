@@ -15,6 +15,7 @@
     </head>
     <body>
         {% include "foodrescue/includes/navbar_organisation.html" %}
+        <!-- Event creation form with thumbnail, event details, date, and selected inventory items -->
         <main class="event-page-wrapper">
             <section class="event-header">
                 <h1>Organise a Distribution Event</h1>
@@ -22,7 +23,7 @@
             </section>
             <form method="POST" enctype="multipart/form-data" class="event-form">
                 {% csrf_token %}
-                <!-- THUMBNAIL UPLOAD SECTION -->
+                <!-- Thumbnail upload section with preview -->
                 <section class="thumbnail-section">
                     <div class="thumbnail-title">Upload a thumbnail</div>
                     <div class="thumbnail-placeholder">
@@ -41,7 +42,7 @@
                 hidden
               >
                 </section>
-                <!-- EVENT DETAILS SECTION -->
+                <!-- Basic event details entered by the organisation -->
                 <section class="event-details-section">
                     <h2>Fill in the details of your event</h2>
                     <div class="form-group">
@@ -72,7 +73,7 @@
                         <textarea id="description" name="description" required></textarea>
                     </div>
                 </section>
-                <!-- DATE AND TIME SECTION -->
+                <!-- Date, time, remarks, and custom calendar selector -->
                 <section class="date-time-section">
                     <h2>Date &amp; Time</h2>
                     <div class="date-time-layout">
@@ -91,7 +92,6 @@
                                 <textarea id="remarks" name="remarks"></textarea>
                             </div>
                         </div>
-                        <!-- RIGHT CALENDAR DESIGN -->
                         <div class="calendar-section">
                             <div class="calendar-header">
                                 <button type="button" id="prev-month" class="calendar-arrow">&lt;</button>
@@ -114,6 +114,7 @@
                     </div>
                 </section>
             </main>
+            <!-- Collected inventory selection area -->
             <main class="page-wrapper inventory-page">
                 <section class="inventory-header">
                     <h1>Inventory</h1>
@@ -142,15 +143,18 @@
                     </section>
                 </div>
             </main>
+             <!-- Selected inventory items that will be added to this event -->
             <section class="selected-event-section">
                 <h2>Selected for this Event</h2>
                 <div class="selected-event-panel">
+                    <!-- Hidden input used to submit selected inventory items as JSON -->
                     <div class="selected-items-scroll" id="selected-items-list">
                         <p class="selected-empty-message">No items selected yet.</p>
                     </div>
                 </div>
                 <input type="hidden" id="selected-event-items" name="selected_event_items">
             </section>
+            <!-- Event form error message and submit button -->
             <div class="submit-section">
   <p id="event-form-error" class="event-form-error"></p>
 
@@ -160,6 +164,7 @@
 </div>
         {% include "foodrescue/includes/footer.html" %}
         <script>
+// Validate that the organisation selected an event date and at least one inventory item before submitting.
 document.addEventListener("DOMContentLoaded", function () {
   const eventForm = document.querySelector(".event-form");
   const eventDateInput = document.getElementById("event-date");
@@ -186,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
     errorMessage.textContent = "";
   });
 });
+  // Show a preview when the organisation uploads an event thumbnail.
   document.addEventListener("DOMContentLoaded", function () {
   const thumbnailInput = document.getElementById("event-thumbnail");
   const thumbnailPreview = document.getElementById("thumbnail-preview");
@@ -205,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+  // Render the custom calendar and store the selected date in the hidden event_date input.
   document.addEventListener("DOMContentLoaded", function () {
     const calendarMonthYear = document.getElementById("calendar-month-year");
     const calendarGrid = document.getElementById("calendar-grid");
@@ -297,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     renderCalendar();
   });
-  // inventory
+  // Manage selected inventory items and store them as JSON for Django to process.
   document.addEventListener("DOMContentLoaded", function () {
     const inventoryResults = document.getElementById("inventory-results");
     const selectedItemsList = document.getElementById("selected-items-list");
@@ -309,12 +316,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const selectedItems = {};
-
+    // Update the hidden input whenever selected inventory items change.
     function updateHiddenInput() {
       selectedEventInput.value = JSON.stringify(Object.values(selectedItems));
       console.log("Selected items:", selectedEventInput.value);
     }
-
+    // Re-render the selected items panel shown below the inventory cards.
     function renderSelectedItems() {
       selectedItemsList.innerHTML = "";
 
@@ -353,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateHiddenInput();
     }
-
+    // Update available quantities on inventory cards after items are selected or removed.
     function syncInventoryCardsWithSelection() {
       const cards = inventoryResults.querySelectorAll(".inventory-card");
 
@@ -395,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
-
+    // Handle increase, decrease, and add item button clicks using event delegation.
     inventoryResults.addEventListener("click", function (event) {
       const card = event.target.closest(".inventory-card");
 
@@ -457,7 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
         syncInventoryCardsWithSelection();
       }
     });
-
+    // Remove an item from the selected event list.
     selectedItemsList.addEventListener("click", function (event) {
       if (!event.target.classList.contains("remove-selected-button")) {
         return;

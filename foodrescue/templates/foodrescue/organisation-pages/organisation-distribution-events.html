@@ -15,25 +15,30 @@
     <body>
         {% include "foodrescue/includes/navbar_organisation.html" %}
         <main class="distribution-page-wrapper">
+            <!-- Distribution events page heading -->
             <section class="distribution-header">
                 <h1>Distribution Events</h1>
                 <h3 class="center-text">
                     All the distribution events you have created, displayed chronologically.
                 </h3>
             </section>
+            <!-- List of distribution events created by the organisation -->
             <section class="distribution-events-section">
                 <div class="distribution-heading-row">
                     <div>
                         <h2>Organised Events</h2>
                         <p>These are the distribution events you have organised.</p>
                     </div>
+                    <!-- Button to create a new distribution event -->
                     <a href="{% url 'create_event' %}" class="create-event-plus">+</a>
                 </div>
                 <div class="distribution-panel">
                     <div class="distribution-scroll-wrapper">
                         <div class="distribution-card-row">
+                            <!-- Loop through all distribution events created by the organisation -->
                             {% for event in events %}
                             <article class="distribution-card">
+                                <!-- Event thumbnail image, with placeholder if no image was uploaded -->
                                 <div class="distribution-image-box">
                                     {% if event.thumbnail %}
                                     <img src="{{ event.thumbnail.url }}" class="distribution-image" alt="{{ event.name }}">
@@ -44,6 +49,7 @@
                                 <h3 class="distribution-card-title">
                                     {{ event.name }}
                                 </h3>
+                                <!-- Basic event details such as date, time, area, and location -->
                                 <div class="distribution-card-info">
                                     <p>
                                         <strong>Date:</strong>
@@ -52,9 +58,9 @@
                                     <p>
                                         <strong>Time:</strong>
                                         {{ event.start_time|time:"H:i" }}
-                  {% if event.end_time %}
-                    ~{{ event.end_time|time:"H:i" }}
-                  {% endif %}
+                            {% if event.end_time %}
+                                ~{{ event.end_time|time:"H:i" }}
+                            {% endif %}
                                     </p>
                                     <p>
                                         <strong>Area:</strong>
@@ -69,6 +75,7 @@
                                         {{ event.postal_code }}
                                     </p>
                                 </div>
+                                <!-- Event description, with fallback text if no description was provided -->
                                 <div class="distribution-description">
                                     <p>
                                         <strong>Description:</strong>
@@ -81,6 +88,7 @@
                   {% endif %}
                                     </p>
                                 </div>
+                                <!-- Food items allocated to this distribution event -->
                                 <div class="distribution-items-section">
                                     <p class="distribution-items-title">Items:</p>
                                     <div class="distribution-items-scroll">
@@ -102,11 +110,13 @@
                                         {% endfor %}
                                     </div>
                                 </div>
+                                <!-- Link to the detailed event page -->
                                 <a href="{% url 'event_detail' event.id %}" class="distribution-details-button">
                                     Details
                                 </a>
                             </article>
                             {% empty %}
+                            <!-- Message shown when the organisation has not created any distribution events -->
                             <p class="empty-message">No distribution events created yet.</p>
                             {% endfor %}
                         </div>

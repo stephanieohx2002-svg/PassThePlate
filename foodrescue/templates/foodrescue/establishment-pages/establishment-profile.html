@@ -16,18 +16,19 @@
 </head>
 
 <body>
+  <!-- Establishment navigation bar for logged-in establishment users -->
   {% include "foodrescue/includes/navbar_establishment.html" %}
-
+  <!-- Establishment profile page where users can update public business information -->
   <main class="profile-page">
-
+    <!-- Profile heading and note that this information is visible to organisations -->
     <section class="profile-header">
       <h1>Your Profile</h1>
       <p>All the information here is available to organisations.</p>
     </section>
-
+    <!-- Profile update form with image upload support -->
     <form method="POST" enctype="multipart/form-data" class="profile-form">
       {% csrf_token %}
-
+      <!-- Establishment profile image, with placeholder if no image was uploaded -->
       <div class="profile-image-section">
         {% if establishment.profile_image %}
           <img
@@ -51,7 +52,7 @@
           hidden
         />
       </div>
-
+      <!-- Verification status badge shown based on admin approval -->
       {% if establishment.is_verified %}
         <div class="verified-badge">
           <span class="tick">✓</span>
@@ -62,9 +63,9 @@
           Pending Verification
         </div>
       {% endif %}
-
+      <!-- Editable establishment business and contact details -->
       <div class="form-area">
-
+        <!-- Dropdowns for business type and region -->
         <label>Business name:</label>
         <input
           type="text"
@@ -167,7 +168,7 @@
 
         <label>About:</label>
         <textarea name="description">{{ establishment.description }}</textarea>
-
+        <!-- Save updated establishment profile details -->
         <button type="submit" class="save-button">
           Save Changes
         </button>
@@ -176,6 +177,7 @@
 
     <form method="POST" action="{% url 'logout' %}" class="logout-form">
       {% csrf_token %}
+       <!-- Logout form for the current establishment user -->
       <button type="submit" class="logout-button">
         Log Out
       </button>

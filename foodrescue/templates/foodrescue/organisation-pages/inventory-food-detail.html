@@ -18,12 +18,14 @@
     {% include "foodrescue/includes/navbar_organisation.html" %}
 
     <main class="page-wrapper">
+      <!-- Page heading and selected food listing ID -->
       <div class="section-title-wrapper">
         <h1 class="section-title">Food Listing Details</h1>
         <h2>Listing ID: {{ food_listing.id }}</h2>
       </div>
-
+      <!-- Detailed information for a collected food listing in the organisation inventory -->
       <section class="listing-details-section">
+        <!-- Food listing image, with placeholder if no image was uploaded -->
         <div class="listing-image-box">
           {% if food_listing.image %}
             <img
@@ -35,7 +37,7 @@
             <div class="listing-image-placeholder"></div>
           {% endif %}
         </div>
-
+        <!-- Food listing details retrieved from the FoodListing and Reservation models -->
         <div class="listing-details-form">
           <div class="detail-group">
             <span class="detail-label">Name:</span>
@@ -109,7 +111,7 @@
           </div>
         </div>
       </section>
-
+      <!-- Link back to the organisation inventory page -->
       <div class="back-link-section">
         <a href="{% url 'organisation_inventory' %}">Back to Inventory</a>
       </div>

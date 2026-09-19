@@ -15,226 +15,228 @@
 	</head>
 	<body>
         {% include "foodrescue/includes/navbar_organisation.html" %}
-          
+    <!-- Organisation dashboard heading -->      
 		<h1>Dashboard</h1>
 		<h3 class="center-text">Quick overview of your activities.</h3>
 		<main class="page-wrapper">
-            
-<section class="scheduled-pickups-section">
-  <h2>Pickups Scheduled Today</h2>
-  <p class="section-subtitle">
-    Your accepted pickup requests are organised chronologically.
-  </p>
+      <!-- Pickups scheduled for today -->              
+      <section class="scheduled-pickups-section">
+        <h2>Pickups Scheduled Today</h2>
+        <p class="section-subtitle">
+          Your accepted pickup requests are organised chronologically.
+        </p>
 
-  <div class="pickup-panel">
-    <div class="pickup-scroll-wrapper">
-      <div class="pickup-card-row">
+        <div class="pickup-panel">
+          <div class="pickup-scroll-wrapper">
+            <div class="pickup-card-row">
+              <!-- Loop through approved pickup reservations scheduled for today -->
+              {% for reservation in accepted_pickups %}
+                <article class="pickup-card">
+                  <!-- Establishment and food images, with placeholders if no image was uploaded -->
+                  <div class="pickup-visual-column">
 
-        {% for reservation in accepted_pickups %}
-          <article class="pickup-card">
+                    {% if reservation.food_listing.establishment.profile_image %}
+                      <img
+                        src="{{ reservation.food_listing.establishment.profile_image.url }}"
+                        alt="{{ reservation.food_listing.establishment.business_name }}"
+                        class="pickup-image"
+                      />
+                    {% else %}
+                      <div class="pickup-image"></div>
+                    {% endif %}
+                    <h3 class="pickup-establishment">
+                    {{ reservation.food_listing.establishment.business_name }}
+                    </h3>
+                    {% if reservation.food_listing.image %}
+                      <img
+                        src="{{ reservation.food_listing.image.url }}"
+                        alt="{{ reservation.food_listing.name }}"
+                        class="pickup-food-image"
+                      />
+                    {% else %}
+                      <div class="pickup-food-image pickup-food-placeholder"></div>
+                    {% endif %}
 
-            <div class="pickup-visual-column">
+                  </div>
 
-              {% if reservation.food_listing.establishment.profile_image %}
-                <img
-                  src="{{ reservation.food_listing.establishment.profile_image.url }}"
-                  alt="{{ reservation.food_listing.establishment.business_name }}"
-                  class="pickup-image"
-                />
-              {% else %}
-                <div class="pickup-image"></div>
-              {% endif %}
-              <h3 class="pickup-establishment">
-              {{ reservation.food_listing.establishment.business_name }}
-              </h3>
-              {% if reservation.food_listing.image %}
-                <img
-                  src="{{ reservation.food_listing.image.url }}"
-                  alt="{{ reservation.food_listing.name }}"
-                  class="pickup-food-image"
-                />
-              {% else %}
-                <div class="pickup-food-image pickup-food-placeholder"></div>
-              {% endif %}
+                
+                  <!-- Pickup details for the accepted reservation -->
+                  <div class="pickup-details">
+                    <p class="item-name">{{ reservation.food_listing.name }}</p>
+
+                    <p><strong>Quantity:</strong> {{ reservation.food_listing.quantity }}</p>
+                    <p><strong>Category:</strong> {{ reservation.food_listing.get_category_display }}</p>
+
+                    <br />
+
+                    <p><strong>Pickup Date:</strong> {{ reservation.pickup_date }}</p>
+                    <p><strong>Pickup Time:</strong> {{ reservation.pickup_time }}</p>
+                    <p><strong>Location:</strong> {{ reservation.food_listing.pickup_location }}</p>
+                  </div>
+                  <!-- Button for organisation to confirm pickup completion -->
+                  <form
+                    method="POST"
+                    action="{% url 'organisation_mark_pickup_completed' reservation.id %}"
+                    class="completion-form"
+                    onsubmit="return confirm('Are you sure you want to mark this reservation as claimed?');"
+                  >
+                    {% csrf_token %}
+
+                    {% if reservation.organisation_marked_completed %}
+                      <button
+                        type="submit"
+                        class="claimed-button marked-completed"
+                        disabled
+                      >
+                        Marked by you
+                      </button>
+                    {% else %}
+                      <button
+                        type="submit"
+                        class="claimed-button"
+                      >
+                        Mark as completed
+                      </button>
+                    {% endif %}
+                  </form>
+
+                </article>
+
+              {% empty %}
+                <!-- Message shown when there are no accepted pickups today -->
+                <p class="empty-message">No accepted pickups yet.</p>
+              {% endfor %}
 
             </div>
-
-           
-
-            <div class="pickup-details">
-              <p class="item-name">{{ reservation.food_listing.name }}</p>
-
-              <p><strong>Quantity:</strong> {{ reservation.food_listing.quantity }}</p>
-              <p><strong>Category:</strong> {{ reservation.food_listing.get_category_display }}</p>
-
-              <br />
-
-              <p><strong>Pickup Date:</strong> {{ reservation.pickup_date }}</p>
-              <p><strong>Pickup Time:</strong> {{ reservation.pickup_time }}</p>
-              <p><strong>Location:</strong> {{ reservation.food_listing.pickup_location }}</p>
-            </div>
-
-            <form
-              method="POST"
-              action="{% url 'organisation_mark_pickup_completed' reservation.id %}"
-              class="completion-form"
-              onsubmit="return confirm('Are you sure you want to mark this reservation as claimed?');"
-            >
-              {% csrf_token %}
-
-              {% if reservation.organisation_marked_completed %}
-                <button
-                  type="submit"
-                  class="claimed-button marked-completed"
-                  disabled
-                >
-                  Marked by you
-                </button>
-              {% else %}
-                <button
-                  type="submit"
-                  class="claimed-button"
-                >
-                  Mark as completed
-                </button>
-              {% endif %}
-            </form>
-
-          </article>
-
-        {% empty %}
-          <p class="empty-message">No accepted pickups yet.</p>
-        {% endfor %}
-
-      </div>
-    </div>
-  </div>
-</section>
+          </div>
+        </div>
+      </section>
 
 		<h2>Reservations Requests Sent</h2>
 		<h3>These are the listings you have requested to pickup.</h3>
 		<h3>If you need more details, click on the listing to be brought to the listing details.</h3>
 
 		<br /><br />
-<div class="dashboard-content">
+  <div class="dashboard-content">
 
-    <!-- LEFT RESERVATION LIST AREA -->
-    <section class="requests-panel">
-        <div class="listings-scroll">
-            <div class="requests-sent">
+      <!-- Reservation requests sent by the organisation -->
+      <section class="requests-panel">
+          <div class="listings-scroll">
+              <div class="requests-sent">
+                  <!-- Loop through all reservation requests made by the organisation -->
+                  {% for reservation in reservations %}
+    <a
+      href="{% url 'food_listing_detail' reservation.food_listing.id %}"
+      class="reservation-card"
+    >
+      {% if reservation.food_listing.establishment.profile_image %}
+    <img
+      src="{{ reservation.food_listing.establishment.profile_image.url }}"
+      alt="{{ reservation.food_listing.establishment.business_name }}"
+      class="reservation-image"
+    />
+  {% else %}
+    <div class="reservation-image"></div>
+  {% endif %}
 
-                {% for reservation in reservations %}
-  <a
-    href="{% url 'food_listing_detail' reservation.food_listing.id %}"
-    class="reservation-card"
-  >
-    {% if reservation.food_listing.establishment.profile_image %}
-  <img
-    src="{{ reservation.food_listing.establishment.profile_image.url }}"
-    alt="{{ reservation.food_listing.establishment.business_name }}"
-    class="reservation-image"
-  />
-{% else %}
-  <div class="reservation-image"></div>
-{% endif %}
+      <div class="reservation-info">
+        <h2 class="food-card-header">
+          {{ reservation.food_listing.establishment.business_name }}
+        </h2>
 
-    <div class="reservation-info">
-      <h2 class="food-card-header">
-        {{ reservation.food_listing.establishment.business_name }}
-      </h2>
+        <p class="food-card-detail food-name">
+          {{ reservation.food_listing.name }}
+        </p>
 
-      <p class="food-card-detail food-name">
-        {{ reservation.food_listing.name }}
-      </p>
+        <p class="food-card-detail">
+          Request ID: {{ reservation.id }}
+        </p>
 
-      <p class="food-card-detail">
-        Request ID: {{ reservation.id }}
-      </p>
+        <p class="food-card-detail">
+          Pickup Date: {{ reservation.pickup_date }}
+        </p>
 
-      <p class="food-card-detail">
-        Pickup Date: {{ reservation.pickup_date }}
-      </p>
+        <p class="food-card-detail">
+          Pickup Time: {{ reservation.pickup_time }}
+        </p>
+      </div>
+      <!-- Reservation status badge -->
+      <div class="reservation-status">
+        {% if reservation.status == "pending" %}
+          <span class="status-pill pending">Pending</span>
+        {% elif reservation.status == "approved" %}
+          <span class="status-pill accepted">Accepted</span>
+        {% elif reservation.status == "rejected" %}
+          <span class="status-pill rejected">Rejected</span>
+        {% else %}
+          <span class="status-pill">{{ reservation.get_status_display }}</span>
+        {% endif %}
 
-      <p class="food-card-detail">
-        Pickup Time: {{ reservation.pickup_time }}
-      </p>
-    </div>
-
-    <div class="reservation-status">
-      {% if reservation.status == "pending" %}
-        <span class="status-pill pending">Pending</span>
-      {% elif reservation.status == "approved" %}
-        <span class="status-pill accepted">Accepted</span>
-      {% elif reservation.status == "rejected" %}
-        <span class="status-pill rejected">Rejected</span>
-      {% else %}
-        <span class="status-pill">{{ reservation.get_status_display }}</span>
-      {% endif %}
-
-      <p class="date-info">
-        Sent on: {{ reservation.created_at|date:"d/m/Y" }}
-      </p>
-    </div>
-  </a>
-{% empty %}
-  <p>No reservations have been made yet.</p>
-{% endfor %}
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- RIGHT FILTER AREA -->
-<aside class="status-filter">
-    <h3>FILTER STATUS</h3>
-
-    <a href="{% url 'organisation_dashboard' %}?status=approved">
-        <button class="{% if selected_status == 'approved' %}active-filter{% endif %}">
-            Accepted
-        </button>
+        <p class="date-info">
+          Sent on: {{ reservation.created_at|date:"d/m/Y" }}
+        </p>
+      </div>
     </a>
+        {% empty %}
+          <p>No reservations have been made yet.</p>
+        {% endfor %}
 
-    <a href="{% url 'organisation_dashboard' %}?status=pending">
-        <button class="{% if selected_status == 'pending' %}active-filter{% endif %}">
-            Pending
-        </button>
-    </a>
+              </div>
+          </div>
+      </section>
 
-    <a href="{% url 'organisation_dashboard' %}?status=rejected">
-        <button class="{% if selected_status == 'rejected' %}active-filter{% endif %}">
-            Rejected
-        </button>
-    </a>
 
-    <a href="{% url 'organisation_dashboard' %}?status=collected">
-        <button class="{% if selected_status == 'collected' %}active-filter{% endif %}">
-            Collected
-        </button>
-    </a>
+      <!-- Status filter sidebar for reservation requests -->
+  <aside class="status-filter">
+      <h3>FILTER STATUS</h3>
 
-    <a href="{% url 'organisation_dashboard' %}">
-        <button>
-            Clear Filter
-        </button>
-    </a>
-</aside>
-</div>
-<section class="statistics-section">
-  <h2 class="statistics-title">Statistics</h2>
+      <a href="{% url 'organisation_dashboard' %}?status=approved">
+          <button class="{% if selected_status == 'approved' %}active-filter{% endif %}">
+              Accepted
+          </button>
+      </a>
 
-  <div class="statistics-card-wrapper">
-    <div class="statistics-card completed-card">
-      <h3 class="statistics-number">{{ completed_pickups }}</h3>
-      <p class="statistics-label">Completed<br />Pickups</p>
-    </div>
+      <a href="{% url 'organisation_dashboard' %}?status=pending">
+          <button class="{% if selected_status == 'pending' %}active-filter{% endif %}">
+              Pending
+          </button>
+      </a>
 
-    <div class="statistics-card food-card-stat">
-      <h3 class="statistics-number">{{ total_food_rescued|floatformat:0 }}</h3>
-      <p class="statistics-label">kg of food<br />rescued</p>
-    </div>
+      <a href="{% url 'organisation_dashboard' %}?status=rejected">
+          <button class="{% if selected_status == 'rejected' %}active-filter{% endif %}">
+              Rejected
+          </button>
+      </a>
+
+      <a href="{% url 'organisation_dashboard' %}?status=collected">
+          <button class="{% if selected_status == 'collected' %}active-filter{% endif %}">
+              Collected
+          </button>
+      </a>
+
+      <a href="{% url 'organisation_dashboard' %}">
+          <button>
+              Clear Filter
+          </button>
+      </a>
+  </aside>
   </div>
-</section>
+  <!-- Organisation statistics summary -->
+  <section class="statistics-section">
+    <h2 class="statistics-title">Statistics</h2>
+
+    <div class="statistics-card-wrapper">
+      <div class="statistics-card completed-card">
+        <h3 class="statistics-number">{{ completed_pickups }}</h3>
+        <p class="statistics-label">Completed<br />Pickups</p>
+      </div>
+
+      <div class="statistics-card food-card-stat">
+        <h3 class="statistics-number">{{ total_food_rescued|floatformat:0 }}</h3>
+        <p class="statistics-label">kg of food<br />rescued</p>
+      </div>
+    </div>
+  </section>
 
 </main>
 {% include "foodrescue/includes/footer.html" %}

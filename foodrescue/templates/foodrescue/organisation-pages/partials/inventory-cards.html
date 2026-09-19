@@ -1,9 +1,13 @@
+<!-- Inventory card grid showing collected food items -->
 <div class="inventory-grid">
+  <!-- Loop through collected reservations available in the organisation inventory -->
   {% for reservation in accepted_reservations %}
+  <!-- Apply near-expiry styling when the food listing expires within 30 days -->
   <article class="inventory-card {% if reservation.food_listing.is_near_expiry %}near-expiry-card{% endif %}" data-update-url="{% url 'update_inventory_quantity' reservation.id %}">
     <p class="expiry-date">Expires on: {{ reservation.food_listing.expiry_date|date:"d/m/Y" }}</p>
-
+    <!-- Link to the detailed inventory food page -->
     <a href="{% url 'inventory_food_detail' reservation.id %}" class="inventory-card-link">
+      <!-- Food listing image, with placeholder if no image was uploaded -->
       {% if reservation.food_listing.image %}
       <img src="{{ reservation.food_listing.image.url }}" class="inventory-card-image" alt="{{ reservation.food_listing.name }}" />
       {% else %}
@@ -16,7 +20,7 @@
     <p class="inventory-category">Category: {{ reservation.food_listing.get_category_display }}</p>
 
     <p class="quantity-label">Remaining Quantity:</p>
-
+    <!-- Quantity controls for updating the remaining inventory quantity -->
     <div class="quantity-control">
       <button type="button" class="quantity-symbol decrease-inventory-qty">−</button>
 
@@ -28,6 +32,7 @@
     <button type="button" class="delete-button">Remove Item</button>
   </article>
   {% empty %}
+  <!-- Message shown when there are no inventory items -->
   <p class="empty-message">No accepted inventory items yet.</p>
   {% endfor %}
 </div>

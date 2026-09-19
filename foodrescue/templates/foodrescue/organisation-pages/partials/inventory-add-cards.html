@@ -1,8 +1,12 @@
+<!-- Inventory card grid showing collected food items available for event allocation -->
 <div class="inventory-grid">
+  <!-- Loop through collected reservations that can be added to the distribution event -->
   {% for reservation in accepted_reservations %}
+  <!-- Store inventory data in data attributes for JavaScript selection logic -->
+  <!-- Apply near-expiry styling when the food listing expires within 30 days -->
   <article class="inventory-card {% if reservation.food_listing.is_near_expiry %}near-expiry-card{% endif %}" data-reservation-id="{{ reservation.id }}" data-food-name="{{ reservation.food_listing.name }}" data-category="{{ reservation.food_listing.get_category_display }}" data-original-available="{{ reservation.remaining_quantity }}" data-available="{{ reservation.remaining_quantity }}">
     <p class="expiry-date">Expires on: {{ reservation.food_listing.expiry_date|date:"d/m/Y" }}</p>
-
+    <!-- Food listing image, with placeholder if no image was uploaded -->
     {% if reservation.food_listing.image %}
     <img src="{{ reservation.food_listing.image.url }}" class="inventory-card-image" alt="{{ reservation.food_listing.name }}" />
     {% else %}
@@ -12,12 +16,12 @@
     <h2 class="inventory-name">{{ reservation.food_listing.name }}</h2>
 
     <p class="inventory-category">Category: {{ reservation.food_listing.get_category_display }}</p>
-
+    <!-- Available quantity remaining for this event allocation -->
     <p class="quantity-label">
       Available Quantity:
       <span class="available-quantity"> {{ reservation.remaining_quantity }} </span>
     </p>
-
+    <!-- Quantity controls for choosing how many items to add to the event -->
     <div class="quantity-control">
       <button type="button" class="quantity-symbol increase-add-qty">+</button>
 
@@ -25,7 +29,7 @@
 
       <button type="button" class="quantity-symbol decrease-add-qty">−</button>
     </div>
-
+    <!-- Add selected quantity to the event, disabled when no quantity remains -->
     {% if reservation.remaining_quantity == 0 %}
   <button type="button" class="add-item-button" disabled>Add Item</button>
 {% else %}
@@ -33,6 +37,7 @@
 {% endif %}
   </article>
   {% empty %}
+  <!-- Message shown when there are no inventory items available -->
   <p class="empty-message">No accepted inventory items yet.</p>
   {% endfor %}
 </div>

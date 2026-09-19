@@ -13,15 +13,18 @@
         <title>Create Food Listing</title>
     </head>
     <body>
+        <!-- Establishment navigation bar for logged-in establishment users -->
         {% include "foodrescue/includes/navbar_establishment.html" %}
         <main class="page-wrapper">
+            <!-- Create food listing page heading -->
             <section class="page-header">
                 <h1>Upload New Listing</h1>
                 <h3>Your Food Listings &gt; Upload New Listing</h3>
             </section>
+            <!-- Food listing creation form with image upload support -->
             <form method="POST" enctype="multipart/form-data" class="listing-form">
                 {% csrf_token %}
-
+                <!-- Display form validation errors -->
                 {{ form.non_field_errors }}
 
                 {% if form.errors %}
@@ -30,10 +33,8 @@
                     {{ form.errors }}
                 </div>
                 {% endif %}
-
-        {{ form.non_field_errors }}
                 <section class="main-form-section">
-                    <!-- LEFT IMAGE PLACEHOLDER -->
+                    <!-- Food image upload section with preview -->
                     <div class="image-upload-section">
                         <div class="image-placeholder">
                             <img id="image-preview" class="image-preview" alt="Food preview">
@@ -50,7 +51,7 @@
                         >
                         {{ form.image.errors }}
                     </div>
-                    <!-- RIGHT FORM DETAILS -->
+                    <!-- Food listing details entered by the establishment -->
                     <div class="details-section">
                         <div class="form-group">
                             <label for="{{ form.name.id_for_label }}">Name:</label>
@@ -85,6 +86,7 @@
                     </div>
                 </section>
                 <hr class="form-divider">
+                <!-- Quantity, expiry date, and pickup location fields -->
                 <section class="bottom-form-section">
                     <div class="form-group">
                         <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
@@ -102,6 +104,7 @@
             {{ form.pickup_location.errors }}
                     </div>
                 </section>
+                <!-- Submit new food listing -->
                 <div class="submit-section">
                     <button type="submit" class="create-button">Create</button>
                 </div>
@@ -109,25 +112,26 @@
         </main>
         {% include "foodrescue/includes/footer.html" %}
         <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const imageInput = document.getElementById("id_image");
-    const imagePreview = document.getElementById("image-preview");
+            // Show a preview when the establishment uploads a food image.
+            document.addEventListener("DOMContentLoaded", function () {
+                const imageInput = document.getElementById("id_image");
+                const imagePreview = document.getElementById("image-preview");
 
-    imageInput.addEventListener("change", function () {
-      const file = imageInput.files[0];
+                imageInput.addEventListener("change", function () {
+                const file = imageInput.files[0];
 
-      if (!file) {
-        imagePreview.style.display = "none";
-        imagePreview.src = "";
-        return;
-      }
+                if (!file) {
+                    imagePreview.style.display = "none";
+                    imagePreview.src = "";
+                    return;
+                }
 
-      const imageUrl = URL.createObjectURL(file);
+                const imageUrl = URL.createObjectURL(file);
 
-      imagePreview.src = imageUrl;
-      imagePreview.style.display = "block";
-    });
-  });
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = "block";
+                });
+            });
         </script>
     </body>
 </html>

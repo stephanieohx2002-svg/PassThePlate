@@ -14,12 +14,12 @@
     </head>
 <body>
     {% include "foodrescue/includes/navbar_organisation.html" %}
-
+    <!-- Success message shown after an organisation submits a reservation request -->
     <main class="success-page">
         <h1>Reservation Request Submitted Successfully!</h1>
 
         <h3>Please wait for the establishment to accept your request.</h3>
-
+        <!-- Links to view reservations or continue browsing listings -->
         <div class="success-links">
             <a class="links" href="{% url 'organisation_dashboard' %}">
                 View My Reservations
