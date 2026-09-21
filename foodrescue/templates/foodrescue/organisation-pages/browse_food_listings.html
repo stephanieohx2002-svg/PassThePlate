@@ -49,7 +49,7 @@
           <h3>Look at available food listings near you.</h3>
 
           <!-- Preserve selected filters when sorting or searching -->
-          <form method="GET" class="listing-control-bar"
+          <form method="GET" class="listing-control-bar">
             {% if selected_category %}
             <input type="hidden" name="category" value="{{ selected_category }}" />
             {% endif %} {% if halal_only %}
