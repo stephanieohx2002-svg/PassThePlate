@@ -31,4 +31,4 @@ The admin account can be used to verify establishment and organisation accounts.
 
 ## Demo Accounts
 
-Demo account details are provided in the submitted final report for assessment purposes.
+Demo account details are provided in the report.
